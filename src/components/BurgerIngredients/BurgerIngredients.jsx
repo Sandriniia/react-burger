@@ -8,17 +8,19 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState('one');
 
   return (
-    <section>
-      <h1>Соберите бургер</h1>
-      <nav>
+    <section className={burgerIngredientsStyles.main_container}>
+      <h1 className={`${burgerIngredientsStyles.title} text text_type_main-large`}>
+        Соберите бургер
+      </h1>
+      <nav className={burgerIngredientsStyles.nav}>
         <Tab value='one' active={current === 'one'} onClick={setCurrent}>
-          One
+          Булки
         </Tab>
         <Tab value='two' active={current === 'two'} onClick={setCurrent}>
-          Two
+          Соусы
         </Tab>
         <Tab value='three' active={current === 'three'} onClick={setCurrent}>
-          Three
+          Начинки
         </Tab>
       </nav>
       <IngredientSection type='bun' title='Булки' />

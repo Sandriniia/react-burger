@@ -30,57 +30,63 @@ const IngredientSection = ({ type, title }) => {
 
   if (type === 'bun') {
     return (
-      <section>
-        <h2>{title}</h2>
-        {bunIngredientSection.map((item) => {
-          return (
-            <IngredientCard
-              key={item._id}
-              image={item.image}
-              alt={`${item.type} ${item.name}`}
-              price={item.price}
-              name={item.name}
-            />
-          );
-        })}
+      <section className={ingredientSectionStyles.section_container}>
+        <h2 className={ingredientSectionStyles.title}>{title}</h2>
+        <div className={ingredientSectionStyles.ingredients_container}>
+          {bunIngredientSection.map((item) => {
+            return (
+              <IngredientCard
+                key={item._id}
+                image={item.image}
+                alt={`${item.type} ${item.name}`}
+                price={item.price}
+                name={item.name}
+              />
+            );
+          })}
+        </div>
       </section>
     );
   }
 
   if (type === 'sauce') {
     return (
-      <section>
+      <section className={ingredientSectionStyles.section_container}>
         <h2>{title}</h2>
-        {sauceIngredientSection.map((item) => {
-          return (
-            <IngredientCard
-              key={item._id}
-              image={item.image}
-              alt={`${item.type} ${item.name}`}
-              price={item.price}
-              name={item.name}
-            />
-          );
-        })}
+        <div className={ingredientSectionStyles.ingredients_container}>
+          {sauceIngredientSection.map((item) => {
+            return (
+              <IngredientCard
+                key={item._id}
+                image={item.image}
+                alt={`${item.type} ${item.name}`}
+                price={item.price}
+                name={item.name}
+              />
+            );
+          })}
+        </div>
       </section>
     );
   }
 
   if (type === 'main') {
     return (
-      <section>
+      <section className={ingredientSectionStyles.section_container}>
         <h2>{title}</h2>
-        {mainIngredientSection.map((item) => {
-          return (
-            <IngredientCard
-              key={item._id}
-              image={item.image}
-              alt={`${item.type} ${item.name}`}
-              price={item.price}
-              name={item.name}
-            />
-          );
-        })}
+        <div className={ingredientSectionStyles.ingredients_container}>
+          {mainIngredientSection.map((item) => {
+            return (
+              <IngredientCard
+                key={item._id}
+                image={item.image}
+                alt={`${item.type} ${item.name}`}
+                price={item.price}
+                name={item.name}
+              />
+            );
+          })}
+        </div>
       </section>
     );
   }
