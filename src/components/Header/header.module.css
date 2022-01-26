@@ -2,5 +2,13 @@
   margin: 0 auto;
   max-width: 1240px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.nav_item {
+  color: #8585ad;
+}
+
+.logo {
+  margin: auto;
 }

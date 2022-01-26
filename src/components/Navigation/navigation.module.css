@@ -1,6 +1,7 @@
 .list {
   padding: 0;
   margin: 0;
+  margin-right: auto;
   list-style: none;
   display: flex;
   align-items: center;
