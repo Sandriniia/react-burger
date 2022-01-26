@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
-import IngredientCard from '../IngredientCard/IngredientCard';
 import IngredientSection from '../IngredientSection/IngredientSection';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ handleAddIngredient }) => {
   const [current, setCurrent] = useState('one');
 
   return (
@@ -23,9 +22,9 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </nav>
-      <IngredientSection type='bun' title='Булки' />
-      <IngredientSection type='sauce' title='Соусы' />
-      <IngredientSection type='main' title='Начинки' />
+      <IngredientSection handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
+      <IngredientSection handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
+      <IngredientSection handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
     </section>
   );
 };

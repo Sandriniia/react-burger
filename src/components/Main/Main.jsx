@@ -3,10 +3,10 @@ import mainStyles from './main.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-const Main = () => {
+const Main = ({ handleAddIngredient }) => {
   return (
     <main className={mainStyles.main}>
-      <BurgerIngredients />
+      <BurgerIngredients handleAddIngredient={handleAddIngredient} />
       <BurgerConstructor />
     </main>
   );

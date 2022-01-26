@@ -3,7 +3,7 @@ import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import data from '../../utils/data';
 
-const IngredientSection = ({ type, title }) => {
+const IngredientSection = ({ type, title, handleAddIngredient }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
@@ -41,6 +41,8 @@ const IngredientSection = ({ type, title }) => {
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
                 name={item.name}
+                product={item}
+                handleAddIngredient={handleAddIngredient}
               />
             );
           })}
@@ -62,6 +64,8 @@ const IngredientSection = ({ type, title }) => {
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
                 name={item.name}
+                product={item}
+                handleAddIngredient={handleAddIngredient}
               />
             );
           })}
@@ -83,6 +87,8 @@ const IngredientSection = ({ type, title }) => {
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
                 name={item.name}
+                product={item}
+                handleAddIngredient={handleAddIngredient}
               />
             );
           })}
