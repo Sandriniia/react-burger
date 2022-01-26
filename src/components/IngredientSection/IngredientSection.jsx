@@ -3,7 +3,7 @@ import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import data from '../../utils/data';
 
-const IngredientSection = ({ type }) => {
+const IngredientSection = ({ type, title }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
@@ -29,45 +29,60 @@ const IngredientSection = ({ type }) => {
   }, []);
 
   if (type === 'bun') {
-    return bunIngredientSection.map((item) => {
-      return (
-        <IngredientCard
-          key={item._id}
-          image={item.image}
-          alt={`${item.type} ${item.name}`}
-          price={item.price}
-          name={item.name}
-        />
-      );
-    });
+    return (
+      <section>
+        <h2>{title}</h2>
+        {bunIngredientSection.map((item) => {
+          return (
+            <IngredientCard
+              key={item._id}
+              image={item.image}
+              alt={`${item.type} ${item.name}`}
+              price={item.price}
+              name={item.name}
+            />
+          );
+        })}
+      </section>
+    );
   }
 
   if (type === 'sauce') {
-    return sauceIngredientSection.map((item) => {
-      return (
-        <IngredientCard
-          key={item._id}
-          image={item.image}
-          alt={`${item.type} ${item.name}`}
-          price={item.price}
-          name={item.name}
-        />
-      );
-    });
+    return (
+      <section>
+        <h2>{title}</h2>
+        {sauceIngredientSection.map((item) => {
+          return (
+            <IngredientCard
+              key={item._id}
+              image={item.image}
+              alt={`${item.type} ${item.name}`}
+              price={item.price}
+              name={item.name}
+            />
+          );
+        })}
+      </section>
+    );
   }
 
   if (type === 'main') {
-    return mainIngredientSection.map((item) => {
-      return (
-        <IngredientCard
-          key={item._id}
-          image={item.image}
-          alt={`${item.type} ${item.name}`}
-          price={item.price}
-          name={item.name}
-        />
-      );
-    });
+    return (
+      <section>
+        <h2>{title}</h2>
+        {mainIngredientSection.map((item) => {
+          return (
+            <IngredientCard
+              key={item._id}
+              image={item.image}
+              alt={`${item.type} ${item.name}`}
+              price={item.price}
+              name={item.name}
+            />
+          );
+        })}
+      </section>
+    );
   }
 };
 

@@ -21,9 +21,9 @@ const BurgerIngredients = () => {
           Three
         </Tab>
       </nav>
-      <IngredientSection type='bun' />
-      <IngredientSection type='sauce' />
-      <IngredientSection type='main' />
+      <IngredientSection type='bun' title='Булки' />
+      <IngredientSection type='sauce' title='Соусы' />
+      <IngredientSection type='main' title='Начинки' />
     </section>
   );
 };
