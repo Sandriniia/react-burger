@@ -1,0 +1,11 @@
+.container {
+  margin-top: 60px;
+  max-width: 600px;
+  max-height:max-content;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 912px;
+
+}

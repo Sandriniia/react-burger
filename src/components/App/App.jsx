@@ -6,8 +6,6 @@ import Main from '../Main/Main';
 const App = () => {
   const [savedIngredients, setSavedIngredients] = useState([]);
 
-  console.log(savedIngredients);
-
   const handleAddIngredient = (product) => {
     setSavedIngredients([product, ...savedIngredients]);
   };
@@ -15,7 +13,7 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <Header />
-      <Main handleAddIngredient={handleAddIngredient} />
+      <Main handleAddIngredient={handleAddIngredient} savedIngredients={savedIngredients} />
     </div>
   );
 };
