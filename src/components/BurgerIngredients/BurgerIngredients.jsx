@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
@@ -29,6 +30,10 @@ const BurgerIngredients = ({ handleAddIngredient }) => {
       </section>
     </section>
   );
+};
+
+BurgerIngredients.propTypes = {
+  handleAddIngredient: PropTypes.func,
 };
 
 export default BurgerIngredients;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import data from '../../utils/data';
@@ -97,5 +98,11 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
     );
   }
 };
+
+IngredientSection.propTypes = {
+  type: PropTypes.string,
+  title: PropTypes.string,
+  handleAddIngredient: PropTypes.func
+}
 
 export default IngredientSection;

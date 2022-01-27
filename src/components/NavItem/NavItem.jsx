@@ -13,6 +13,7 @@ const NavItem = ({ text, children, className }) => {
 
 NavItem.propTypes = {
   text: PropTypes.string.isRequired,
+  children: PropTypes.object,
   className: PropTypes.string,
 };
 

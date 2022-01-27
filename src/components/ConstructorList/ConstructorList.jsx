@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -16,11 +17,10 @@ const ConstructorList = ({ savedIngredients }) => {
       </div>
       <div className={constructorListStyle.middle_container}>
         {savedIngredients &&
-          savedIngredients.map((item) => {
+          savedIngredients.map((item, index) => {
             return (
-              <div className={constructorListStyle.element_container}>
+              <div className={constructorListStyle.element_container} key={`${item._id}_${index}`}>
                 <ConstructorElement
-                  key={item._id}
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
@@ -28,7 +28,7 @@ const ConstructorList = ({ savedIngredients }) => {
               </div>
             );
           })}
-        </div>
+      </div>
       <div className={constructorListStyle.element_container}>
         <ConstructorElement
           type='bottom'
@@ -40,6 +40,10 @@ const ConstructorList = ({ savedIngredients }) => {
       </div>
     </>
   );
+};
+
+ConstructorList.propTypes = {
+  savedIngredients: PropTypes.array,
 };
 
 export default ConstructorList;
