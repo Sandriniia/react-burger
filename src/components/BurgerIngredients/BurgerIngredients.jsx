@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
@@ -23,12 +22,12 @@ const BurgerIngredients = ({ handleAddIngredient }) => {
           Начинки
         </Tab>
       </nav>
-      <Scrollbars className={burgerIngredientsStyles.scroll}>
-      <IngredientSection handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
-      <IngredientSection handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
-      <IngredientSection handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
-      </Scrollbars>
+      <section className={burgerIngredientsStyles.menu}>
+        <IngredientSection handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
+        <IngredientSection handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
+        <IngredientSection handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
       </section>
+    </section>
   );
 };
 

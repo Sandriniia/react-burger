@@ -2,3 +2,15 @@
   margin: 0 auto;
   text-align: center;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
