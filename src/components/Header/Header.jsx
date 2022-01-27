@@ -10,7 +10,7 @@ const Header = () => {
     <header className={headerStyles.header}>
       <Navigation className={headerStyles.nav_item} />
       <img src={logo} alt='Stellar Burgers' className={headerStyles.logo} />
-      <NavItem text='Личный кабинет' className={headerStyles.nav_item}>
+      <NavItem text='Личный кабинет'>
         <ProfileIcon type='secondary' />
       </NavItem>
     </header>
@@ -18,4 +18,3 @@ const Header = () => {
 };
 
 export default Header;
-<div></div>;

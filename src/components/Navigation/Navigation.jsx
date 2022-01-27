@@ -8,10 +8,10 @@ const Navigation = ({ className }) => {
   return (
     <nav>
       <ul className={navigationStyles.list}>
-        <NavItem text='Конструктор'>
+        <NavItem text='Конструктор' className={className}>
           <BurgerIcon type='primary' />
         </NavItem>
-        <NavItem text='Лента заказов' className={className}>
+        <NavItem text='Лента заказов'>
           <ListIcon type='secondary' />
         </NavItem>
       </ul>

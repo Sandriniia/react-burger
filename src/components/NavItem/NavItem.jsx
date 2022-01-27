@@ -6,7 +6,7 @@ const NavItem = ({ text, children, className }) => {
   return (
     <li className={navItemStyles.list_item}>
       {children}
-      <p className={`${navItemStyles.text} ${className}`}>{text}</p>
+      <p className={`${className} ${navItemStyles.text}`}>{text}</p>
     </li>
   );
 };

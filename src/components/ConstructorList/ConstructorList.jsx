@@ -20,11 +20,7 @@ const ConstructorList = ({ savedIngredients }) => {
           savedIngredients.map((item, index) => {
             return (
               <div className={constructorListStyle.element_container} key={`${item._id}_${index}`}>
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
+                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
               </div>
             );
           })}
