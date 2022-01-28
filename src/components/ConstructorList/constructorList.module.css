@@ -1,0 +1,11 @@
+.element_container {
+  margin-bottom: 16px;
+  max-width: 536px;
+  display: flex;
+}
+
+.middle_container {
+  max-height: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

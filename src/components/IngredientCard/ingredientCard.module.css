@@ -1,0 +1,27 @@
+.card_container {
+  max-width: 272px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.image {
+  margin-bottom: 4px;
+}
+
+.price_box {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.price {
+  margin: 0;
+  margin-right: 8px;
+}
+
+.name {
+  margin: 0;
+  margin-bottom: 24px;
+}

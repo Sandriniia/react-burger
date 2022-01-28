@@ -1,0 +1,21 @@
+.main_container {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.nav {
+  display: flex;
+}
+
+.menu {
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
