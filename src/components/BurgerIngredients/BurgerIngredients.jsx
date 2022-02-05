@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
 
-const BurgerIngredients = ({ handleAddIngredient }) => {
+const BurgerIngredients = ({ handleAddIngredient, products }) => {
   const [current, setCurrent] = useState('one');
 
   return (
@@ -24,9 +24,9 @@ const BurgerIngredients = ({ handleAddIngredient }) => {
         </Tab>
       </nav>
       <section className={burgerIngredientsStyles.menu}>
-        <IngredientSection handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
-        <IngredientSection handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
-        <IngredientSection handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
+        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
+        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
+        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
       </section>
     </section>
   );
@@ -34,6 +34,7 @@ const BurgerIngredients = ({ handleAddIngredient }) => {
 
 BurgerIngredients.propTypes = {
   handleAddIngredient: PropTypes.func,
+  products: PropTypes.array,
 };
 
 export default BurgerIngredients;

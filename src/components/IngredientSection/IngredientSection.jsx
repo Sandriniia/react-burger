@@ -2,23 +2,22 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
-import data from '../../utils/data';
 
-const IngredientSection = ({ type, title, handleAddIngredient }) => {
+const IngredientSection = ({ type, title, handleAddIngredient, products }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
 
   useEffect(() => {
-    const bunData = data.filter((item) => {
+    const bunData = products.filter((item) => {
       return item.type === 'bun';
     });
 
-    const sauceData = data.filter((item) => {
+    const sauceData = products.filter((item) => {
       return item.type === 'sauce';
     });
 
-    const mainData = data.filter((item) => {
+    const mainData = products.filter((item) => {
       return item.type === 'main';
     });
 
@@ -27,7 +26,7 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
     setSauceIngredientSection(sauceData);
 
     setMainIngredientSection(mainData);
-  }, []);
+  }, [products]);
 
   if (type === 'bun') {
     return (
@@ -102,7 +101,8 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
 IngredientSection.propTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
-  handleAddIngredient: PropTypes.func
+  handleAddIngredient: PropTypes.func,
+  products: PropTypes.array,
 }
 
 export default IngredientSection;

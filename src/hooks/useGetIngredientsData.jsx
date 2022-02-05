@@ -9,7 +9,7 @@ const useGetIngredientsData = () => {
   useEffect(() => {
     fetch(ingredients_api)
       .then((res) => { return res.json() })
-      .then((data) => { setProducts(data) })
+      .then((data) => { setProducts(data.data) })
       .catch((err) => console.log(err))
   }, [])
 
