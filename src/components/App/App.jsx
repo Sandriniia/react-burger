@@ -7,14 +7,23 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 
 const App = () => {
   const [savedIngredients, setSavedIngredients] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const products = useGetIngredientsData();
 
   const handleAddIngredient = (product) => {
     setSavedIngredients([product, ...savedIngredients]);
   };
 
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
   const identifier = '034536';
-  
+
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <Header />
@@ -22,8 +31,9 @@ const App = () => {
         handleAddIngredient={handleAddIngredient}
         savedIngredients={savedIngredients}
         products={products}
+        handleOpenPopup={handleOpenPopup}
       />
-      <OrderDetails identifier={identifier}/>
+      {isPopupOpen && (<OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />)}
     </div>
   );
 };

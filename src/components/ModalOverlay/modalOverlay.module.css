@@ -22,3 +22,16 @@
   padding: 40px 40px 16px 40px;
   width: 100%;
 }
+
+.button {
+  border: none;
+  outline: none;
+  background-color: #1c1c21;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.button:hover {
+  opacity: .5;
+}
