@@ -4,23 +4,25 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const App = () => {
-  const [savedIngredients, setSavedIngredients] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
+  const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false)
   const products = useGetIngredientsData();
 
-  const handleAddIngredient = (product) => {
-    setSavedIngredients([product, ...savedIngredients]);
-  };
-
   const handleClosePopup = () => {
-    setIsPopupOpen(false);
+    setIsPopupOrderDetailsOpen(false);
+    setIsPopupIngredientDetailsOpen(false);
   };
 
-  const handleOpenPopup = () => {
-    setIsPopupOpen(true);
+  const handleOpenOrderDetailsPopup = () => {
+    setIsPopupOrderDetailsOpen(true);
   };
+
+  const handleOpenIngredientDetailsPopup = () => {
+    setIsPopupIngredientDetailsOpen(true)
+  }
 
   const identifier = '034536';
 
@@ -28,12 +30,12 @@ const App = () => {
     <div className={`${appStyles.app} text text_type_main-default`}>
       <Header />
       <Main
-        handleAddIngredient={handleAddIngredient}
-        savedIngredients={savedIngredients}
         products={products}
-        handleOpenPopup={handleOpenPopup}
+        handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+        handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
       />
-      {isPopupOpen && (<OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />)}
+      {isPopupOrderDetailsOpen && (<OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />)}
+      {isPopupIngredientDetailsOpen && (<IngredientDetails handleClosePopup={handleClosePopup}/>)}
     </div>
   );
 };

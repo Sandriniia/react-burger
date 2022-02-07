@@ -4,13 +4,10 @@ import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import {ingredient} from '../../utils/types'
 
-const IngredientCard = ({ image, alt, price, name, product, handleAddIngredient }) => {
-  const handleAddProduct = () => {
-    handleAddIngredient(product);
-  };
+const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredientDetailsPopup }) => {
 
   return (
-    <div className={ingredientCardStyles.card_container} onClick={handleAddProduct}>
+    <div className={ingredientCardStyles.card_container} onClick={handleOpenIngredientDetailsPopup}>
       <Counter count={1} size='default' />
       <img src={image} alt={alt} className={ingredientCardStyles.image} />
       <div className={ingredientCardStyles.price_box}>

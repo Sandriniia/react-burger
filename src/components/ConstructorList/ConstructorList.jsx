@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 
-const ConstructorList = ({ savedIngredients }) => {
+const ConstructorList = () => {
+
+  const products = useGetIngredientsData();
+
   return (
     <>
       <div className={constructorListStyle.element_container}>
@@ -16,8 +20,8 @@ const ConstructorList = ({ savedIngredients }) => {
         />
       </div>
       <div className={constructorListStyle.middle_container}>
-        {savedIngredients &&
-          savedIngredients.map((item, index) => {
+        {products &&
+          products.map((item, index) => {
             return (
               <div className={constructorListStyle.element_container} key={`${item._id}_${index}`}>
                 <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />

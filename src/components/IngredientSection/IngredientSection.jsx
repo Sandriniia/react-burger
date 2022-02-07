@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 
-const IngredientSection = ({ type, title, handleAddIngredient, products }) => {
+const IngredientSection = ({ type, title, products, handleOpenIngredientDetailsPopup }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
@@ -42,7 +42,7 @@ const IngredientSection = ({ type, title, handleAddIngredient, products }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -65,7 +65,7 @@ const IngredientSection = ({ type, title, handleAddIngredient, products }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -88,7 +88,7 @@ const IngredientSection = ({ type, title, handleAddIngredient, products }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}

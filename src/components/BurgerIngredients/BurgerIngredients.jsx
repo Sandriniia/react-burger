@@ -4,7 +4,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
 
-const BurgerIngredients = ({ handleAddIngredient, products }) => {
+const BurgerIngredients = ({ products, handleOpenIngredientDetailsPopup }) => {
   const [current, setCurrent] = useState('one');
 
   return (
@@ -24,9 +24,9 @@ const BurgerIngredients = ({ handleAddIngredient, products }) => {
         </Tab>
       </nav>
       <section className={burgerIngredientsStyles.menu}>
-        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='bun' title='Булки' />
-        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='sauce' title='Соусы' />
-        <IngredientSection products={products} handleAddIngredient={handleAddIngredient} type='main' title='Начинки' />
+        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='bun' title='Булки' />
+        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='sauce' title='Соусы' />
+        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='main' title='Начинки' />
       </section>
     </section>
   );
