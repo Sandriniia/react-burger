@@ -22,7 +22,7 @@ const App = () => {
   };
 
   const handleOpenIngredientDetailsPopup = (product) => {
-    setCurrentProduct(product)
+    setCurrentProduct(product);
     setIsPopupIngredientDetailsOpen(true);
   };
 
@@ -39,7 +39,9 @@ const App = () => {
       {isPopupOrderDetailsOpen && (
         <OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />
       )}
-      {isPopupIngredientDetailsOpen && <IngredientDetails handleClosePopup={handleClosePopup} currentProduct={currentProduct}/>}
+      {isPopupIngredientDetailsOpen && (
+        <IngredientDetails handleClosePopup={handleClosePopup} currentProduct={currentProduct} />
+      )}
     </div>
   );
 };

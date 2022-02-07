@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import modalOverlayStyles from './modalOverlay.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,7 +14,7 @@ const ModalOverlay = ({ children, title, className, handleClosePopup }) => {
               <h1 className={modalOverlayStyles.title}>{title}</h1>
               <button className={modalOverlayStyles.button} onClick={handleClosePopup}>
                 <CloseIcon type='primary' />
-                </button>
+              </button>
             </div>
             {children}
           </div>
@@ -22,6 +23,13 @@ const ModalOverlay = ({ children, title, className, handleClosePopup }) => {
       )}
     </>
   );
+};
+
+ModalOverlay.propTypes = {
+  children: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
+  handleClosePopup: PropTypes.func.isRequired,
 };
 
 export default ModalOverlay;

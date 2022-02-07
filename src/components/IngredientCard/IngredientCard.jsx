@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import {ingredient} from '../../utils/types'
+import { ingredient } from '../../utils/types';
 
 const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredientDetailsPopup }) => {
-
   const handleOpenAndShowProduct = () => {
     handleOpenIngredientDetailsPopup(product);
-  }
+  };
 
   return (
     <div className={ingredientCardStyles.card_container} onClick={handleOpenAndShowProduct}>
@@ -24,12 +23,12 @@ const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredient
 };
 
 IngredientCard.propTypes = {
-  image: PropTypes.string,
-  alt: PropTypes.string,
-  price: PropTypes.number,
-  name: PropTypes.string,
-  product: ingredient,
-  handleAddIngredient: PropTypes.func,
+  image: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  product: ingredient.isRequired,
+  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
 };
 
 export default IngredientCard;

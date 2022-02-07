@@ -8,13 +8,13 @@ const BurgerConstructor = ({ handleOpenOrderDetailsPopup }) => {
   return (
     <section className={burgerConstructorStyles.container}>
       <ConstructorList />
-      <OrderBurger handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}/>
+      <OrderBurger handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup} />
     </section>
   );
 };
 
 BurgerConstructor.propTypes = {
-  savedIngredients: PropTypes.array,
+  handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

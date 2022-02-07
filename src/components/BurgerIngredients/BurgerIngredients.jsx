@@ -24,17 +24,32 @@ const BurgerIngredients = ({ products, handleOpenIngredientDetailsPopup }) => {
         </Tab>
       </nav>
       <section className={burgerIngredientsStyles.menu}>
-        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='bun' title='Булки' />
-        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='sauce' title='Соусы' />
-        <IngredientSection products={products} handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup} type='main' title='Начинки' />
+        <IngredientSection
+          products={products}
+          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+          type='bun'
+          title='Булки'
+        />
+        <IngredientSection
+          products={products}
+          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+          type='sauce'
+          title='Соусы'
+        />
+        <IngredientSection
+          products={products}
+          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+          type='main'
+          title='Начинки'
+        />
       </section>
     </section>
   );
 };
 
 BurgerIngredients.propTypes = {
-  handleAddIngredient: PropTypes.func,
-  products: PropTypes.array,
+  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
+  products: PropTypes.array.isRequired,
 };
 
 export default BurgerIngredients;

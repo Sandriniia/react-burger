@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
@@ -51,6 +52,11 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
       </div>
     </ModalOverlay>
   );
+};
+
+IngredientDetails.propTypes = {
+  handleClosePopup: PropTypes.func.isRequired,
+  currentProduct: PropTypes.object.isRequired,
 };
 
 export default IngredientDetails;

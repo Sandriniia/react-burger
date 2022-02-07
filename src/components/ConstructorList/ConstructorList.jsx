@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 
 const ConstructorList = () => {
-
   const products = useGetIngredientsData();
 
   return (
@@ -40,10 +38,6 @@ const ConstructorList = () => {
       </div>
     </>
   );
-};
-
-ConstructorList.propTypes = {
-  savedIngredients: PropTypes.array,
 };
 
 export default ConstructorList;

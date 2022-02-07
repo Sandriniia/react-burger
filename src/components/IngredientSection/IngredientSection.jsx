@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 
@@ -99,10 +99,10 @@ const IngredientSection = ({ type, title, products, handleOpenIngredientDetailsP
 };
 
 IngredientSection.propTypes = {
-  type: PropTypes.string,
-  title: PropTypes.string,
-  handleAddIngredient: PropTypes.func,
-  products: PropTypes.array,
-}
+  type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
+  products: PropTypes.array.isRequired,
+};
 
 export default IngredientSection;
