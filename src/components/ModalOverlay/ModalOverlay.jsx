@@ -8,7 +8,7 @@ const ModalOverlay = ({ children, title, className, handleClosePopup }) => {
   return (
     <>
       {createPortal(
-        <div className={modalOverlayStyles.popup}>
+        <div className={modalOverlayStyles.popup} onClick={handleClosePopup}>
           <div className={`${className} text text_type_main-medium`}>
             <div className={modalOverlayStyles.header_popup}>
               <h1 className={modalOverlayStyles.title}>{title}</h1>
@@ -26,8 +26,8 @@ const ModalOverlay = ({ children, title, className, handleClosePopup }) => {
 };
 
 ModalOverlay.propTypes = {
-  children: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
+  children: PropTypes.array.isRequired,
+  title: PropTypes.string,
   className: PropTypes.string.isRequired,
   handleClosePopup: PropTypes.func.isRequired,
 };

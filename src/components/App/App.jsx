@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import appStyles from './app.module.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -11,6 +11,18 @@ const App = () => {
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const products = useGetIngredientsData();
+
+  useEffect(() => {
+    const escClosePopup = (e) => {
+      if (e.key === 'Escape') {
+        handleClosePopup();
+      }
+    };
+
+    window.addEventListener('keydown', escClosePopup);
+
+    return () => window.removeEventListener('keydown', escClosePopup);
+  }, []);
 
   const handleClosePopup = () => {
     setIsPopupOrderDetailsOpen(false);
