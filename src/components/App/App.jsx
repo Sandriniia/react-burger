@@ -8,7 +8,8 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
-  const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false)
+  const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const products = useGetIngredientsData();
 
   const handleClosePopup = () => {
@@ -20,9 +21,10 @@ const App = () => {
     setIsPopupOrderDetailsOpen(true);
   };
 
-  const handleOpenIngredientDetailsPopup = () => {
-    setIsPopupIngredientDetailsOpen(true)
-  }
+  const handleOpenIngredientDetailsPopup = (product) => {
+    setCurrentProduct(product)
+    setIsPopupIngredientDetailsOpen(true);
+  };
 
   const identifier = '034536';
 
@@ -34,8 +36,10 @@ const App = () => {
         handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
         handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
       />
-      {isPopupOrderDetailsOpen && (<OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />)}
-      {isPopupIngredientDetailsOpen && (<IngredientDetails handleClosePopup={handleClosePopup}/>)}
+      {isPopupOrderDetailsOpen && (
+        <OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />
+      )}
+      {isPopupIngredientDetailsOpen && <IngredientDetails handleClosePopup={handleClosePopup} currentProduct={currentProduct}/>}
     </div>
   );
 };

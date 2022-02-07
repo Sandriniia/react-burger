@@ -10,7 +10,7 @@ const ModalOverlay = ({ children, title, className, handleClosePopup }) => {
         <div className={modalOverlayStyles.popup}>
           <div className={`${className} text text_type_main-medium`}>
             <div className={modalOverlayStyles.header_popup}>
-              <h1>{title}</h1>
+              <h1 className={modalOverlayStyles.title}>{title}</h1>
               <button className={modalOverlayStyles.button} onClick={handleClosePopup}>
                 <CloseIcon type='primary' />
                 </button>

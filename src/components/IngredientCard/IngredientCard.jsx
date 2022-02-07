@@ -6,8 +6,12 @@ import {ingredient} from '../../utils/types'
 
 const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredientDetailsPopup }) => {
 
+  const handleOpenAndShowProduct = () => {
+    handleOpenIngredientDetailsPopup(product);
+  }
+
   return (
-    <div className={ingredientCardStyles.card_container} onClick={handleOpenIngredientDetailsPopup}>
+    <div className={ingredientCardStyles.card_container} onClick={handleOpenAndShowProduct}>
       <Counter count={1} size='default' />
       <img src={image} alt={alt} className={ingredientCardStyles.image} />
       <div className={ingredientCardStyles.price_box}>

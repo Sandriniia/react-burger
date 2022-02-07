@@ -23,6 +23,15 @@
   width: 100%;
 }
 
+.title {
+  margin: 0;
+  margin-right: auto;
+  color: #f2f2f3;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: bold;
+}
+
 .button {
   border: none;
   outline: none;
