@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredient } from '../../utils/types';
+import { ingredientPropType } from '../../utils/types';
 
 const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredientDetailsPopup }) => {
   const handleOpenAndShowProduct = () => {
@@ -27,7 +27,7 @@ IngredientCard.propTypes = {
   alt: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  product: ingredient.isRequired,
+  product: ingredientPropType.isRequired,
   handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
 };
 

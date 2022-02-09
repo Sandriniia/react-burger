@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 const useGetIngredientsData = () => {
   const [products, setProducts] = useState([]);
 
-  const ingredients_api = 'https://norma.nomoreparties.space/api/ingredients';
+  const ingredientsApi = 'https://norma.nomoreparties.space/api/ingredients';
 
   useEffect(() => {
-    fetch(ingredients_api)
+    fetch(ingredientsApi)
       .then((res) => {
-        return res.json();
+        if (res.ok) {
+          return res.json();
+        }
       })
       .then((data) => {
         setProducts(data.data);

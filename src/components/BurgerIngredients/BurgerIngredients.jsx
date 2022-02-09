@@ -9,9 +9,7 @@ const BurgerIngredients = ({ products, handleOpenIngredientDetailsPopup }) => {
 
   return (
     <section className={burgerIngredientsStyles.main_container}>
-      <h1 className={`${burgerIngredientsStyles.title} text text_type_main-large`}>
-        Соберите бургер
-      </h1>
+      <h1 className='mb-5 text text_type_main-large'>Соберите бургер</h1>
       <nav className={burgerIngredientsStyles.nav}>
         <Tab value='one' active={current === 'one'} onClick={setCurrent}>
           Булки

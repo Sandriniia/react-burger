@@ -11,7 +11,10 @@ const Main = ({ products, handleOpenOrderDetailsPopup, handleOpenIngredientDetai
         products={products}
         handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
       />
-      <BurgerConstructor handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup} />
+      <BurgerConstructor
+        handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+        products={products}
+      />
     </main>
   );
 };

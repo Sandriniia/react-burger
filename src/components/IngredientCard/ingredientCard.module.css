@@ -7,6 +7,11 @@
   position: relative;
 }
 
+.card_container:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 .image {
   margin-bottom: 4px;
 }

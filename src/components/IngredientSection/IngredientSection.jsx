@@ -9,15 +9,15 @@ const IngredientSection = ({ type, title, products, handleOpenIngredientDetailsP
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
 
   useEffect(() => {
-    const bunData = products.filter((item) => {
+    const bunData = products?.filter((item) => {
       return item.type === 'bun';
     });
 
-    const sauceData = products.filter((item) => {
+    const sauceData = products?.filter((item) => {
       return item.type === 'sauce';
     });
 
-    const mainData = products.filter((item) => {
+    const mainData = products?.filter((item) => {
       return item.type === 'main';
     });
 

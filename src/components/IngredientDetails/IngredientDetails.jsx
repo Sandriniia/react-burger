@@ -15,7 +15,7 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
         alt={currentProduct.name}
         className={ingredientDetailsStyles.image}
       />
-      <h3 className={ingredientDetailsStyles.name}>{currentProduct.name}</h3>
+      <h3 className={`${ingredientDetailsStyles.name} mt-4 mb-8`}>{currentProduct.name}</h3>
       <div className={ingredientDetailsStyles.info_box}>
         <div className={ingredientDetailsStyles.info_small_box}>
           <p className={ingredientDetailsStyles.info}>Калории, ккал</p>

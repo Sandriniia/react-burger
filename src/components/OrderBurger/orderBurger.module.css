@@ -4,6 +4,11 @@
   align-items: center;
 }
 
+.sum {
+  display: flex;
+  align-items: center;
+}
+
 .price {
   margin: 0;
   margin-right: 9px;

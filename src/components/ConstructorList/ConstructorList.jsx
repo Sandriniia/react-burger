@@ -1,14 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 
-const ConstructorList = () => {
-  const products = useGetIngredientsData();
+const ConstructorList = ({products}) => {
 
   return (
     <>
-      <div className={constructorListStyle.element_container}>
+      <div className={`${constructorListStyle.element_container} mb-4`}>
         <ConstructorElement
           type='top'
           isLocked={true}
@@ -21,13 +20,13 @@ const ConstructorList = () => {
         {products &&
           products.map((item, index) => {
             return (
-              <div className={constructorListStyle.element_container} key={`${item._id}_${index}`}>
+              <div className={`${constructorListStyle.element_container} mb-4`} key={`${item._id}_${index}`}>
                 <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
               </div>
             );
           })}
       </div>
-      <div className={constructorListStyle.element_container}>
+      <div className={`${constructorListStyle.element_container} mb-4`}>
         <ConstructorElement
           type='bottom'
           isLocked={true}
@@ -38,6 +37,10 @@ const ConstructorList = () => {
       </div>
     </>
   );
+};
+
+ConstructorList.propTypes = {
+  products: PropTypes.array.isRequired,
 };
 
 export default ConstructorList;
