@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import orderDetailsStyles from './orderDetails.module.css';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import Modal from '../Modal/Modal';
 import done_image from '../../images/done.png';
 
 const OrderDetails = ({ identifier, handleClosePopup }) => {
   return (
-    <ModalOverlay className={orderDetailsStyles.order_popup} handleClosePopup={handleClosePopup}>
+    <Modal className={orderDetailsStyles.order_popup} handleClosePopup={handleClosePopup}>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
         {identifier}
       </h2>
@@ -16,7 +16,7 @@ const OrderDetails = ({ identifier, handleClosePopup }) => {
       <p className={`${orderDetailsStyles.text} ${orderDetailsStyles.text_second}`}>
         Дождитесь готовности на орбитальной станции
       </p>
-    </ModalOverlay>
+    </Modal>
   );
 };
 

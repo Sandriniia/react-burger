@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import Modal from '../Modal/Modal';
 
 const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
   return (
-    <ModalOverlay
+    <Modal
       handleClosePopup={handleClosePopup}
       className={ingredientDetailsStyles.product_details_popup}
       title='Детали ингредиента'
@@ -50,7 +50,7 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
           </p>
         </div>
       </div>
-    </ModalOverlay>
+    </Modal>
   );
 };
 
