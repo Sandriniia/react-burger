@@ -1,15 +1,14 @@
 import React from 'react';
 import appHeaderStyles from './appHeader.module.css';
-import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import Navigation from '../Navigation/Navigation';
-import logo from '../../images/logo.png';
 import NavItem from '../NavItem/NavItem';
 
 const AppHeader = () => {
   return (
-    <header className={appHeaderStyles.header}>
+    <header className={`${appHeaderStyles.header} pb-4 pt-4 mb-10`}>
       <Navigation className={appHeaderStyles.nav_item} />
-      <img src={logo} alt='Stellar Burgers' className={appHeaderStyles.logo} />
+      <Logo />
       <NavItem text='Личный кабинет'>
         <ProfileIcon type='secondary' />
       </NavItem>

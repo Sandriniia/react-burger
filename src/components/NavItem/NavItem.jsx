@@ -4,7 +4,7 @@ import navItemStyles from './navItem.module.css';
 
 const NavItem = ({ text, children, className }) => {
   return (
-    <li className={navItemStyles.list_item}>
+    <li className={`${navItemStyles.list_item} pl-5 pr-5`}>
       {children}
       <p className={`${className} ${navItemStyles.text}`}>{text}</p>
     </li>
