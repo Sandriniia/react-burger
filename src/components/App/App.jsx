@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import appStyles from './app.module.css';
-import Header from '../Header/Header';
+import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -42,7 +42,7 @@ const App = () => {
 
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
-      <Header />
+      <AppHeader />
       <Main
         products={products}
         handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
