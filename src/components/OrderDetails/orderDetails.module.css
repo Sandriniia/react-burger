@@ -13,36 +13,6 @@
 }
 
 .identifier {
-  margin-bottom: 32px;
-  color: #f2f2f3;
-  font-size: 144px;
-  line-height: 120px;
-  font-weight: 400;
   text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25),
     0px 4px 32px rgba(51, 51, 255, 0.5);
-}
-
-.subtitle {
-  margin: 0;
-  margin-bottom: 60px;
-  color: #f2f2f3;
-  font-size: 24px;
-  line-height: 30px;
-  font-weight: 700;
-}
-
-.image {
-  margin-bottom: 60px;
-}
-
-.text {
-  margin: 0;
-  margin-bottom: 8px;
-  color: #f2f2f3;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.text_second {
-  color: #8585ad;
 }

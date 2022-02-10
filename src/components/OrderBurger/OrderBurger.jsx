@@ -7,9 +7,9 @@ const OrderBurger = ({ handleOpenOrderDetailsPopup }) => {
   return (
     <section className={orderBurgerStyles.order_container}>
       <div className={`${orderBurgerStyles.sum} mr-10`}>
-      <p className={`${orderBurgerStyles.price} text text_type_digits-medium`}>610</p>
-        <CurrencyIcon type="primary" />
-        </div>
+        <p className='text text_type_digits-medium mr-2'>610</p>
+        <CurrencyIcon type='primary' />
+      </div>
       <Button type='primary' size='large' onClick={handleOpenOrderDetailsPopup}>
         Оформить заказ
       </Button>

@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
 import Modal from '../Modal/Modal';
+import { ingredientPropType } from '../../utils/types';
 
 const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
   return (
     <Modal
-      handleClosePopup={handleClosePopup}
+      handleClosePopup={handleClosePopup}PropTypes
       className={ingredientDetailsStyles.product_details_popup}
       title='Детали ингредиента'
     >
@@ -15,36 +16,36 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
         alt={currentProduct.name}
         className={ingredientDetailsStyles.image}
       />
-      <h3 className={`${ingredientDetailsStyles.name} mt-4 mb-8`}>{currentProduct.name}</h3>
+      <h3 className='text text_type_main-medium mt-4 mb-8'>{currentProduct.name}</h3>
       <div className={ingredientDetailsStyles.info_box}>
         <div className={ingredientDetailsStyles.info_small_box}>
-          <p className={ingredientDetailsStyles.info}>Калории, ккал</p>
+          <p className='text text_type_main-default mb-2'>Калории, ккал</p>
           <p
-            className={`${ingredientDetailsStyles.info} ${ingredientDetailsStyles.info_data} text text_type_digits-default`}
+            className='text text_type_digits-default'
           >
             {currentProduct.calories}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info_small_box}>
-          <p className={ingredientDetailsStyles.info}>Белки, г</p>
+          <p className='text text_type_main-default mb-2'>Белки, г</p>
           <p
-            className={`${ingredientDetailsStyles.info} ${ingredientDetailsStyles.info_data} text text_type_digits-default`}
+            className='text text_type_digits-default'
           >
             {currentProduct.proteins}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info_small_box}>
-          <p className={ingredientDetailsStyles.info}>Жиры, г</p>
+          <p className='text text_type_main-default mb-2'>Жиры, г</p>
           <p
-            className={`${ingredientDetailsStyles.info} ${ingredientDetailsStyles.info_data} text text_type_digits-default`}
+            className='text text_type_digits-default'
           >
             {currentProduct.fat}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info_small_box}>
-          <p className={ingredientDetailsStyles.info}>Углеводы, г</p>
+          <p className='text text_type_main-default mb-2'>Углеводы, г</p>
           <p
-            className={`${ingredientDetailsStyles.info} ${ingredientDetailsStyles.info_data} text text_type_digits-default`}
+            className='text text_type_digits-default'
           >
             {currentProduct.carbohydrates}
           </p>
@@ -56,7 +57,7 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
 
 IngredientDetails.propTypes = {
   handleClosePopup: PropTypes.func.isRequired,
-  currentProduct: PropTypes.object.isRequired,
+  currentProduct: ingredientPropType.isRequired
 };
 
 export default IngredientDetails;

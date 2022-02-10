@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import mainStyles from './main.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import { ingredientPropType } from '../../utils/types';
 
 const Main = ({ products, handleOpenOrderDetailsPopup, handleOpenIngredientDetailsPopup }) => {
   return (
@@ -22,7 +23,7 @@ const Main = ({ products, handleOpenOrderDetailsPopup, handleOpenIngredientDetai
 Main.propTypes = {
   handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
   handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
-  products: PropTypes.array.isRequired,
+  products: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
 export default Main;

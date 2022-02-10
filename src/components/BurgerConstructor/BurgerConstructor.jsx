@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burgerConstructor.module.css';
 import ConstructorList from '../ConstructorList/ConstructorList';
 import OrderBurger from '../OrderBurger/OrderBurger';
+import { ingredientPropType } from '../../utils/types';
 
 const BurgerConstructor = ({ handleOpenOrderDetailsPopup, products }) => {
   return (
-    <section className={burgerConstructorStyles.container}>
-      <ConstructorList products={products}/>
+    <section className={`${burgerConstructorStyles.container} mt-15`}>
+      <ConstructorList products={products} />
       <OrderBurger handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup} />
     </section>
   );
@@ -15,10 +16,8 @@ const BurgerConstructor = ({ handleOpenOrderDetailsPopup, products }) => {
 
 BurgerConstructor.propTypes = {
   handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
-};
-
-BurgerConstructor.propTypes = {
-  products: PropTypes.array.isRequired,
+  products: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
 export default BurgerConstructor;
+

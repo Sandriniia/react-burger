@@ -11,7 +11,6 @@ const App = () => {
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const products = useGetIngredientsData();
-  console.log(products);
 
   useEffect(() => {
     const escClosePopup = (e) => {

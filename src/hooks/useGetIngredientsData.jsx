@@ -11,6 +11,7 @@ const useGetIngredientsData = () => {
         if (res.ok) {
           return res.json();
         }
+        return Promise.reject(new Error(`Ошибка ${res.status}`));
       })
       .then((data) => {
         setProducts(data.data);

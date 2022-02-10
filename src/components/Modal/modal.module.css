@@ -2,17 +2,12 @@
   display: flex;
   box-sizing: border-box;
   justify-content: flex-end;
-  padding: 40px 40px 16px 40px;
   width: 100%;
 }
 
 .title {
-  margin: 0;
   margin-right: auto;
   color: #f2f2f3;
-  font-size: 36px;
-  line-height: 40px;
-  font-weight: bold;
 }
 
 .button {

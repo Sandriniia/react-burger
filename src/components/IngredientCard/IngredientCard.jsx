@@ -12,12 +12,12 @@ const IngredientCard = ({ image, alt, price, name, product, handleOpenIngredient
   return (
     <div className={ingredientCardStyles.card_container} onClick={handleOpenAndShowProduct}>
       <Counter count={1} size='default' />
-      <img src={image} alt={alt} className={ingredientCardStyles.image} />
-      <div className={ingredientCardStyles.price_box}>
-        <p className={`${ingredientCardStyles.price} text text_type_digits-default`}>{price}</p>
+      <img src={image} alt={alt} className='mb-1' />
+      <div className={`${ingredientCardStyles.price_box} mb-1`}>
+        <p className='mr-2 text text_type_digits-default'>{price}</p>
         <CurrencyIcon type='primary' />
       </div>
-      <p className={ingredientCardStyles.name}>{name}</p>
+      <p className='mb-6 text text_type_main-default'>{name}</p>
     </div>
   );
 };

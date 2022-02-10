@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropType } from '../../utils/types';
 
 const ConstructorList = ({products}) => {
 
@@ -40,7 +41,8 @@ const ConstructorList = ({products}) => {
 };
 
 ConstructorList.propTypes = {
-  products: PropTypes.array.isRequired,
+  products: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 export default ConstructorList;
+
