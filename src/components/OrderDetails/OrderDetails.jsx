@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import orderDetailsStyles from './orderDetails.module.css';
 import Modal from '../Modal/Modal';
-import done_image from '../../images/done.png';
+import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const OrderDetails = ({ identifier, handleClosePopup }) => {
   return (
@@ -11,7 +11,9 @@ const OrderDetails = ({ identifier, handleClosePopup }) => {
         {identifier}
       </h2>
       <p className='mb-15 mt-8 text_type_main-medium'>идентификатор заказа</p>
-      <img className={orderDetailsStyles.image} src={done_image} alt='check mark' />
+      <div className={orderDetailsStyles.gradient}>
+      <CheckMarkIcon type="primary" />
+      </div>
       <p className='mb-2 mt-15 text text_type_main-default'>
         Ваш заказ начали готовить
       </p>
