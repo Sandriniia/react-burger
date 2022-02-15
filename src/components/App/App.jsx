@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import ProductsContext from '../../context/ProductsContext';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
@@ -43,11 +44,12 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
+      <ProductsContext.Provider value={{ products }}>
       <Main
-        products={products}
         handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
         handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
-      />
+        />
+        </ProductsContext.Provider>
       {isPopupOrderDetailsOpen && (
         <OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />
       )}

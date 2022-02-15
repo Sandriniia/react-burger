@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '../../utils/types';
+import ProductsContext from '../../context/ProductsContext';
 
-const ConstructorList = ({products}) => {
+const ConstructorList = () => {
+  const ingredientsContext = useContext(ProductsContext);
+  const products = ingredientsContext.products;
 
   return (
     <>
@@ -21,7 +22,10 @@ const ConstructorList = ({products}) => {
         {products &&
           products.map((item, index) => {
             return (
-              <div className={`${constructorListStyle.element_container} mb-4`} key={`${item._id}_${index}`}>
+              <div
+                className={`${constructorListStyle.element_container} mb-4`}
+                key={`${item._id}_${index}`}
+              >
                 <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
               </div>
             );
@@ -40,9 +44,4 @@ const ConstructorList = ({products}) => {
   );
 };
 
-ConstructorList.propTypes = {
-  products: PropTypes.arrayOf(ingredientPropType).isRequired
-};
-
 export default ConstructorList;
-

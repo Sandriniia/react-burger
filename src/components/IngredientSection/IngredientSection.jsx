@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
-import { ingredientPropType } from '../../utils/types';
+import ProductsContext from '../../context/ProductsContext';
 
-const IngredientSection = ({ type, title, products, handleOpenIngredientDetailsPopup }) => {
+const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
+
+  const ingredientsContext = useContext(ProductsContext);
+  const products = ingredientsContext.products;
 
   useEffect(() => {
     const bunData = products.filter((item) => {
@@ -103,7 +106,6 @@ IngredientSection.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
-  products: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
 export default IngredientSection;
