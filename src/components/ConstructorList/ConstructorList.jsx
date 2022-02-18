@@ -3,13 +3,25 @@ import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProductsContext from '../../context/ProductsContext';
 
-const ConstructorList = () => {
+const ConstructorList = ({ dispatchPrice }) => {
   const ingredientsContext = useContext(ProductsContext);
   const products = ingredientsContext.products;
 
   const bun = products.find((item) => {
     return item.type === 'bun';
   });
+
+  useEffect(() => {
+    bun && dispatchPrice({ type: 'sumBunsPrice', val: bun.price * 2 });
+  }, [products, bun, dispatchPrice]);
+
+  useEffect(() => {
+    let total = 0;
+    products.map((item) => {
+      return item.type !== 'bun' && (total += item.price);
+    });
+    dispatchPrice({ type: 'sumMainPrice', val: total });
+  }, [products, dispatchPrice]);
 
   return (
     <>

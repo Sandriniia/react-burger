@@ -45,11 +45,11 @@ const App = () => {
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
       <ProductsContext.Provider value={{ products }}>
-      <Main
-        handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
-        handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+        <Main
+          handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
         />
-        </ProductsContext.Provider>
+      </ProductsContext.Provider>
       {isPopupOrderDetailsOpen && (
         <OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />
       )}
