@@ -6,12 +6,24 @@ import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import ProductsContext from '../../context/ProductsContext';
+import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
-  const products = useGetIngredientsData();
+  const [products, setProducts] = useState([]);
+  // const products = useGetIngredientsData();
+
+  useEffect(() => {
+    getIngredientsData()
+      .then((data) => {
+        setProducts(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const escClosePopup = (e) => {
@@ -31,6 +43,7 @@ const App = () => {
   };
 
   const handleOpenOrderDetailsPopup = () => {
+    //здесь отправка запроса и получение order.number
     setIsPopupOrderDetailsOpen(true);
   };
 
