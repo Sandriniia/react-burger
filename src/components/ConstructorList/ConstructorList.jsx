@@ -3,9 +3,10 @@ import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProductsContext from '../../context/ProductsContext';
 
-const ConstructorList = ({ dispatchProducts }) => {
+const ConstructorList = ({ dispatchPrice }) => {
   const ingredientsContext = useContext(ProductsContext);
   const products = ingredientsContext.products;
+  const setProductsId = ingredientsContext.setProductsId;
 
   const [mainIngredients, setMainInIngredients] = useState([]);
   const [bunIngredient, setBunIngredient] = useState(null);
@@ -30,14 +31,10 @@ const ConstructorList = ({ dispatchProducts }) => {
       total += item.price;
       id.push(item._id);
     });
-    dispatchProducts({ type: 'sumMainPrice', val: total });
-    dispatchProducts({ type: 'addMainId', val: id });
-  }, [mainIngredients, dispatchProducts]);
-
-  useEffect(() => {
-    bunIngredient && dispatchProducts({ type: 'addBunId', val: [bunIngredient._id] });
-    bunIngredient && dispatchProducts({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
-  }, [bunIngredient, dispatchProducts]);
+    dispatchPrice({ type: 'sumMainPrice', val: total });
+    bunIngredient && dispatchPrice({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
+    bunIngredient && setProductsId([...id, bunIngredient._id]);
+  }, [mainIngredients, dispatchPrice, setProductsId, bunIngredient]);
 
   return (
     <>

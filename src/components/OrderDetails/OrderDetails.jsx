@@ -4,11 +4,11 @@ import orderDetailsStyles from './orderDetails.module.css';
 import Modal from '../Modal/Modal';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const OrderDetails = ({ identifier, handleClosePopup }) => {
+const OrderDetails = ({ handleClosePopup, orderNumber }) => {
   return (
     <Modal className={orderDetailsStyles.order_popup} handleClosePopup={handleClosePopup}>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
-        {identifier}
+        {orderNumber}
       </h2>
       <p className='mb-15 mt-8 text_type_main-medium'>идентификатор заказа</p>
       <div className={orderDetailsStyles.gradient}>
@@ -27,7 +27,6 @@ const OrderDetails = ({ identifier, handleClosePopup }) => {
 };
 
 OrderDetails.propTypes = {
-  identifier: PropTypes.string.isRequired,
   handleClosePopup: PropTypes.func.isRequired,
 };
 

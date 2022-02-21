@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
-import useGetIngredientsData from '../../hooks/useGetIngredientsData';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import ProductsContext from '../../context/ProductsContext';
@@ -13,7 +12,8 @@ const App = () => {
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [products, setProducts] = useState([]);
-  // const products = useGetIngredientsData();
+  const [productsId, setProductsId] = useState([]);
+  const [orderNumber, setOrderNumber] = useState('');
 
   useEffect(() => {
     getIngredientsData()
@@ -43,7 +43,13 @@ const App = () => {
   };
 
   const handleOpenOrderDetailsPopup = () => {
-    //здесь отправка запроса и получение order.number
+    getOrderNumber(productsId)
+      .then((data) => {
+        setOrderNumber(data.order.number);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setIsPopupOrderDetailsOpen(true);
   };
 
@@ -52,19 +58,17 @@ const App = () => {
     setIsPopupIngredientDetailsOpen(true);
   };
 
-  const identifier = '034536';
-
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <ProductsContext.Provider value={{ products }}>
+      <ProductsContext.Provider value={{ products, setProductsId }}>
         <Main
           handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
           handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
         />
       </ProductsContext.Provider>
       {isPopupOrderDetailsOpen && (
-        <OrderDetails identifier={identifier} handleClosePopup={handleClosePopup} />
+        <OrderDetails handleClosePopup={handleClosePopup} orderNumber={orderNumber} />
       )}
       {isPopupIngredientDetailsOpen && (
         <IngredientDetails handleClosePopup={handleClosePopup} currentProduct={currentProduct} />
