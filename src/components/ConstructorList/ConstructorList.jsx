@@ -1,64 +1,78 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProductsContext from '../../context/ProductsContext';
 
-const ConstructorList = ({ dispatchPrice }) => {
+const ConstructorList = ({ dispatchProducts }) => {
   const ingredientsContext = useContext(ProductsContext);
   const products = ingredientsContext.products;
 
-  const bun = products.find((item) => {
-    return item.type === 'bun';
-  });
+  const [mainIngredients, setMainInIngredients] = useState([]);
+  const [bunIngredient, setBunIngredient] = useState(null);
 
   useEffect(() => {
-    bun && dispatchPrice({ type: 'sumBunsPrice', val: bun.price * 2 });
-  }, [products, bun, dispatchPrice]);
+    const main = products.filter((item) => {
+      return item.type !== 'bun';
+    });
+
+    const bun = products.find((item) => {
+      return item.type === 'bun';
+    });
+
+    setMainInIngredients(main);
+    setBunIngredient(bun);
+  }, [products]);
 
   useEffect(() => {
     let total = 0;
-    products.map((item) => {
-      return item.type !== 'bun' && (total += item.price);
+    let id = [];
+    mainIngredients.forEach((item) => {
+      total += item.price;
+      id.push(item._id);
     });
-    dispatchPrice({ type: 'sumMainPrice', val: total });
-  }, [products, dispatchPrice]);
+    dispatchProducts({ type: 'sumMainPrice', val: total });
+    dispatchProducts({ type: 'addMainId', val: id });
+  }, [mainIngredients, dispatchProducts]);
+
+  useEffect(() => {
+    bunIngredient && dispatchProducts({ type: 'addBunId', val: [bunIngredient._id] });
+    bunIngredient && dispatchProducts({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
+  }, [bunIngredient, dispatchProducts]);
 
   return (
     <>
-      {bun && (
+      {bunIngredient && (
         <div className={`${constructorListStyle.element_container} mb-4`}>
           <ConstructorElement
             type='top'
             isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={`${bunIngredient.name} (верх)`}
+            price={bunIngredient.price}
+            thumbnail={bunIngredient.image}
           />
         </div>
       )}
       <div className={constructorListStyle.middle_container}>
         {products &&
-          products.map((item, index) => {
+          mainIngredients.map((item, index) => {
             return (
-              item.type !== 'bun' && (
-                <div
-                  className={`${constructorListStyle.element_container} mb-4`}
-                  key={`${item._id}_${index}`}
-                >
-                  <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-                </div>
-              )
+              <div
+                className={`${constructorListStyle.element_container} mb-4`}
+                key={`${item._id}_${index}`}
+              >
+                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
+              </div>
             );
           })}
       </div>
-      {bun && (
+      {bunIngredient && (
         <div className={`${constructorListStyle.element_container} mb-4`}>
           <ConstructorElement
             type='bottom'
             isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={`${bunIngredient.name} (низ)`}
+            price={bunIngredient.price}
+            thumbnail={bunIngredient.image}
           />
         </div>
       )}
