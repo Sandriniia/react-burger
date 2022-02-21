@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProductsContext from '../../context/ProductsContext';
@@ -75,6 +76,10 @@ const ConstructorList = ({ dispatchPrice }) => {
       )}
     </>
   );
+};
+
+ConstructorList.propTypes = {
+  dispatchPrice: PropTypes.func.isRequired,
 };
 
 export default ConstructorList;

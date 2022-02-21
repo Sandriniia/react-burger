@@ -22,6 +22,7 @@ const OrderBurger = ({ handleOpenOrderDetailsPopup, priceState }) => {
 
 OrderBurger.propTypes = {
   handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
+  priceState: PropTypes.object
 };
 
 export default OrderBurger;
