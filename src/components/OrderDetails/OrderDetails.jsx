@@ -24,7 +24,7 @@ const OrderDetails = ({ handleClosePopup, orderNumber }) => {
 
 OrderDetails.propTypes = {
   handleClosePopup: PropTypes.func.isRequired,
-  orderNumber: PropTypes.string.isRequired,
+  orderNumber: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

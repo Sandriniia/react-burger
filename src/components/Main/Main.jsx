@@ -4,21 +4,21 @@ import mainStyles from './main.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-const Main = ({ handleOpenOrderDetailsPopup, handleOpenIngredientDetailsPopup }) => {
+const Main = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, handleOpenIngredientDetailsPopup }) => {
   return (
     <main className={mainStyles.main}>
       <BurgerIngredients
         handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
       />
       <BurgerConstructor
-        handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+        handleOpenOrderDetailsPopupAndGetOrderNumber={handleOpenOrderDetailsPopupAndGetOrderNumber}
       />
     </main>
   );
 };
 
 Main.propTypes = {
-  handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
+  handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
   handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
 };
 

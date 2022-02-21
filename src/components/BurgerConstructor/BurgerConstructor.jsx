@@ -17,14 +17,14 @@ const priceReducer = (state, action) => {
   }
 };
 
-const BurgerConstructor = ({ handleOpenOrderDetailsPopup }) => {
+const BurgerConstructor = ({ handleOpenOrderDetailsPopupAndGetOrderNumber }) => {
   const [priceState, dispatchPrice] = useReducer(priceReducer, initialPrice);
 
   return (
     <section className={`${burgerConstructorStyles.container} mt-15`}>
       <ConstructorList dispatchPrice={dispatchPrice} />
       <OrderBurger
-        handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+        handleOpenOrderDetailsPopupAndGetOrderNumber={handleOpenOrderDetailsPopupAndGetOrderNumber}
         priceState={priceState}
       />
     </section>
@@ -32,7 +32,7 @@ const BurgerConstructor = ({ handleOpenOrderDetailsPopup }) => {
 };
 
 BurgerConstructor.propTypes = {
-  handleOpenOrderDetailsPopup: PropTypes.func.isRequired,
+  handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

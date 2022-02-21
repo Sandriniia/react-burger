@@ -13,7 +13,7 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [productsId, setProductsId] = useState([]);
-  const [orderNumber, setOrderNumber] = useState('');
+  const [orderNumber, setOrderNumber] = useState(0);
 
   useEffect(() => {
     getIngredientsData()
@@ -42,7 +42,7 @@ const App = () => {
     setIsPopupIngredientDetailsOpen(false);
   };
 
-  const handleOpenOrderDetailsPopup = () => {
+  const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
     getOrderNumber(productsId)
       .then((data) => {
         setOrderNumber(data.order.number);
@@ -63,7 +63,9 @@ const App = () => {
       <AppHeader />
       <ProductsContext.Provider value={{ products, setProductsId }}>
         <Main
-          handleOpenOrderDetailsPopup={handleOpenOrderDetailsPopup}
+          handleOpenOrderDetailsPopupAndGetOrderNumber={
+            handleOpenOrderDetailsPopupAndGetOrderNumber
+          }
           handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
         />
       </ProductsContext.Provider>
