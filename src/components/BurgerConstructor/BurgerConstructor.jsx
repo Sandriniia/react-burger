@@ -7,13 +7,13 @@ import OrderBurger from '../OrderBurger/OrderBurger';
 const initialPrice = { mainPrice: 0, bunsPrice: 0 };
 
 const priceReducer = (state, action) => {
-  if (action.type === 'sumMainPrice') {
-    return { ...state, mainPrice: action.val };
-  }
-  if (action.type === 'sumBunsPrice') {
-    return { ...state, bunsPrice: action.val };
-  } else {
-    throw new Error(`Wrong type of action: ${action.type}`);
+  switch (action.type) {
+    case 'sumMainPrice':
+      return { ...state, mainPrice: action.val };
+    case 'sumBunsPrice':
+      return { ...state, bunsPrice: action.val };
+    default:
+      return state;
   }
 };
 
