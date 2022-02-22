@@ -14,4 +14,9 @@ const ingredientPropType = PropTypes.shape({
   image_large: PropTypes.string,
 });
 
-export { ingredientPropType };
+const priceStatePropType = PropTypes.shape({
+  mainPrice: PropTypes.number.isRequired,
+  bunsPrice: PropTypes.number.isRequired
+})
+
+export { ingredientPropType, priceStatePropType };

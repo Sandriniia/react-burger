@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import orderBurgerStyles from './orderBurger.module.css';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { priceStatePropType } from '../../utils/types';
 
 const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState }) => {
   const { mainPrice, bunsPrice } = priceState;
@@ -22,7 +23,7 @@ const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState 
 
 OrderBurger.propTypes = {
   handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
-  priceState: PropTypes.object,
+  priceState: priceStatePropType.isRequired,
 };
 
 export default OrderBurger;
