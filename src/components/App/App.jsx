@@ -6,6 +6,9 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import ProductsContext from '../../context/ProductsContext';
 import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
+import Modal from '../Modal/Modal';
+import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
+import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
@@ -70,10 +73,18 @@ const App = () => {
         />
       </ProductsContext.Provider>
       {isPopupOrderDetailsOpen && (
-        <OrderDetails handleClosePopup={handleClosePopup} orderNumber={orderNumber} />
+        <Modal handleClosePopup={handleClosePopup} className={orderDetailsStyles.order_popup}>
+          <OrderDetails orderNumber={orderNumber} />
+        </Modal>
       )}
       {isPopupIngredientDetailsOpen && (
-        <IngredientDetails handleClosePopup={handleClosePopup} currentProduct={currentProduct} />
+        <Modal
+          handleClosePopup={handleClosePopup}
+          title='Детали ингредиента'
+          className={ingredientDetailsStyle.details_popup}
+        >
+          <IngredientDetails currentProduct={currentProduct} />
+        </Modal>
       )}
     </div>
   );

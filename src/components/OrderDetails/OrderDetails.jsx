@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import orderDetailsStyles from './orderDetails.module.css';
-import Modal from '../Modal/Modal';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const OrderDetails = ({ handleClosePopup, orderNumber }) => {
+const OrderDetails = ({ orderNumber }) => {
   return (
-    <Modal className={orderDetailsStyles.order_popup} handleClosePopup={handleClosePopup}>
+    <>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
         {orderNumber}
       </h2>
@@ -18,12 +17,11 @@ const OrderDetails = ({ handleClosePopup, orderNumber }) => {
       <p className='text text_type_main-default text_color_inactive'>
         Дождитесь готовности на орбитальной станции
       </p>
-    </Modal>
+    </>
   );
 };
 
 OrderDetails.propTypes = {
-  handleClosePopup: PropTypes.func.isRequired,
   orderNumber: PropTypes.number.isRequired,
 };
 

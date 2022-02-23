@@ -1,16 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
-import Modal from '../Modal/Modal';
 import { ingredientPropType } from '../../utils/types';
 
-const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
+const IngredientDetails = ({ currentProduct }) => {
   return (
-    <Modal
-      handleClosePopup={handleClosePopup}PropTypes
-      className={ingredientDetailsStyles.product_details_popup}
-      title='Детали ингредиента'
-    >
+    <>
       <img
         src={currentProduct.image}
         alt={currentProduct.name}
@@ -51,12 +45,11 @@ const IngredientDetails = ({ handleClosePopup, currentProduct }) => {
           </p>
         </div>
       </div>
-    </Modal>
+    </>
   );
 };
 
 IngredientDetails.propTypes = {
-  handleClosePopup: PropTypes.func.isRequired,
   currentProduct: ingredientPropType.isRequired
 };
 
