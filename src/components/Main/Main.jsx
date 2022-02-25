@@ -1,22 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import mainStyles from './main.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-const Main = ({ handleAddIngredient, savedIngredients }) => {
-  console.log(savedIngredients);
+const Main = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, handleOpenIngredientDetailsPopup }) => {
   return (
     <main className={mainStyles.main}>
-      <BurgerIngredients handleAddIngredient={handleAddIngredient} />
-      <BurgerConstructor savedIngredients={savedIngredients} />
+      <BurgerIngredients
+        handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+      />
+      <BurgerConstructor
+        handleOpenOrderDetailsPopupAndGetOrderNumber={handleOpenOrderDetailsPopupAndGetOrderNumber}
+      />
     </main>
   );
 };
 
 Main.propTypes = {
-  handleAddIngredient: PropTypes.func,
-  savedIngredients: PropTypes.array
-}
+  handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
+  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
+};
 
 export default Main;

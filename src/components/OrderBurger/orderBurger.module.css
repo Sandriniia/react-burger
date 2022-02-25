@@ -4,13 +4,7 @@
   align-items: center;
 }
 
-.price {
-  margin: 0;
-  margin-right: 9px;
-}
-
-.image {
-  margin-right: 41px;
-  width: 33px;
-  height: 33px;
+.sum {
+  display: flex;
+  align-items: center;
 }

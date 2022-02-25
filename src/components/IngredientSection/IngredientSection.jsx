@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
+import React, { useEffect, useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
-import data from '../../utils/data';
+import ProductsContext from '../../context/ProductsContext';
 
-const IngredientSection = ({ type, title, handleAddIngredient }) => {
+const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
 
+  const ingredientsContext = useContext(ProductsContext);
+  const products = ingredientsContext.products;
+
   useEffect(() => {
-    const bunData = data.filter((item) => {
+    const bunData = products.filter((item) => {
       return item.type === 'bun';
     });
 
-    const sauceData = data.filter((item) => {
+    const sauceData = products.filter((item) => {
       return item.type === 'sauce';
     });
 
-    const mainData = data.filter((item) => {
+    const mainData = products.filter((item) => {
       return item.type === 'main';
     });
 
@@ -27,12 +30,12 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
     setSauceIngredientSection(sauceData);
 
     setMainIngredientSection(mainData);
-  }, []);
+  }, [products]);
 
   if (type === 'bun') {
     return (
-      <section className={ingredientSectionStyles.section_container}>
-        <h2 className={ingredientSectionStyles.title}>{title}</h2>
+      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+        <h2 className="text text_type_main-medium">{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {bunIngredientSection.map((item) => {
             return (
@@ -43,7 +46,7 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -54,8 +57,8 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
 
   if (type === 'sauce') {
     return (
-      <section className={ingredientSectionStyles.section_container}>
-        <h2>{title}</h2>
+      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+        <h2 className="text text_type_main-medium">{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {sauceIngredientSection.map((item) => {
             return (
@@ -66,7 +69,7 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -77,8 +80,8 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
 
   if (type === 'main') {
     return (
-      <section className={ingredientSectionStyles.section_container}>
-        <h2>{title}</h2>
+      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+        <h2 className="text text_type_main-medium">{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {mainIngredientSection.map((item) => {
             return (
@@ -89,7 +92,7 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleAddIngredient={handleAddIngredient}
+                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -100,9 +103,9 @@ const IngredientSection = ({ type, title, handleAddIngredient }) => {
 };
 
 IngredientSection.propTypes = {
-  type: PropTypes.string,
-  title: PropTypes.string,
-  handleAddIngredient: PropTypes.func
-}
+  type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
+};
 
 export default IngredientSection;

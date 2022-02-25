@@ -1,18 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import orderBurgerStyles from './orderBurger.module.css';
-import subtract from '../../images/subtract.png';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { priceStatePropType } from '../../utils/types';
 
-const OrderBurger = () => {
+const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState }) => {
+  const { mainPrice, bunsPrice } = priceState;
+  const totalPrice = mainPrice + bunsPrice;
+
   return (
     <section className={orderBurgerStyles.order_container}>
-      <p className={`${orderBurgerStyles.price} text text_type_digits-medium`}>610</p>
-      <img className={orderBurgerStyles.image} src={subtract} alt='gem' />
-      <Button type='primary' size='large'>
+      <div className={`${orderBurgerStyles.sum} mr-10`}>
+        <p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
+        <CurrencyIcon type='primary' />
+      </div>
+      <Button type='primary' size='large' onClick={handleOpenOrderDetailsPopupAndGetOrderNumber}>
         Оформить заказ
       </Button>
     </section>
   );
+};
+
+OrderBurger.propTypes = {
+  handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
+  priceState: priceStatePropType.isRequired,
 };
 
 export default OrderBurger;

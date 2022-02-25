@@ -6,7 +6,7 @@ import { BurgerIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-co
 
 const Navigation = ({ className }) => {
   return (
-    <nav>
+    <nav className={navigationStyles.nav}>
       <ul className={navigationStyles.list}>
         <NavItem text='Конструктор' className={className}>
           <BurgerIcon type='primary' />
@@ -24,3 +24,4 @@ Navigation.propTypes = {
 };
 
 export default Navigation;
+

@@ -1,0 +1,13 @@
+.header {
+  margin: 0 auto;
+  max-width: 1240px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  color: #8585ad;
+}
+
+.nav_item {
+  color: #f2f2f3;
+}
+

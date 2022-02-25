@@ -4,9 +4,9 @@ import navItemStyles from './navItem.module.css';
 
 const NavItem = ({ text, children, className }) => {
   return (
-    <li className={navItemStyles.list_item}>
+    <li className={`${navItemStyles.list_item} pl-5 pr-5`}>
       {children}
-      <p className={`${className} ${navItemStyles.text}`}>{text}</p>
+      <p className={`${className} text text_type_main-default ml-2`}>{text}</p>
     </li>
   );
 };
@@ -18,3 +18,4 @@ NavItem.propTypes = {
 };
 
 export default NavItem;
+

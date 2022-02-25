@@ -1,12 +1,5 @@
 .list_item {
   display: flex;
   align-items: center;
-  margin-left: 0 auto;
-}
-
-.text {
-  margin: 0;
-  margin-left: 8px;
-  font-size: 16px;
-  font-weight: 400;
+  justify-self: end;
 }
