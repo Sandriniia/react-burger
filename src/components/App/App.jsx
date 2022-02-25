@@ -16,7 +16,7 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [productsId, setProductsId] = useState([]);
-  const [orderNumber, setOrderNumber] = useState(0);
+  const [orderNumber, setOrderNumber] = useState(null);
 
   useEffect(() => {
     getIngredientsData()
@@ -41,6 +41,7 @@ const App = () => {
   }, []);
 
   const handleClosePopup = () => {
+    setOrderNumber(null);
     setIsPopupOrderDetailsOpen(false);
     setIsPopupIngredientDetailsOpen(false);
   };
