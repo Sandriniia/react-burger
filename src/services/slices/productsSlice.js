@@ -38,6 +38,9 @@ const productsSlice = createSlice({
       const isIdIncluded = state.ids.includes(action.payload);
       !isIdIncluded && state.ids.push(action.payload);
     },
+    getCurrentProduct(state, action) {
+      state.currentProduct = action.payload;
+    }
   },
   extraReducers: {
     [getProducts.fulfilled]: (state, action) => {

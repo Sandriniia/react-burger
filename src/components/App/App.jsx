@@ -10,11 +10,11 @@ import Modal from '../Modal/Modal';
 import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
 import { getProducts, getOrderNum } from '../../services/slices/productsSlice';
+import { productsActions } from '../../services/slices/productsSlice';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState(null);
 
   const productsId = useSelector(state => state.products.ids);
 
@@ -47,7 +47,7 @@ const App = () => {
   };
 
   const handleOpenIngredientDetailsPopup = (product) => {
-    setCurrentProduct(product);
+    dispatch(productsActions.getCurrentProduct(product));
     setIsPopupIngredientDetailsOpen(true);
   };
 
@@ -71,7 +71,7 @@ const App = () => {
           title='Детали ингредиента'
           className={ingredientDetailsStyle.details_popup}
         >
-          <IngredientDetails currentProduct={currentProduct} />
+          <IngredientDetails />
         </Modal>
       )}
     </div>
