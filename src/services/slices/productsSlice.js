@@ -4,7 +4,6 @@ import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 const initialState = {
   products: [],
   ids: [],
-  currentProducts: [],
   currentProduct: {},
   orderNumber: null,
 };

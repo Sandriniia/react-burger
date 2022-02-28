@@ -13,12 +13,12 @@ import { getProducts, getOrderNum } from '../../services/slices/productsSlice';
 import { productsActions } from '../../services/slices/productsSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+  
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
 
   const productsId = useSelector(state => state.products.ids);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
