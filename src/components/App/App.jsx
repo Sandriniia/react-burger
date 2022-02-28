@@ -10,7 +10,7 @@ import { getOrderNumber } from '../../utils/IngredientsAPI';
 import Modal from '../Modal/Modal';
 import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
-import { getProducts } from '../../services/slices/allProductsSlice';
+import { getProducts } from '../../services/slices/productsSlice';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
@@ -18,7 +18,7 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [orderNumber, setOrderNumber] = useState(null);
 
-  const productsId = useSelector(state => state.allProducts.ids);
+  const productsId = useSelector(state => state.products.ids);
 
   const dispatch = useDispatch();
 

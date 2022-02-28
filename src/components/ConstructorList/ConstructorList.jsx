@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { allProductsActions } from '../../services/slices/allProductsSlice';
+import { productsActions } from '../../services/slices/productsSlice';
 
 const ConstructorList = ({ dispatchPrice }) => {
-  const products = useSelector((state) => state.allProducts.products);
+  const products = useSelector((state) => state.products.products);
 
   const dispatch = useDispatch();
 
@@ -31,10 +31,10 @@ const ConstructorList = ({ dispatchPrice }) => {
     let total = 0;
     mainIngredients.forEach((item) => {
       total += item.price;
-      dispatch(allProductsActions.getIds(item._id));
+      dispatch(productsActions.getIds(item._id));
     });
     dispatchPrice({ type: 'sumMainPrice', val: total });
-    bunIngredient && dispatch(allProductsActions.getIds(bunIngredient._id));
+    bunIngredient && dispatch(productsActions.getIds(bunIngredient._id));
     bunIngredient && dispatchPrice({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
   }, [mainIngredients, dispatchPrice, bunIngredient, dispatch]);
 

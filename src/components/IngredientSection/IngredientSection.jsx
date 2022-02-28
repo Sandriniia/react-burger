@@ -9,7 +9,7 @@ const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) =>
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
 
-  const products = useSelector(state => state.allProducts.products);
+  const products = useSelector(state => state.products.products);
 
   useEffect(() => {
     const bunData = products.filter((item) => {

@@ -3,14 +3,14 @@ import { getIngredientsData } from '../../utils/IngredientsAPI';
 
 const initialState = { products: [], ids: [] };
 
-export const getProducts = createAsyncThunk('allProducts/getProducts', async () => {
+export const getProducts = createAsyncThunk('products/getProducts', async () => {
   const response = await getIngredientsData();
   const data = await response.data;
   return data;
 });
 
-const allProductsSlice = createSlice({
-  name: 'allProducts',
+const productsSlice = createSlice({
+  name: 'products',
   initialState,
   reducers: {
     getIds(state, action) {
@@ -26,6 +26,6 @@ const allProductsSlice = createSlice({
   },
 });
 
-export const allProductsActions = allProductsSlice.actions;
+export const productsActions = productsSlice.actions;
 
-export default allProductsSlice;
+export default productsSlice;
