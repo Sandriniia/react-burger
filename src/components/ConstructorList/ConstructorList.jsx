@@ -1,13 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import ProductsContext from '../../context/ProductsContext';
+import { allProductsActions } from '../../services/slices/allProductsSlice';
 
 const ConstructorList = ({ dispatchPrice }) => {
-  const ingredientsContext = useContext(ProductsContext);
-  const products = ingredientsContext.products;
-  const setProductsId = ingredientsContext.setProductsId;
+  const products = useSelector((state) => state.allProducts.products);
+
+  const dispatch = useDispatch();
 
   const [mainIngredients, setMainInIngredients] = useState([]);
   const [bunIngredient, setBunIngredient] = useState(null);
@@ -27,15 +29,14 @@ const ConstructorList = ({ dispatchPrice }) => {
 
   useEffect(() => {
     let total = 0;
-    let id = [];
     mainIngredients.forEach((item) => {
       total += item.price;
-      id.push(item._id);
+      dispatch(allProductsActions.getIds(item._id));
     });
     dispatchPrice({ type: 'sumMainPrice', val: total });
+    bunIngredient && dispatch(allProductsActions.getIds(bunIngredient._id));
     bunIngredient && dispatchPrice({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
-    bunIngredient && setProductsId([...id, bunIngredient._id]);
-  }, [mainIngredients, dispatchPrice, setProductsId, bunIngredient]);
+  }, [mainIngredients, dispatchPrice, bunIngredient, dispatch]);
 
   return (
     <>

@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import ProductsContext from '../../context/ProductsContext';
-import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
+import { getOrderNumber } from '../../utils/IngredientsAPI';
 import Modal from '../Modal/Modal';
 import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
+import { getProducts } from '../../services/slices/allProductsSlice';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [productsId, setProductsId] = useState([]);
   const [orderNumber, setOrderNumber] = useState(null);
 
+  const productsId = useSelector(state => state.allProducts.ids);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getIngredientsData()
-      .then((data) => {
-        setProducts(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    dispatch(getProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     const escClosePopup = (e) => {
@@ -65,14 +63,12 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <ProductsContext.Provider value={{ products, setProductsId }}>
         <Main
           handleOpenOrderDetailsPopupAndGetOrderNumber={
             handleOpenOrderDetailsPopupAndGetOrderNumber
           }
           handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
         />
-      </ProductsContext.Provider>
       {isPopupOrderDetailsOpen && (
         <Modal handleClosePopup={handleClosePopup} className={orderDetailsStyles.order_popup}>
           <OrderDetails orderNumber={orderNumber} />
