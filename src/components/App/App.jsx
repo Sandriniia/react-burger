@@ -6,17 +6,15 @@ import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { getOrderNumber } from '../../utils/IngredientsAPI';
 import Modal from '../Modal/Modal';
 import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
-import { getProducts } from '../../services/slices/productsSlice';
+import { getProducts, getOrderNum } from '../../services/slices/productsSlice';
 
 const App = () => {
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [orderNumber, setOrderNumber] = useState(null);
 
   const productsId = useSelector(state => state.products.ids);
 
@@ -39,19 +37,12 @@ const App = () => {
   }, []);
 
   const handleClosePopup = () => {
-    setOrderNumber(null);
     setIsPopupOrderDetailsOpen(false);
     setIsPopupIngredientDetailsOpen(false);
   };
 
   const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
-    getOrderNumber(productsId)
-      .then((data) => {
-        setOrderNumber(data.order.number);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(getOrderNum(productsId));
     setIsPopupOrderDetailsOpen(true);
   };
 
@@ -71,7 +62,7 @@ const App = () => {
         />
       {isPopupOrderDetailsOpen && (
         <Modal handleClosePopup={handleClosePopup} className={orderDetailsStyles.order_popup}>
-          <OrderDetails orderNumber={orderNumber} />
+          <OrderDetails />
         </Modal>
       )}
       {isPopupIngredientDetailsOpen && (

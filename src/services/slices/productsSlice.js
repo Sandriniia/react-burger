@@ -1,12 +1,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getIngredientsData } from '../../utils/IngredientsAPI';
+import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 
-const initialState = { products: [], ids: [] };
+const initialState = {
+  products: [],
+  ids: [],
+  currentProducts: [],
+  currentProduct: {},
+  orderNumber: null,
+};
 
-export const getProducts = createAsyncThunk('products/getProducts', async () => {
-  const response = await getIngredientsData();
-  const data = await response.data;
-  return data;
+export const getProducts = createAsyncThunk('products/getProducts', async (_,{rejectWithValue}) => {
+  try {
+    const response = await getIngredientsData();
+    const data = await response.data;
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const getOrderNum = createAsyncThunk('products/getOrderNum', async (productsIds,{rejectWithValue}) => {
+  try {
+    const response = await getOrderNumber(productsIds);
+    const orderNumber = await response.order.number;
+    return orderNumber;
+
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
 });
 
 const productsSlice = createSlice({
@@ -22,7 +43,11 @@ const productsSlice = createSlice({
     [getProducts.fulfilled]: (state, action) => {
       state.products = action.payload;
     },
-    [getProducts.rejected]: () => {},
+    [getProducts.rejected]: () => { },
+    [getOrderNum.fulfilled]: (state, action) => {
+      state.orderNumber = action.payload;
+    },
+    [getOrderNum.rejected]: () => { },
   },
 });
 

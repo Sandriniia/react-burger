@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderDetailsStyles from './orderDetails.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const OrderDetails = ({ orderNumber }) => {
+const OrderDetails = () => {
+
+  const orderNumber = useSelector(state => state.products.orderNumber);
   return (
     <>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
