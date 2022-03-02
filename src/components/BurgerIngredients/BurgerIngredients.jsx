@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
 
-const BurgerIngredients = ({ handleOpenIngredientDetailsPopup }) => {
+const BurgerIngredients = () => {
   const [current, setCurrent] = useState('one');
 
   return (
@@ -23,27 +22,20 @@ const BurgerIngredients = ({ handleOpenIngredientDetailsPopup }) => {
       </nav>
       <section className={burgerIngredientsStyles.menu}>
         <IngredientSection
-          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
           type='bun'
           title='Булки'
         />
         <IngredientSection
-          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
           type='sauce'
           title='Соусы'
         />
         <IngredientSection
-          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
           type='main'
           title='Начинки'
         />
       </section>
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 
-const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) => {
+const IngredientSection = ({ type, title }) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
@@ -45,7 +45,6 @@ const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) =>
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -68,7 +67,6 @@ const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) =>
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -91,7 +89,6 @@ const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) =>
                 price={item.price}
                 name={item.name}
                 product={item}
-                handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
               />
             );
           })}
@@ -104,7 +101,6 @@ const IngredientSection = ({ type, title, handleOpenIngredientDetailsPopup }) =>
 IngredientSection.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  handleOpenIngredientDetailsPopup: PropTypes.func.isRequired,
 };
 
 export default IngredientSection;
