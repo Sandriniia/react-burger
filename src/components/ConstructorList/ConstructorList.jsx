@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { productsActions } from '../../services/slices/productsSlice';
 
-const ConstructorList = ({ dispatchPrice }) => {
-  const products = useSelector((state) => state.products.products);
-
+const ConstructorList = () => {
   const dispatch = useDispatch();
 
-  const [mainIngredients, setMainInIngredients] = useState([]);
-  const [bunIngredient, setBunIngredient] = useState(null);
+  const products = useSelector((state) => state.products.products);
+  const mainIngredients = useSelector((state) => state.products.currentMainProducts);
+  const bunIngredient = useSelector((state) => state.products.currentBun);
+  // console.log(bunIngredient);
 
   useEffect(() => {
     const main = products.filter((item) => {
@@ -23,20 +21,18 @@ const ConstructorList = ({ dispatchPrice }) => {
       return item.type === 'bun';
     });
 
-    setMainInIngredients(main);
-    setBunIngredient(bun);
-  }, [products]);
+    dispatch(productsActions.getCurrentMainProducts(main));
+    dispatch(productsActions.getCurrentBun(bun));
+  }, [products, dispatch]);
 
   useEffect(() => {
-    let total = 0;
     mainIngredients.forEach((item) => {
-      total += item.price;
       dispatch(productsActions.getIds(item._id));
     });
-    dispatchPrice({ type: 'sumMainPrice', val: total });
-    bunIngredient && dispatch(productsActions.getIds(bunIngredient._id));
-    bunIngredient && dispatchPrice({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
-  }, [mainIngredients, dispatchPrice, bunIngredient, dispatch]);
+    
+    bunIngredient !== undefined
+    && dispatch(productsActions.getIds(bunIngredient._id));
+  }, [mainIngredients, bunIngredient, dispatch]);
 
   return (
     <>
@@ -77,10 +73,6 @@ const ConstructorList = ({ dispatchPrice }) => {
       )}
     </>
   );
-};
-
-ConstructorList.propTypes = {
-  dispatchPrice: PropTypes.func.isRequired,
 };
 
 export default ConstructorList;

@@ -1,12 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import orderBurgerStyles from './orderBurger.module.css';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { priceStatePropType } from '../../utils/types';
 
-const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState }) => {
-  const { mainPrice, bunsPrice } = priceState;
-  const totalPrice = mainPrice + bunsPrice;
+const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber }) => {
+  const totalPrice = useSelector(state => state.products.totalPrice);
 
   return (
     <section className={orderBurgerStyles.order_container}>
@@ -23,7 +22,6 @@ const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState 
 
 OrderBurger.propTypes = {
   handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
-  priceState: priceStatePropType.isRequired,
 };
 
 export default OrderBurger;
