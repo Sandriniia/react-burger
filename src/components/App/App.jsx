@@ -14,11 +14,11 @@ import { productsActions } from '../../services/slices/productsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
-  
+
   const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
   const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
 
-  const productsId = useSelector(state => state.products.ids);
+  const productsId = useSelector((state) => state.products.ids);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -39,6 +39,7 @@ const App = () => {
   const handleClosePopup = () => {
     setIsPopupOrderDetailsOpen(false);
     setIsPopupIngredientDetailsOpen(false);
+    dispatch(productsActions.getCurrentProduct());
   };
 
   const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
@@ -54,12 +55,10 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-        <Main
-          handleOpenOrderDetailsPopupAndGetOrderNumber={
-            handleOpenOrderDetailsPopupAndGetOrderNumber
-          }
-          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
-        />
+      <Main
+        handleOpenOrderDetailsPopupAndGetOrderNumber={handleOpenOrderDetailsPopupAndGetOrderNumber}
+        handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
+      />
       {isPopupOrderDetailsOpen && (
         <Modal handleClosePopup={handleClosePopup} className={orderDetailsStyles.order_popup}>
           <OrderDetails />
