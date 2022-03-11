@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,21 +8,27 @@ import { productsActions } from '../../services/slices/productsSlice';
 const ConstructorList = () => {
   const dispatch = useDispatch();
 
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(productsActions.addCurrentProduct(item));
+    },
+  });
+
   const products = useSelector((state) => state.products.products);
   const mainIngredients = useSelector((state) => state.products.currentMainProducts);
   const bunIngredient = useSelector((state) => state.products.currentBun);
-  // console.log(bunIngredient);
 
   useEffect(() => {
-    const main = products.filter((item) => {
-      return item.type !== 'bun';
-    });
+    // const main = products.filter((item) => {
+    //   return item.type !== 'bun';
+    // });
 
     const bun = products.find((item) => {
       return item.type === 'bun';
     });
 
-    dispatch(productsActions.getCurrentMainProducts(main));
+    // dispatch(productsActions.getCurrentMainProducts(main));
     dispatch(productsActions.getCurrentBun(bun));
   }, [products, dispatch]);
 
@@ -29,13 +36,12 @@ const ConstructorList = () => {
     mainIngredients.forEach((item) => {
       dispatch(productsActions.getIds(item._id));
     });
-    
-    bunIngredient !== undefined
-    && dispatch(productsActions.getIds(bunIngredient._id));
+
+    bunIngredient !== undefined && dispatch(productsActions.getIds(bunIngredient._id));
   }, [mainIngredients, bunIngredient, dispatch]);
 
   return (
-    <>
+    <div ref={dropTarget}>
       {bunIngredient && (
         <div className={`${constructorListStyle.element_container} mb-4`}>
           <ConstructorElement
@@ -71,7 +77,7 @@ const ConstructorList = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

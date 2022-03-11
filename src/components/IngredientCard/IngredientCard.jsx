@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
@@ -7,8 +8,18 @@ import { ingredientPropType } from '../../utils/types';
 import { popupActions } from '../../services/slices/popupSlice';
 import { productsActions } from '../../services/slices/productsSlice';
 
-const IngredientCard = ({ image, alt, price, name, product }) => {
+const IngredientCard = ({ image, alt, price, name, product, id }) => {
   const dispatch = useDispatch();
+
+  const [{ isDrag }, dragRef] = useDrag({
+    type: 'ingredient',
+    item: { id, type: product.type },
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
+
+  // console.log(isDrag);
 
   const showIngredientsPopup = () => {
     dispatch(productsActions.getCurrentProduct(product));
@@ -16,7 +27,11 @@ const IngredientCard = ({ image, alt, price, name, product }) => {
   };
 
   return (
-    <div className={ingredientCardStyles.card_container} onClick={showIngredientsPopup}>
+    <div
+      className={ingredientCardStyles.card_container}
+      onClick={showIngredientsPopup}
+      ref={dragRef}
+    >
       <Counter count={1} size='default' />
       <img src={image} alt={alt} className='mb-1' />
       <div className={`${ingredientCardStyles.price_box} mb-1`}>

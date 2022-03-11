@@ -9,7 +9,7 @@ const IngredientSection = ({ type, title }) => {
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
 
-  const products = useSelector(state => state.products.products);
+  const products = useSelector((state) => state.products.products);
 
   useEffect(() => {
     const bunData = products.filter((item) => {
@@ -34,12 +34,13 @@ const IngredientSection = ({ type, title }) => {
   if (type === 'bun') {
     return (
       <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
-        <h2 className="text text_type_main-medium">{title}</h2>
+        <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {bunIngredientSection.map((item) => {
             return (
               <IngredientCard
                 key={item._id}
+                id={item._id}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
@@ -56,12 +57,13 @@ const IngredientSection = ({ type, title }) => {
   if (type === 'sauce') {
     return (
       <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
-        <h2 className="text text_type_main-medium">{title}</h2>
+        <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {sauceIngredientSection.map((item) => {
             return (
               <IngredientCard
                 key={item._id}
+                id={item._id}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
@@ -78,12 +80,13 @@ const IngredientSection = ({ type, title }) => {
   if (type === 'main') {
     return (
       <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
-        <h2 className="text text_type_main-medium">{title}</h2>
+        <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {mainIngredientSection.map((item) => {
             return (
               <IngredientCard
                 key={item._id}
+                id={item._id}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}

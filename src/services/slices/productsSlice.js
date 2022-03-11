@@ -43,7 +43,7 @@ const isEmpty = (obj) => {
     return false;
   }
   return true;
-}
+};
 
 const productsSlice = createSlice({
   name: 'products',
@@ -56,24 +56,34 @@ const productsSlice = createSlice({
     getCurrentProduct(state, action) {
       state.currentProduct = action.payload;
     },
-    getCurrentMainProducts(state, action) {
-      const stateHasChanged = state.currentMainProducts.length !== action.payload.length;
-      if (stateHasChanged) {
-        state.currentMainProducts = action.payload;
-        const total = action.payload.reduce((acc, item) => {
-          return acc + item.price;
-        }, 0);
-        state.totalPrice = state.totalPrice + total;
-      }
-    },
+    // getCurrentMainProducts(state, action) {
+    //   const stateHasChanged = state.currentMainProducts.length !== action.payload.length;
+    //   if (stateHasChanged) {
+    //     state.currentMainProducts = action.payload;
+    //     const total = action.payload.reduce((acc, item) => {
+    //       return acc + item.price;
+    //     }, 0);
+    //     state.totalPrice = state.totalPrice + total;
+    //   }
+    // },
     getCurrentBun(state, action) {
-      const empty = isEmpty(state.currentBun)
+      const empty = isEmpty(state.currentBun);
       if (empty || state.currentBun._id !== action.payload._id) {
         state.currentBun = action.payload;
         if (action.payload) {
           const total = action.payload.price * 2;
           state.totalPrice = state.totalPrice + total;
         }
+      }
+    },
+    addCurrentProduct(state, action) {
+      const product = state.products.find((item) => item._id === action.payload.id);
+      if (action.payload.type === 'bun' && product._id !== state.currentBun._id) {
+        state.totalPrice = state.totalPrice - state.currentBun.price * 2 + product.price * 2;
+        state.currentBun = product;
+      } else if (action.payload.type !== 'bun') {
+        state.totalPrice = state.totalPrice + product.price;
+        state.currentMainProducts.push(product);
       }
     },
   },

@@ -1,4 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
@@ -44,7 +46,9 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <Main />
+      <DndProvider backend={HTML5Backend}>
+        <Main />
+      </DndProvider>
       {isPopupOrderDetailsOpen && (
         <Modal className={orderDetailsStyles.order_popup}>
           <OrderDetails />
