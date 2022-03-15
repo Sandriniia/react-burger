@@ -18,7 +18,6 @@ const ConstructorList = () => {
   const products = useSelector((state) => state.products.products);
   const mainIngredients = useSelector((state) => state.products.currentMainProducts);
   const bunIngredient = useSelector((state) => state.products.currentBun);
-  // console.log(bunIngredient);
 
   useEffect(() => {
     const bun = products.find((item) => {
@@ -65,7 +64,12 @@ const ConstructorList = () => {
                 className={`${constructorListStyle.element_container} mb-4`}
                 key={`${item._id}_${index}`}
               >
-                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
+                <ConstructorElement
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                  handleClose={() => dispatch(productsActions.deleteProduct({ id: item._id, index: index }))}
+                />
               </div>
             );
           })}

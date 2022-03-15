@@ -100,6 +100,22 @@ const productsSlice = createSlice({
         });
       }
     },
+    deleteProduct(state, action) {
+      let price;
+      state.currentMainProducts = state.currentMainProducts.filter((i, index) => {
+        if (i._id === action.payload.id) {
+          price = i.price;
+        }
+        return index !== action.payload.index;
+      });
+      state.totalPrice = state.totalPrice - price;
+      state.products.map((i) => {
+        if (i._id === action.payload.id) {
+          return { ...i, count: i.count-- };
+        }
+        return { ...i };
+      });
+    },
   },
   extraReducers: {
     [getProducts.fulfilled]: (state, action) => {
