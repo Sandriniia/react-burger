@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useDrop } from 'react-dnd';
+import { useDrop} from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import ConstructorCard from '../ConstructorCard/ConstructorCard';
 import { productsActions } from '../../services/slices/productsSlice';
 
 const ConstructorList = () => {
@@ -59,19 +60,7 @@ const ConstructorList = () => {
       <div className={constructorListStyle.middle_container}>
         {products &&
           mainIngredients.map((item, index) => {
-            return (
-              <div
-                className={`${constructorListStyle.element_container} mb-4`}
-                key={`${item._id}_${index}`}
-              >
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  handleClose={() => dispatch(productsActions.deleteProduct({ id: item._id, index: index }))}
-                />
-              </div>
-            );
+            return <ConstructorCard item={item} index={index} key={`${item._id}_${index}`}/>;
           })}
       </div>
       {products &&

@@ -1,0 +1,4 @@
+.element_container {
+  max-width: 536px;
+  display: flex;
+}
