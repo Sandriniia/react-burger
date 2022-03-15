@@ -41,6 +41,7 @@ const IngredientSection = ({ type, title }) => {
               <IngredientCard
                 key={item._id}
                 id={item._id}
+                count={item.count}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
@@ -64,6 +65,7 @@ const IngredientSection = ({ type, title }) => {
               <IngredientCard
                 key={item._id}
                 id={item._id}
+                count={item.count}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}
@@ -87,6 +89,7 @@ const IngredientSection = ({ type, title }) => {
               <IngredientCard
                 key={item._id}
                 id={item._id}
+                count={item.count}
                 image={item.image}
                 alt={`${item.type} ${item.name}`}
                 price={item.price}

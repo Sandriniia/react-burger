@@ -11,25 +11,21 @@ const ConstructorList = () => {
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      dispatch(productsActions.addCurrentProduct(item));
+      dispatch(productsActions.addProduct(item));
     },
   });
 
   const products = useSelector((state) => state.products.products);
   const mainIngredients = useSelector((state) => state.products.currentMainProducts);
   const bunIngredient = useSelector((state) => state.products.currentBun);
+  // console.log(bunIngredient);
 
   useEffect(() => {
-    // const main = products.filter((item) => {
-    //   return item.type !== 'bun';
-    // });
-
     const bun = products.find((item) => {
       return item.type === 'bun';
     });
 
-    // dispatch(productsActions.getCurrentMainProducts(main));
-    dispatch(productsActions.getCurrentBun(bun));
+    bun && dispatch(productsActions.getCurrentBun(bun));
   }, [products, dispatch]);
 
   useEffect(() => {
@@ -37,22 +33,30 @@ const ConstructorList = () => {
       dispatch(productsActions.getIds(item._id));
     });
 
-    bunIngredient !== undefined && dispatch(productsActions.getIds(bunIngredient._id));
+    bunIngredient.forEach((item) => {
+      dispatch(productsActions.getIds(item._id));
+    });
   }, [mainIngredients, bunIngredient, dispatch]);
 
   return (
     <div ref={dropTarget}>
-      {bunIngredient && (
-        <div className={`${constructorListStyle.element_container} mb-4`}>
-          <ConstructorElement
-            type='top'
-            isLocked={true}
-            text={`${bunIngredient.name} (верх)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />
-        </div>
-      )}
+      {products &&
+        bunIngredient.map((item, index) => {
+          return (
+            <div
+              className={`${constructorListStyle.element_container} mb-4`}
+              key={`${item._id}_${index}`}
+            >
+              <ConstructorElement
+                type='top'
+                isLocked={true}
+                text={`${item.name} (верх)`}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
       <div className={constructorListStyle.middle_container}>
         {products &&
           mainIngredients.map((item, index) => {
@@ -66,17 +70,23 @@ const ConstructorList = () => {
             );
           })}
       </div>
-      {bunIngredient && (
-        <div className={`${constructorListStyle.element_container} mb-4`}>
-          <ConstructorElement
-            type='bottom'
-            isLocked={true}
-            text={`${bunIngredient.name} (низ)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />
-        </div>
-      )}
+      {products &&
+        bunIngredient.map((item, index) => {
+          return (
+            <div
+              className={`${constructorListStyle.element_container} mb-4`}
+              key={`${item._id}_${index}`}
+            >
+              <ConstructorElement
+                type='bottom'
+                isLocked={true}
+                text={`${item.name} (низ)`}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 };

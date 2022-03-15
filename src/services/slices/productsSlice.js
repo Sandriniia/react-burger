@@ -5,7 +5,7 @@ const initialState = {
   products: [],
   ids: [],
   currentMainProducts: [],
-  currentBun: {},
+  currentBun: [],
   currentProductsHasChanged: false,
   currentProduct: {},
   orderNumber: null,
@@ -18,7 +18,10 @@ export const getProducts = createAsyncThunk(
     try {
       const response = await getIngredientsData();
       const data = await response.data;
-      return data;
+      const modifiedData = await data.map((i) => {
+        return { ...i, count: 0 };
+      });
+      return modifiedData;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -38,13 +41,6 @@ export const getOrderNum = createAsyncThunk(
   },
 );
 
-const isEmpty = (obj) => {
-  for (let key in obj) {
-    return false;
-  }
-  return true;
-};
-
 const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -56,34 +52,52 @@ const productsSlice = createSlice({
     getCurrentProduct(state, action) {
       state.currentProduct = action.payload;
     },
-    // getCurrentMainProducts(state, action) {
-    //   const stateHasChanged = state.currentMainProducts.length !== action.payload.length;
-    //   if (stateHasChanged) {
-    //     state.currentMainProducts = action.payload;
-    //     const total = action.payload.reduce((acc, item) => {
-    //       return acc + item.price;
-    //     }, 0);
-    //     state.totalPrice = state.totalPrice + total;
-    //   }
-    // },
+
     getCurrentBun(state, action) {
-      const empty = isEmpty(state.currentBun);
-      if (empty || state.currentBun._id !== action.payload._id) {
-        state.currentBun = action.payload;
-        if (action.payload) {
-          const total = action.payload.price * 2;
-          state.totalPrice = state.totalPrice + total;
-        }
+      if (state.currentBun.length === 0) {
+        state.currentBun.push(action.payload);
+        const total = action.payload.price * 2;
+        state.totalPrice = state.totalPrice + total;
+        const bun = state.currentBun.find((item) => item);
+        state.products.map((i) => {
+          if (i._id === bun._id) {
+            return { ...i, count: (i.count += 2) };
+          }
+          return { ...i };
+        });
       }
     },
-    addCurrentProduct(state, action) {
+    addProduct(state, action) {
       const product = state.products.find((item) => item._id === action.payload.id);
-      if (action.payload.type === 'bun' && product._id !== state.currentBun._id) {
-        state.totalPrice = state.totalPrice - state.currentBun.price * 2 + product.price * 2;
-        state.currentBun = product;
+
+      if (action.payload.type === 'bun') {
+        const sameBun = state.currentBun.filter((item) => {
+          return item._id === product._id;
+        });
+        const bun = state.currentBun.find((item) => item);
+        const currentBunPrice = bun.price;
+
+        if (sameBun.length === 0) {
+          state.totalPrice = state.totalPrice - currentBunPrice * 2 + product.price * 2;
+          state.currentBun.splice(0, 1, product);
+          state.products.map((i) => {
+            if (i._id === bun._id) {
+              return { ...i, count: (i.count -= 2) };
+            } else if (i._id === product._id) {
+              return { ...i, count: (i.count += 2) };
+            }
+            return { ...i };
+          });
+        }
       } else if (action.payload.type !== 'bun') {
         state.totalPrice = state.totalPrice + product.price;
         state.currentMainProducts.push(product);
+        state.products.map((i) => {
+          if (i._id === product._id) {
+            return { ...i, count: i.count++ };
+          }
+          return { ...i };
+        });
       }
     },
   },

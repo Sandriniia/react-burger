@@ -8,18 +8,13 @@ import { ingredientPropType } from '../../utils/types';
 import { popupActions } from '../../services/slices/popupSlice';
 import { productsActions } from '../../services/slices/productsSlice';
 
-const IngredientCard = ({ image, alt, price, name, product, id }) => {
+const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
   const dispatch = useDispatch();
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: { id, type: product.type },
-    collect: (monitor) => ({
-      isDrag: monitor.isDragging(),
-    }),
   });
-
-  // console.log(isDrag);
 
   const showIngredientsPopup = () => {
     dispatch(productsActions.getCurrentProduct(product));
@@ -32,7 +27,7 @@ const IngredientCard = ({ image, alt, price, name, product, id }) => {
       onClick={showIngredientsPopup}
       ref={dragRef}
     >
-      <Counter count={1} size='default' />
+      <Counter count={count} size='default' />
       <img src={image} alt={alt} className='mb-1' />
       <div className={`${ingredientCardStyles.price_box} mb-1`}>
         <p className='mr-2 text text_type_digits-default'>{price}</p>
