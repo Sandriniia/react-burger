@@ -19,6 +19,7 @@ const ConstructorList = () => {
   const products = useSelector((state) => state.products.products);
   const mainIngredients = useSelector((state) => state.products.currentMainProducts);
   const bunIngredient = useSelector((state) => state.products.currentBun);
+  console.log(mainIngredients);
 
   useEffect(() => {
     const bun = products.find((item) => {

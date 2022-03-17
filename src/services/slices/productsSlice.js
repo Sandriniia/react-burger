@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 
 const initialState = {
@@ -92,9 +92,11 @@ const productsSlice = createSlice({
       } else if (action.payload.type !== 'bun') {
         state.totalPrice = state.totalPrice + product.price;
         state.currentMainProducts.push(product);
+        const id = nanoid();
         state.products.map((i) => {
           if (i._id === product._id) {
-            return { ...i, count: i.count++ };
+            i._id = id;
+            return { count: i.count++, ...i };
           }
           return { ...i };
         });
@@ -115,6 +117,13 @@ const productsSlice = createSlice({
         }
         return { ...i };
       });
+    },
+    moveConstructorIngredient(state, action) {
+      state.currentMainProducts[action.payload.dragIndex] = state.currentMainProducts.splice(
+        action.payload.hoverIndex,
+        1,
+        state.currentMainProducts[action.payload.dragIndex],
+      )[0];
     },
   },
   extraReducers: {
