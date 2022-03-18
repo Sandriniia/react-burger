@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 
-const IngredientSection = ({ type, title }) => {
+const IngredientSection = forwardRef(({ type, title }, ref) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
   const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
   const [mainIngredientSection, setMainIngredientSection] = useState([]);
@@ -33,7 +33,7 @@ const IngredientSection = ({ type, title }) => {
 
   if (type === 'bun') {
     return (
-      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+      <section className={`${ingredientSectionStyles.section_container} pt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {bunIngredientSection.map((item) => {
@@ -57,7 +57,7 @@ const IngredientSection = ({ type, title }) => {
 
   if (type === 'sauce') {
     return (
-      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {sauceIngredientSection.map((item) => {
@@ -81,7 +81,7 @@ const IngredientSection = ({ type, title }) => {
 
   if (type === 'main') {
     return (
-      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`}>
+      <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
           {mainIngredientSection.map((item) => {
@@ -102,7 +102,7 @@ const IngredientSection = ({ type, title }) => {
       </section>
     );
   }
-};
+});
 
 IngredientSection.propTypes = {
   type: PropTypes.string.isRequired,
