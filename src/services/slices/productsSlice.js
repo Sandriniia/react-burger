@@ -94,8 +94,8 @@ const productsSlice = createSlice({
         state.currentMainProducts.push(product);
         const id = nanoid();
         state.products.map((i) => {
+          i.uid = id;
           if (i._id === product._id) {
-            i._id = id;
             return { count: i.count++, ...i };
           }
           return { ...i };

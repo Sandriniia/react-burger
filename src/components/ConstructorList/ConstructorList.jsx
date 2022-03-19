@@ -57,7 +57,7 @@ const ConstructorList = () => {
       <div className={constructorListStyle.middle_container}>
         {products &&
           mainIngredients.map((item, index) => {
-            return <ConstructorCard item={item} index={index} key={item._id} />;
+            return <ConstructorCard item={item} index={index} key={item.uid} />;
           })}
       </div>
       {products &&
