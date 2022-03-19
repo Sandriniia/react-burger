@@ -50,12 +50,12 @@ const App = () => {
         <Main />
       </DndProvider>
       {isPopupOrderDetailsOpen && (
-        <Modal className={orderDetailsStyles.order_popup}>
+        <Modal className={orderDetailsStyles.order_popup} onClose={handleClosePopup}>
           <OrderDetails />
         </Modal>
       )}
       {isPopupIngredientDetailsOpen && (
-        <Modal title='Детали ингредиента' className={ingredientDetailsStyle.details_popup}>
+        <Modal title='Детали ингредиента' className={ingredientDetailsStyle.details_popup} onClose={handleClosePopup}>
           <IngredientDetails />
         </Modal>
       )}

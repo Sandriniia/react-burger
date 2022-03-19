@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import modalOverlayStyles from './modalOverlay.module.css';
 
-const ModalOverlay = ({ handleClosePopupAndDeleteCurrentProduct }) => {
+const ModalOverlay = ({ onClose}) => {
   return (
     <div
       className={modalOverlayStyles.popup}
-      onClick={handleClosePopupAndDeleteCurrentProduct}
+      onClick={onClose}
     ></div>
   );
 };
 
-ModalOverlay.propStyles = {
-  handleClosePopupAndDeleteCurrentProduct: PropTypes.func.isRequired,
+ModalOverlay.propTypes = {
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ModalOverlay;
