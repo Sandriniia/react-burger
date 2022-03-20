@@ -41,6 +41,26 @@ export const getOrderNum = createAsyncThunk(
   },
 );
 
+const subtractCount = (products, productId, countNum) => {
+  products.map((i) => {
+    if (i._id === productId) {
+      i.count -= countNum;
+    }
+    return { ...i };
+  });
+};
+
+const addCount = (products, productId, countNum) => {
+  const id = nanoid();
+  products.map((i) => {
+    if (i._id === productId) {
+      i.uid = id;
+      i.count += countNum;
+    }
+    return { ...i };
+  });
+};
+
 const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -52,54 +72,29 @@ const productsSlice = createSlice({
     getCurrentProduct(state, action) {
       state.currentProduct = action.payload;
     },
-
-    getCurrentBun(state, action) {
-      if (state.currentBun.length === 0) {
-        state.currentBun.push(action.payload);
-        const total = action.payload.price * 2;
-        state.totalPrice = state.totalPrice + total;
-        const bun = state.currentBun.find((item) => item);
-        state.products.map((i) => {
-          if (i._id === bun._id) {
-            return { ...i, count: (i.count += 2) };
-          }
-          return { ...i };
-        });
-      }
-    },
     addProduct(state, action) {
       const product = state.products.find((item) => item._id === action.payload.id);
 
       if (action.payload.type === 'bun') {
-        const sameBun = state.currentBun.filter((item) => {
-          return item._id === product._id;
-        });
-        const bun = state.currentBun.find((item) => item);
-        const currentBunPrice = bun.price;
-
-        if (sameBun.length === 0) {
-          state.totalPrice = state.totalPrice - currentBunPrice * 2 + product.price * 2;
-          state.currentBun.splice(0, 1, product);
-          state.products.map((i) => {
-            if (i._id === bun._id) {
-              return { ...i, count: (i.count -= 2) };
-            } else if (i._id === product._id) {
-              return { ...i, count: (i.count += 2) };
-            }
-            return { ...i };
-          });
+        if (state.currentBun.length === 0) {
+          state.currentBun.push(product);
+          state.totalPrice = state.totalPrice + product.price * 2;
+          addCount(state.products, product._id, 2);
+        } else {
+          const bun = state.currentBun.find((item) => item);
+          const isSame = bun._id === product._id;
+          if (!isSame) {
+            state.totalPrice = state.totalPrice - bun.price * 2 + product.price * 2;
+            state.currentBun.splice(0, 1, product);
+            subtractCount(state.products, bun._id, 2);
+            addCount(state.products, product._id, 2);
+          }
         }
-      } else if (action.payload.type !== 'bun') {
+      }
+      if (action.payload.type !== 'bun') {
         state.totalPrice = state.totalPrice + product.price;
         state.currentMainProducts.push(product);
-        const id = nanoid();
-        state.products.map((i) => {
-          i.uid = id;
-          if (i._id === product._id) {
-            return { count: i.count++, ...i };
-          }
-          return { ...i };
-        });
+        addCount(state.products, product._id, 1);
       }
     },
     deleteProduct(state, action) {

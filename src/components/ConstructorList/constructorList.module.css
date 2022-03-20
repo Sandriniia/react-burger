@@ -1,3 +1,8 @@
+.main {
+  height: 672px;
+  width: 100%;
+}
+
 .element_container {
   max-width: 536px;
   display: flex;

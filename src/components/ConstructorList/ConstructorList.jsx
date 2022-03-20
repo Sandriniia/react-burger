@@ -21,14 +21,6 @@ const ConstructorList = () => {
   const bunIngredient = useSelector((state) => state.products.currentBun);
 
   useEffect(() => {
-    const bun = products.find((item) => {
-      return item.type === 'bun';
-    });
-
-    bun && dispatch(productsActions.getCurrentBun(bun));
-  }, [products, dispatch]);
-
-  useEffect(() => {
     mainIngredients.forEach((item) => {
       dispatch(productsActions.getIds(item._id));
     });
@@ -39,7 +31,12 @@ const ConstructorList = () => {
   }, [mainIngredients, bunIngredient, dispatch]);
 
   return (
-    <div ref={dropTarget}>
+    <div className={constructorListStyle.main} ref={dropTarget}>
+      {bunIngredient.length === 0 && mainIngredients.length === 0 && (
+        <h1 className='text text_type_main-medium'>
+          Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа.
+        </h1>
+      )}
       {products &&
         bunIngredient.map((item) => {
           return (
