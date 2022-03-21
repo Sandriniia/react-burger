@@ -31,18 +31,6 @@ const App = () => {
     dispatch(productsActions.getCurrentProduct());
   }, [dispatch]);
 
-  useEffect(() => {
-    const escClosePopup = (e) => {
-      if (e.key === 'Escape') {
-        handleClosePopup();
-      }
-    };
-
-    window.addEventListener('keydown', escClosePopup);
-
-    return () => window.removeEventListener('keydown', escClosePopup);
-  }, [handleClosePopup]);
-
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
