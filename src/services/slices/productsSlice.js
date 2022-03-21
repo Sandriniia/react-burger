@@ -6,7 +6,6 @@ const initialState = {
   ids: [],
   currentMainProducts: [],
   currentBun: [],
-  currentProductsHasChanged: false,
   currentProduct: {},
   orderNumber: null,
   totalPrice: 0,
@@ -119,6 +118,17 @@ const productsSlice = createSlice({
         1,
         state.currentMainProducts[action.payload.dragIndex],
       )[0];
+    },
+    cleanupIngredientsList(state) {
+      state.currentMainProducts = [];
+      state.currentBun = [];
+      state.totalPrice = 0;
+      state.ids = [];
+      state.orderNumber = null;
+      state.products.map((i) => {
+          i.count -= i.count;
+        return { ...i };
+      });
     },
   },
   extraReducers: {

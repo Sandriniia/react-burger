@@ -26,9 +26,14 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  const handleClosePopup = useCallback(() => {
+  const handleCloseIngredientDetailsPopup = useCallback(() => {
     dispatch(popupActions.closePopups());
     dispatch(productsActions.getCurrentProduct());
+  }, [dispatch]);
+
+  const handleCloseOrderDetailsPopup = useCallback(() => {
+    dispatch(productsActions.cleanupIngredientsList());
+    dispatch(popupActions.closePopups());
   }, [dispatch]);
 
   return (
@@ -38,12 +43,16 @@ const App = () => {
         <Main />
       </DndProvider>
       {isPopupOrderDetailsOpen && (
-        <Modal className={orderDetailsStyles.order_popup} onClose={handleClosePopup}>
+        <Modal className={orderDetailsStyles.order_popup} onClose={handleCloseOrderDetailsPopup}>
           <OrderDetails />
         </Modal>
       )}
       {isPopupIngredientDetailsOpen && (
-        <Modal title='Детали ингредиента' className={ingredientDetailsStyle.details_popup} onClose={handleClosePopup}>
+        <Modal
+          title='Детали ингредиента'
+          className={ingredientDetailsStyle.details_popup}
+          onClose={handleCloseIngredientDetailsPopup}
+        >
           <IngredientDetails />
         </Modal>
       )}
