@@ -85,7 +85,7 @@ const ConstructorCard = ({ item, index }) => {
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => dispatch(productsActions.deleteProduct({ id: item._id, index: index }))}
+        handleClose={() => dispatch(productsActions.deleteProduct({ item: item, index: index }))}
       />
     </div>
   );

@@ -64,17 +64,17 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    getIds(state, action) {
-      const isIdIncluded = state.ids.includes(action.payload);
-      !isIdIncluded && state.ids.push(action.payload);
+    getIds(state, { payload }) {
+      const isIdIncluded = state.ids.includes(payload);
+      !isIdIncluded && state.ids.push(payload);
     },
-    getCurrentProduct(state, action) {
-      state.currentProduct = action.payload;
+    getCurrentProduct(state, { payload }) {
+      state.currentProduct = payload;
     },
-    addProduct(state, action) {
-      const product = state.products.find((item) => item._id === action.payload.id);
+    addProduct(state, { payload }) {
+      const product = state.products.find((item) => item._id === payload.id);
 
-      if (action.payload.type === 'bun') {
+      if (payload.type === 'bun') {
         if (state.currentBun.length === 0) {
           state.currentBun.push(product);
           state.totalPrice = state.totalPrice + product.price * 2;
@@ -90,33 +90,33 @@ const productsSlice = createSlice({
           }
         }
       }
-      if (action.payload.type !== 'bun') {
+      if (payload.type !== 'bun') {
         state.totalPrice = state.totalPrice + product.price;
         state.currentMainProducts.push(product);
         addCount(state.products, product._id, 1);
       }
     },
-    deleteProduct(state, action) {
-      let price;
+    deleteProduct(state, { payload }) {
+      let ids = [];
       state.currentMainProducts = state.currentMainProducts.filter((i, index) => {
-        if (i._id === action.payload.id) {
-          price = i.price;
+        if (i._id === payload.item._id) {
+          ids.push(i._id);
         }
-        return index !== action.payload.index;
+        return index !== payload.index;
       });
-      state.totalPrice = state.totalPrice - price;
-      state.products.map((i) => {
-        if (i._id === action.payload.id) {
-          return { ...i, count: i.count-- };
-        }
-        return { ...i };
-      });
+      if (ids.length === 1) {
+        state.ids = state.ids.filter((i) => {
+          return i !== payload.item._id;
+        });
+      }
+      state.totalPrice = state.totalPrice - payload.item.price;
+      subtractCount(state.products, payload.item._id, 1);
     },
-    moveConstructorIngredient(state, action) {
-      state.currentMainProducts[action.payload.dragIndex] = state.currentMainProducts.splice(
-        action.payload.hoverIndex,
+    moveConstructorIngredient(state, { payload }) {
+      state.currentMainProducts[payload.dragIndex] = state.currentMainProducts.splice(
+        payload.hoverIndex,
         1,
-        state.currentMainProducts[action.payload.dragIndex],
+        state.currentMainProducts[payload.dragIndex],
       )[0];
     },
     cleanupIngredientsList(state) {
@@ -126,18 +126,18 @@ const productsSlice = createSlice({
       state.ids = [];
       state.orderNumber = null;
       state.products.map((i) => {
-          i.count -= i.count;
+        i.count -= i.count;
         return { ...i };
       });
     },
   },
   extraReducers: {
-    [getProducts.fulfilled]: (state, action) => {
-      state.products = action.payload;
+    [getProducts.fulfilled]: (state, { payload }) => {
+      state.products = payload;
     },
     [getProducts.rejected]: () => {},
-    [getOrderNum.fulfilled]: (state, action) => {
-      state.orderNumber = action.payload;
+    [getOrderNum.fulfilled]: (state, { payload }) => {
+      state.orderNumber = payload;
     },
     [getOrderNum.rejected]: () => {},
   },
