@@ -10,6 +10,7 @@ const OrderBurger = () => {
 
   const totalPrice = useSelector((state) => state.products.totalPrice);
   const productsId = useSelector((state) => state.products.ids);
+  const bunIngredient = useSelector((state) => state.products.currentBun);
 
   const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
     dispatch(getOrderNum(productsId));
@@ -22,7 +23,7 @@ const OrderBurger = () => {
         <p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
         <CurrencyIcon type='primary' />
       </div>
-      <Button type='primary' size='large' onClick={handleOpenOrderDetailsPopupAndGetOrderNumber}>
+      <Button type='primary' size='large' disabled={bunIngredient.length === 0} onClick={handleOpenOrderDetailsPopupAndGetOrderNumber}>
         Оформить заказ
       </Button>
     </section>
