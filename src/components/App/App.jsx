@@ -1,90 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useSelector, useDispatch } from 'react-redux';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import ProductsContext from '../../context/ProductsContext';
-import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 import Modal from '../Modal/Modal';
 import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
+import { getProducts } from '../../services/slices/productsSlice';
+import { productsActions } from '../../services/slices/productsSlice';
+import { popupActions } from '../../services/slices/popupSlice';
 
 const App = () => {
-  const [isPopupOrderDetailsOpen, setIsPopupOrderDetailsOpen] = useState(false);
-  const [isPopupIngredientDetailsOpen, setIsPopupIngredientDetailsOpen] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [productsId, setProductsId] = useState([]);
-  const [orderNumber, setOrderNumber] = useState(null);
+  const dispatch = useDispatch();
+
+  const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
+  const isPopupIngredientDetailsOpen = useSelector(
+    (state) => state.popup.isPopupIngredientDetailsOpen,
+  );
 
   useEffect(() => {
-    getIngredientsData()
-      .then((data) => {
-        setProducts(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    dispatch(getProducts());
+  }, [dispatch]);
 
-  useEffect(() => {
-    const escClosePopup = (e) => {
-      if (e.key === 'Escape') {
-        handleClosePopup();
-      }
-    };
+  const handleCloseIngredientDetailsPopup = useCallback(() => {
+    dispatch(popupActions.closePopups());
+    dispatch(productsActions.getCurrentProduct());
+  }, [dispatch]);
 
-    window.addEventListener('keydown', escClosePopup);
-
-    return () => window.removeEventListener('keydown', escClosePopup);
-  }, []);
-
-  const handleClosePopup = () => {
-    setOrderNumber(null);
-    setIsPopupOrderDetailsOpen(false);
-    setIsPopupIngredientDetailsOpen(false);
-  };
-
-  const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
-    getOrderNumber(productsId)
-      .then((data) => {
-        setOrderNumber(data.order.number);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setIsPopupOrderDetailsOpen(true);
-  };
-
-  const handleOpenIngredientDetailsPopup = (product) => {
-    setCurrentProduct(product);
-    setIsPopupIngredientDetailsOpen(true);
-  };
+  const handleCloseOrderDetailsPopup = useCallback(() => {
+    dispatch(productsActions.cleanupIngredientsList());
+    dispatch(popupActions.closePopups());
+  }, [dispatch]);
 
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <ProductsContext.Provider value={{ products, setProductsId }}>
-        <Main
-          handleOpenOrderDetailsPopupAndGetOrderNumber={
-            handleOpenOrderDetailsPopupAndGetOrderNumber
-          }
-          handleOpenIngredientDetailsPopup={handleOpenIngredientDetailsPopup}
-        />
-      </ProductsContext.Provider>
+      <DndProvider backend={HTML5Backend}>
+        <Main />
+      </DndProvider>
       {isPopupOrderDetailsOpen && (
-        <Modal handleClosePopup={handleClosePopup} className={orderDetailsStyles.order_popup}>
-          <OrderDetails orderNumber={orderNumber} />
+        <Modal className={orderDetailsStyles.order_popup} onClose={handleCloseOrderDetailsPopup}>
+          <OrderDetails />
         </Modal>
       )}
       {isPopupIngredientDetailsOpen && (
         <Modal
-          handleClosePopup={handleClosePopup}
           title='Детали ингредиента'
           className={ingredientDetailsStyle.details_popup}
+          onClose={handleCloseIngredientDetailsPopup}
         >
-          <IngredientDetails currentProduct={currentProduct} />
+          <IngredientDetails />
         </Modal>
       )}
     </div>

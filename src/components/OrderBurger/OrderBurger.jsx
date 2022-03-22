@@ -1,12 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import orderBurgerStyles from './orderBurger.module.css';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { priceStatePropType } from '../../utils/types';
+import { getOrderNum } from '../../services/slices/productsSlice';
+import { popupActions } from '../../services/slices/popupSlice';
 
-const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState }) => {
-  const { mainPrice, bunsPrice } = priceState;
-  const totalPrice = mainPrice + bunsPrice;
+const OrderBurger = () => {
+  const dispatch = useDispatch();
+
+  const totalPrice = useSelector((state) => state.products.totalPrice);
+  const productsId = useSelector((state) => state.products.ids);
+  const bunIngredient = useSelector((state) => state.products.currentBun);
+
+  const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
+    dispatch(getOrderNum(productsId));
+    dispatch(popupActions.openOrderDetailsPopup());
+  };
 
   return (
     <section className={orderBurgerStyles.order_container}>
@@ -14,16 +23,11 @@ const OrderBurger = ({ handleOpenOrderDetailsPopupAndGetOrderNumber, priceState 
         <p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
         <CurrencyIcon type='primary' />
       </div>
-      <Button type='primary' size='large' onClick={handleOpenOrderDetailsPopupAndGetOrderNumber}>
+      <Button type='primary' size='large' disabled={bunIngredient.length === 0} onClick={handleOpenOrderDetailsPopupAndGetOrderNumber}>
         Оформить заказ
       </Button>
     </section>
   );
-};
-
-OrderBurger.propTypes = {
-  handleOpenOrderDetailsPopupAndGetOrderNumber: PropTypes.func.isRequired,
-  priceState: priceStatePropType.isRequired,
 };
 
 export default OrderBurger;

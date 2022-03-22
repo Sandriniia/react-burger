@@ -1,85 +1,78 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import ProductsContext from '../../context/ProductsContext';
+import ConstructorCard from '../ConstructorCard/ConstructorCard';
+import { productsActions } from '../../services/slices/productsSlice';
 
-const ConstructorList = ({ dispatchPrice }) => {
-  const ingredientsContext = useContext(ProductsContext);
-  const products = ingredientsContext.products;
-  const setProductsId = ingredientsContext.setProductsId;
+const ConstructorList = () => {
+  const dispatch = useDispatch();
 
-  const [mainIngredients, setMainInIngredients] = useState([]);
-  const [bunIngredient, setBunIngredient] = useState(null);
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(productsActions.addProduct(item));
+    },
+  });
 
-  useEffect(() => {
-    const main = products.filter((item) => {
-      return item.type !== 'bun';
-    });
-
-    const bun = products.find((item) => {
-      return item.type === 'bun';
-    });
-
-    setMainInIngredients(main);
-    setBunIngredient(bun);
-  }, [products]);
+  const products = useSelector((state) => state.products.products);
+  const mainIngredients = useSelector((state) => state.products.currentMainProducts);
+  const bunIngredient = useSelector((state) => state.products.currentBun);
 
   useEffect(() => {
-    let total = 0;
-    let id = [];
     mainIngredients.forEach((item) => {
-      total += item.price;
-      id.push(item._id);
+      dispatch(productsActions.getIds(item._id));
     });
-    dispatchPrice({ type: 'sumMainPrice', val: total });
-    bunIngredient && dispatchPrice({ type: 'sumBunsPrice', val: bunIngredient.price * 2 });
-    bunIngredient && setProductsId([...id, bunIngredient._id]);
-  }, [mainIngredients, dispatchPrice, setProductsId, bunIngredient]);
+
+    bunIngredient.forEach((item) => {
+      dispatch(productsActions.getIds(item._id));
+    });
+  }, [mainIngredients, bunIngredient, dispatch]);
 
   return (
-    <>
-      {bunIngredient && (
-        <div className={`${constructorListStyle.element_container} mb-4`}>
-          <ConstructorElement
-            type='top'
-            isLocked={true}
-            text={`${bunIngredient.name} (верх)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />
-        </div>
+    <div className={constructorListStyle.main} ref={dropTarget}>
+      {bunIngredient.length === 0 && mainIngredients.length === 0 && (
+        <h1 className='text text_type_main-medium'>
+          Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа.
+        </h1>
       )}
+      {products &&
+        bunIngredient.map((item) => {
+          return (
+            <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
+              <ConstructorElement
+                type='top'
+                isLocked={true}
+                text={`${item.name} (верх)`}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
       <div className={constructorListStyle.middle_container}>
         {products &&
           mainIngredients.map((item, index) => {
-            return (
-              <div
-                className={`${constructorListStyle.element_container} mb-4`}
-                key={`${item._id}_${index}`}
-              >
-                <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-              </div>
-            );
+            return <ConstructorCard item={item} index={index} key={item.uid} />;
           })}
       </div>
-      {bunIngredient && (
-        <div className={`${constructorListStyle.element_container} mb-4`}>
-          <ConstructorElement
-            type='bottom'
-            isLocked={true}
-            text={`${bunIngredient.name} (низ)`}
-            price={bunIngredient.price}
-            thumbnail={bunIngredient.image}
-          />
-        </div>
-      )}
-    </>
+      {products &&
+        bunIngredient.map((item) => {
+          return (
+            <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
+              <ConstructorElement
+                type='bottom'
+                isLocked={true}
+                text={`${item.name} (низ)`}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
+    </div>
   );
-};
-
-ConstructorList.propTypes = {
-  dispatchPrice: PropTypes.func.isRequired,
 };
 
 export default ConstructorList;
