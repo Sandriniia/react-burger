@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +14,10 @@ import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.modul
 import { getProducts } from '../../services/slices/productsSlice';
 import { productsActions } from '../../services/slices/productsSlice';
 import { popupActions } from '../../services/slices/popupSlice';
+import Login from '../../pages/login/login';
+import Register from '../../pages/register/register';
+import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
+import ResetPassword from '../../pages/resetPassword/resetPassword';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,23 +44,44 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <Main />
-      </DndProvider>
-      {isPopupOrderDetailsOpen && (
-        <Modal className={orderDetailsStyles.order_popup} onClose={handleCloseOrderDetailsPopup}>
-          <OrderDetails />
-        </Modal>
-      )}
-      {isPopupIngredientDetailsOpen && (
-        <Modal
-          title='Детали ингредиента'
-          className={ingredientDetailsStyle.details_popup}
-          onClose={handleCloseIngredientDetailsPopup}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
+      <Router>
+        <Switch>
+          <Route path='/' exact={true}>
+            <DndProvider backend={HTML5Backend}>
+              <Main />
+            </DndProvider>
+            {isPopupOrderDetailsOpen && (
+              <Modal
+                className={orderDetailsStyles.order_popup}
+                onClose={handleCloseOrderDetailsPopup}
+              >
+                <OrderDetails />
+              </Modal>
+            )}
+            {isPopupIngredientDetailsOpen && (
+              <Modal
+                title='Детали ингредиента'
+                className={ingredientDetailsStyle.details_popup}
+                onClose={handleCloseIngredientDetailsPopup}
+              >
+                <IngredientDetails />
+              </Modal>
+            )}
+          </Route>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          <Route path='/register'>
+            <Register />
+          </Route>
+          <Route path='/forgot-password'>
+            <RecoverPassword />
+          </Route>
+          <Route path='/reset-password'>
+            <ResetPassword />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 };
