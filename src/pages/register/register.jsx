@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import registerStyles from './register.module.css';
-import { userActions } from '../../services/slices/userInfoSlice';
 import { registerUser } from '../../services/slices/userInfoSlice';
 
 const Register = () => {

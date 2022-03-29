@@ -21,4 +21,17 @@ const register = (email, password, name) => {
   }).then(getResponseData);
 };
 
-export { register };
+const login = (email, password) => {
+  return fetch(`${baseUrl}auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  }).then(getResponseData);
+}
+
+export { register, login };
