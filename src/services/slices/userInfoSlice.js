@@ -3,7 +3,6 @@ import { register, login, recoverPassword } from '../../utils/userAPI';
 
 const initialState = {
   email: '',
-  password: '',
   name: '',
 };
 
@@ -44,6 +43,19 @@ export const recoverUserPassword = createAsyncThunk(
     }
   },
 );
+
+export const resetUserPassword = createAsyncThunk(
+  'user/resetUserPassword',
+  async ({password, key}, { rejectWithValue }) => {
+    try {
+      const response = await recoverPassword(password, key);
+      console.log(response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+)
 
 const userInfoSlice = createSlice({
   name: 'user',
