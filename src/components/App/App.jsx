@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,6 +18,8 @@ import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
 import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
 import ResetPassword from '../../pages/resetPassword/resetPassword';
+import UserInfo from '../../pages/userInfo/userInfo';
+import NotFound from '../../pages/notFound/notFound';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -43,8 +45,8 @@ const App = () => {
 
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
-      <AppHeader />
       <Router>
+        <AppHeader />
         <Switch>
           <Route path='/' exact={true}>
             <DndProvider backend={HTML5Backend}>
@@ -79,6 +81,12 @@ const App = () => {
           </Route>
           <Route path='/reset-password'>
             <ResetPassword />
+          </Route>
+          <Route path='/profile'>
+            <UserInfo />
+          </Route>
+          <Route>
+            <NotFound />
           </Route>
         </Switch>
       </Router>

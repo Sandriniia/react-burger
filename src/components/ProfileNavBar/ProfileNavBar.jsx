@@ -11,7 +11,9 @@ const ProfileNavBar = () => {
       <NavLink activeClassName={profileNavBarStyles.active} to='/profile/orders'>
         История заказов
       </NavLink>
-      <NavLink activeClassName={profileNavBarStyles.active}>Выход</NavLink>
+      <NavLink activeClassName={profileNavBarStyles.active} to='/'>
+        Выход
+      </NavLink>
     </nav>
   );
 };

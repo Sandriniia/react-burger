@@ -1,11 +1,13 @@
 import React from 'react';
-import profileStyles from './profile.module.css'
-import ProfileNavBar from '../../components/ProfileNavBar/ProfileNavBar';
+import profileStyles from './profile.module.css';
 
 const Profile = () => {
+ 
   return (
     <section>
-      <ProfileNavBar />
+      <h1>Профиль</h1>
     </section>
-  )
-}
+  );
+};
+
+export default Profile;
