@@ -32,6 +32,18 @@ const login = (email, password) => {
       password: password,
     }),
   }).then(getResponseData);
-}
+};
 
-export { register, login };
+const recoverPassword = (email) => {
+  return fetch(`${baseUrl}password-reset`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: email,
+    }),
+  }).then(getResponseData);
+};
+
+export { register, login, recoverPassword };

@@ -11,26 +11,40 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const handleChangeEmail = (event) => {
-    setEmail(event.target.value)
-  }
+    setEmail(event.target.value);
+  };
 
   const handleChangePassword = (event) => {
-    setPassword(event.target.value)
-  }
+    setPassword(event.target.value);
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    dispatch(loginUser({email, password}))
-  }
+    dispatch(loginUser({ email, password }));
+  };
 
   return (
     <section>
       <h1>Login</h1>
       <form onSubmit={submitHandler}>
-        <input id="email" name="email" value={ email || ''} type="email" required onChange={handleChangeEmail}/>
-        <input id="password" name="password" value={ password || ''} type="password" required onChange={handleChangePassword}/>
-        <button type="submit">Войти</button>
+        <input
+          id='email'
+          name='email'
+          value={email || ''}
+          type='email'
+          required
+          onChange={handleChangeEmail}
+        />
+        <input
+          id='password'
+          name='password'
+          value={password || ''}
+          type='password'
+          required
+          onChange={handleChangePassword}
+        />
+        <button type='submit'>Войти</button>
       </form>
       <Link to='/register'>Зарегистрироваться</Link>
       <Link to='/forgot-password'>Восстановить пароль</Link>
