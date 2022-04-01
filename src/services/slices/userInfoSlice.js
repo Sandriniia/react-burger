@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, recoverPassword } from '../../utils/userAPI';
+import { register, login, recoverPassword, resetPassword, getUserData } from '../../utils/userAPI';
 
 const initialState = {
   email: '',
   name: '',
+  password: '',
+  isLogged: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -24,7 +26,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await login(email, password);
-      const data = await response.user;
+      const data = {response, password}
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -48,7 +50,19 @@ export const resetUserPassword = createAsyncThunk(
   'user/resetUserPassword',
   async ({password, key}, { rejectWithValue }) => {
     try {
-      const response = await recoverPassword(password, key);
+      const response = await resetPassword(password, key);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+)
+
+export const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await getUserData(token);
       console.log(response);
       return response;
     } catch (error) {
@@ -62,13 +76,13 @@ const userInfoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [registerUser.fulfilled]: (state, { payload }) => {
-      state.name = payload.name;
-      state.email = payload.email;
+    [loginUser.fulfilled]: (state, {payload}) => {
+      state.isLogged = payload.response.success;
+      state.password = payload.password;
     },
-    [loginUser.fulfilled]: (state, { payload }) => {
-      state.name = payload.name;
-      state.email = payload.email;
+    [getUserInfo.fulfilled]: (state, { payload }) => {
+      state.name = payload.user.name;
+      state.email = payload.user.email;
     },
   },
 });

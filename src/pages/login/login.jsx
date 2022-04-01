@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { loginUser } from '../../services/slices/userInfoSlice';
@@ -21,7 +21,14 @@ const Login = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password })).then((res) => {
+      const data = res.payload;
+      if (res.error) {
+        return;
+      } else {
+        localStorage.setItem('token', data.response.accessToken);
+      }
+    });
   };
 
   return (

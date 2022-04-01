@@ -33,6 +33,14 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token || token === '') {
+      return;
+    }
+    console.log(token);
+  },[])
+
   const handleCloseIngredientDetailsPopup = useCallback(() => {
     dispatch(popupActions.closePopups());
     dispatch(productsActions.getCurrentProduct());

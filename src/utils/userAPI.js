@@ -59,4 +59,13 @@ const resetPassword = (password, key) => {
   }).then(getResponseData);
 }
 
-export { register, login, recoverPassword, resetPassword };
+const getUserData = (token) => {
+  return fetch(`${baseUrl}auth/user`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  }).then(getResponseData);
+}
+
+export { register, login, recoverPassword, resetPassword, getUserData };
