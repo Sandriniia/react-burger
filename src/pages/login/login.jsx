@@ -21,14 +21,7 @@ const Login = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    dispatch(loginUser({ email, password })).then((res) => {
-      const data = res.payload;
-      if (res.error) {
-        return;
-      } else {
-        localStorage.setItem('token', data.response.accessToken);
-      }
-    });
+    dispatch(loginUser({ email, password }));
   };
 
   return (

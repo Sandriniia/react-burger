@@ -68,4 +68,19 @@ const getUserData = (token) => {
   }).then(getResponseData);
 }
 
-export { register, login, recoverPassword, resetPassword, getUserData };
+const changeUserData = (token, name, email, password) => {
+  return fetch(`${baseUrl}auth/user`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      password
+    }),
+  }).then(getResponseData);
+}
+
+export { register, login, recoverPassword, resetPassword, getUserData, changeUserData };

@@ -20,6 +20,7 @@ import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
 import ResetPassword from '../../pages/resetPassword/resetPassword';
 import UserInfo from '../../pages/userInfo/userInfo';
 import NotFound from '../../pages/notFound/notFound';
+import { getUserInfo } from '../../services/slices/userInfoSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,18 +29,24 @@ const App = () => {
   const isPopupIngredientDetailsOpen = useSelector(
     (state) => state.popup.isPopupIngredientDetailsOpen,
   );
+  const token = useSelector((state) => state.user.accessToken);
+  const isLogged = useSelector((state) => state.user.isLogged);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
   useEffect(() => {
+    localStorage.setItem('token', token);
+  }, [token]);
+
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token || token === '') {
       return;
     }
-    console.log(token);
-  },[])
+    dispatch(getUserInfo(token));
+  }, [dispatch, isLogged]);
 
   const handleCloseIngredientDetailsPopup = useCallback(() => {
     dispatch(popupActions.closePopups());

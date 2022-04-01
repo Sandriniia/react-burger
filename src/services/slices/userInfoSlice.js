@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, recoverPassword, resetPassword, getUserData } from '../../utils/userAPI';
+import { register, login, recoverPassword, resetPassword, getUserData, changeUserData } from '../../utils/userAPI';
 
 const initialState = {
   email: '',
   name: '',
   password: '',
+  accessToken: '',
   isLogged: false,
 };
 
@@ -71,12 +72,26 @@ export const getUserInfo = createAsyncThunk(
   },
 )
 
+export const changeUserInfo = createAsyncThunk(
+  'user/changeUserInfo',
+  async ({ token, name, email, password }, { rejectWithValue }) => {
+    try {
+      const response = await changeUserData(token, name, email, password);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+)
+
 const userInfoSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: {
-    [loginUser.fulfilled]: (state, {payload}) => {
+    [loginUser.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      state.accessToken = payload.response.accessToken;
       state.isLogged = payload.response.success;
       state.password = payload.password;
     },
