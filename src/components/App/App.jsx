@@ -20,7 +20,7 @@ import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
 import ResetPassword from '../../pages/resetPassword/resetPassword';
 import UserInfo from '../../pages/userInfo/userInfo';
 import NotFound from '../../pages/notFound/notFound';
-import { getUserInfo } from '../../services/slices/userInfoSlice';
+import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ const App = () => {
     (state) => state.popup.isPopupIngredientDetailsOpen,
   );
   const token = useSelector((state) => state.user.accessToken);
+  const refreshToken = useSelector((state) => state.user.refreshToken);
   const isLogged = useSelector((state) => state.user.isLogged);
 
   useEffect(() => {
@@ -38,15 +39,22 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('token', token);
-  }, [token]);
+    localStorage.setItem('refreshToken', refreshToken);
+  }, [token, refreshToken]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token || token === '') {
+
+    const refToken = localStorage.getItem('refreshToken');
+    if (!refToken || refToken === '') {
       return;
     }
+
+    if (!token || token === '') {
+      dispatch(refreshUserToken(refToken));
+    }
     dispatch(getUserInfo(token));
-  }, [dispatch, isLogged]);
+  }, [dispatch, isLogged, token]);
 
   const handleCloseIngredientDetailsPopup = useCallback(() => {
     dispatch(popupActions.closePopups());

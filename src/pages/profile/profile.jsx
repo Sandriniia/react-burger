@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import profileStyles from './profile.module.css';
 import { getUserInfo, changeUserInfo } from '../../services/slices/userInfoSlice';
+import { refreshUserToken } from '../../services/slices/userInfoSlice';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -28,14 +29,22 @@ const Profile = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const token = localStorage.getItem('token');
-    if (!token || token === '') {
+    const refToken = localStorage.getItem('refreshToken');
+    if (!refToken || refToken === '') {
       return;
     }
-    console.log(name);
-    dispatch(changeUserInfo({ token, name, email, password })).then((res) => {
-      res.payload.success && dispatch(getUserInfo(token));
-    });
+
+    const token = localStorage.getItem('token');
+    if (!token || token === '') {
+      dispatch(refreshUserToken(refToken)).then((res) => {
+        const token = res.payload.accessToken;
+        res.payload.success && dispatch(changeUserInfo({ token, name, email, password }));
+      });
+    }
+    token &&
+      dispatch(changeUserInfo({ token, name, email, password })).then((res) => {
+        res.payload.success && dispatch(getUserInfo(token));
+      });
   };
 
   return (

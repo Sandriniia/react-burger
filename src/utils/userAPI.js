@@ -83,4 +83,16 @@ const changeUserData = (token, name, email, password) => {
   }).then(getResponseData);
 }
 
-export { register, login, recoverPassword, resetPassword, getUserData, changeUserData };
+const refreshToken = (refToken) => {
+  return fetch(`${baseUrl}auth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "token": refToken
+    }),
+  }).then(getResponseData);
+}
+
+export { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken };

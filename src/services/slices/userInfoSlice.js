@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, recoverPassword, resetPassword, getUserData, changeUserData } from '../../utils/userAPI';
+import { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken } from '../../utils/userAPI';
 
 const initialState = {
   email: '',
   name: '',
   password: '',
   accessToken: '',
+  refreshToken: '',
   isLogged: false,
 };
 
@@ -64,7 +65,6 @@ export const getUserInfo = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const response = await getUserData(token);
-      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -84,20 +84,37 @@ export const changeUserInfo = createAsyncThunk(
   },
 )
 
+export const refreshUserToken = createAsyncThunk(
+  'user/refreshUserToken',
+  async (refToken, { rejectWithValue }) => {
+    try {
+      const response = await refreshToken(refToken);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+)
+
 const userInfoSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: {
     [loginUser.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.accessToken = payload.response.accessToken;
+      state.refreshToken = payload.response.refreshToken;
       state.isLogged = payload.response.success;
       state.password = payload.password;
     },
     [getUserInfo.fulfilled]: (state, { payload }) => {
       state.name = payload.user.name;
       state.email = payload.user.email;
+    },
+    [refreshUserToken.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
     },
   },
 });
