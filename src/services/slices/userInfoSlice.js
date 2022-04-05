@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken } from '../../utils/userAPI';
+import { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken, logout } from '../../utils/userAPI';
 
 const initialState = {
   email: '',
@@ -96,6 +96,18 @@ export const refreshUserToken = createAsyncThunk(
   },
 )
 
+export const logoutUser = createAsyncThunk(
+  'user/logoutUser',
+  async (refToken, { rejectWithValue }) => {
+    try {
+      const response = await logout(refToken);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+)
+
 const userInfoSlice = createSlice({
   name: 'user',
   initialState,
@@ -112,9 +124,13 @@ const userInfoSlice = createSlice({
       state.email = payload.user.email;
     },
     [refreshUserToken.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
+    },
+    [logoutUser.fulfilled]: (state) => {
+      state.accessToken = '';
+      state.refreshToken = '';
+      state.isLogged = false;
     },
   },
 });

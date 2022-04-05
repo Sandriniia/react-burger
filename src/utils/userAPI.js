@@ -95,4 +95,16 @@ const refreshToken = (refToken) => {
   }).then(getResponseData);
 }
 
-export { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken };
+const logout = (refToken) => {
+  return fetch(`${baseUrl}auth/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "token": refToken
+    }),
+  }).then(getResponseData);
+}
+
+export { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken, logout };
