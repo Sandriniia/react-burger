@@ -1,25 +1,50 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import orderDetailsStyles from './orderDetails.module.css';
-import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { nanoid } from '@reduxjs/toolkit';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import orderDetailsStyle from './orderDetails.module.css';
 
-const OrderDetails = () => {
+const OrderDetails = ({ orderNumber, date, title, products, price }) => {
+  const productsLength = products.length;
+  const difference = productsLength - 6;
 
-  const orderNumber = useSelector(state => state.products.orderNumber);
   return (
-    <>
-      <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
-        {orderNumber}
-      </h2>
-      <p className='mb-15 mt-8 text_type_main-medium'>идентификатор заказа</p>
-      <div className={orderDetailsStyles.gradient}>
-        <CheckMarkIcon type='primary' />
+    <div className={`${orderDetailsStyle.container} p-6`}>
+      <div className={`${orderDetailsStyle.time_number_box} pb-6`}>
+        <p className='text text_type_digits-default'>#{orderNumber}</p>
+        <p className='text text_type_main-default text_color_inactive'>{date}</p>
       </div>
-      <p className='mb-2 mt-15 text text_type_main-default'>Ваш заказ начали готовить</p>
-      <p className='text text_type_main-default text_color_inactive'>
-        Дождитесь готовности на орбитальной станции
-      </p>
-    </>
+      <h1 className='text text_type_main-medium pb-6'>{title}</h1>
+      <div className={orderDetailsStyle.img_price_box}>
+        <div className={orderDetailsStyle.images}>
+          {products.map((product, index) => {
+            let z = 10;
+            const id = nanoid();
+            return (
+              index <= 5 && (
+                <img
+                  key={id}
+                  style={{ zIndex: (z -= index) }}
+                  src={product}
+                  alt={title}
+                  className={`${orderDetailsStyle.image} ${
+                    productsLength > 6 && index === 5 && orderDetailsStyle.opacity
+                  }`}
+                />
+              )
+            );
+          })}
+          {difference > 0 && (
+            <p className={`${orderDetailsStyle.num} text text_type_digits-default`}>
+              +{difference}
+            </p>
+          )}
+        </div>
+        <div className={orderDetailsStyle.price_box}>
+          <p className='text text_type_digits-default mr-2'>{price}</p>
+          <CurrencyIcon type='primary' />
+        </div>
+      </div>
+    </div>
   );
 };
 

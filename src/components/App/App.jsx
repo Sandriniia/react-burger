@@ -6,10 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
-import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderDetailsPopup from '../OrderDetailsPopup/OrderDetailsPopup';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import orderDetailsStyles from '../OrderDetails/orderDetails.module.css';
+import orderDetailsPopupStyles from '../OrderDetailsPopup/orderDetailsPopup.module.css';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
 import { getProducts } from '../../services/slices/productsSlice';
 import { productsActions } from '../../services/slices/productsSlice';
@@ -20,6 +20,7 @@ import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
 import ResetPassword from '../../pages/resetPassword/resetPassword';
 import UserInfo from '../../pages/userInfo/userInfo';
 import NotFound from '../../pages/notFound/notFound';
+import OrderFeed from '../../pages/orderFeed/orderFeed';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
 
 const App = () => {
@@ -77,10 +78,10 @@ const App = () => {
             </DndProvider>
             {isPopupOrderDetailsOpen && (
               <Modal
-                className={orderDetailsStyles.order_popup}
+                className={orderDetailsPopupStyles.order_popup}
                 onClose={handleCloseOrderDetailsPopup}
               >
-                <OrderDetails />
+                <OrderDetailsPopup />
               </Modal>
             )}
             {isPopupIngredientDetailsOpen && (
@@ -107,6 +108,9 @@ const App = () => {
           </Route>
           <Route path='/profile'>
             <UserInfo />
+          </Route>
+          <Route path='/feed'>
+            <OrderFeed />
           </Route>
           <Route>
             <NotFound />
