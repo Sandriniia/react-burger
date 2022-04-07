@@ -31,7 +31,7 @@ const Register = () => {
   };
 
   return (
-    <section className={`${registerStyles.register}`}>
+    <section className={registerStyles.register}>
       <h1 className='text text_type_main-medium mb-6'>Регистрация</h1>
       <form className={`${registerStyles.form} mb-20`} onSubmit={submitHandler}>
         <Input
