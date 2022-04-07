@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import registerStyles from './register.module.css';
 import { registerUser } from '../../services/slices/userInfoSlice';
@@ -25,41 +26,47 @@ const Register = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const info = {email, password, name}
+    const info = { email, password, name };
     dispatch(registerUser(info));
   };
 
   return (
-    <section>
-      <h1>Регистрация</h1>
-      <form onSubmit={submitHandler}>
-        <input
-          id='name'
-          name='name'
-          type='text'
-          required
-          value={name || ''}
+    <section className={`${registerStyles.register}`}>
+      <h1 className='text text_type_main-medium mb-6'>Регистрация</h1>
+      <form className={`${registerStyles.form} mb-20`} onSubmit={submitHandler}>
+        <Input
+          type={'text'}
+          placeholder={'Имя'}
           onChange={handleChangeName}
+          value={name || ''}
+          name={'name'}
+          error={false}
+          errorText={'Ошибка'}
+          size={'default'}
         />
-        <input
-          id='email'
-          name='email'
-          type='email'
-          required
-          value={email || ''}
+        <Input
+          type={'email'}
+          placeholder={'E-mail'}
           onChange={handleEmailChange}
+          value={email || ''}
+          name={'email'}
+          error={false}
+          errorText={'Ошибка'}
+          size={'default'}
         />
-        <input
-          id='password'
-          name='password'
-          type='password'
-          required
-          value={password || ''}
-          onChange={handlePasswordChange}
-        />
-        <button type='submit'>Зарегистрироваться</button>
+        <PasswordInput onChange={handlePasswordChange} value={password || ''} name={'password'} />
+        <Button type='primary' size='medium'>
+          Зарегистрироваться
+        </Button>
       </form>
-      <Link to='/login'>Войти</Link>
+      <div className={registerStyles.text_box}>
+        <p className='text text_type_main-default text_color_inactive mr-2'>
+          Уже зарегистрированы?
+        </p>
+        <Link className={registerStyles.link} to='/login'>
+          Войти
+        </Link>
+      </div>
     </section>
   );
 };
