@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { loginUser } from '../../services/slices/userInfoSlice';
@@ -25,29 +26,32 @@ const Login = () => {
   };
 
   return (
-    <section>
-      <h1>Login</h1>
-      <form onSubmit={submitHandler}>
-        <input
-          id='email'
-          name='email'
-          value={email || ''}
-          type='email'
-          required
+    <section className={loginStyles.login}>
+      <h1 className='text text_type_main-medium mb-6'>Вход</h1>
+      <form className={`${loginStyles.form} mb-20`} onSubmit={submitHandler}>
+      <Input
+          type={'email'}
+          placeholder={'E-mail'}
           onChange={handleChangeEmail}
+          value={email || ''}
+          name={'email'}
+          error={false}
+          errorText={'Ошибка'}
+          size={'default'}
         />
-        <input
-          id='password'
-          name='password'
-          value={password || ''}
-          type='password'
-          required
-          onChange={handleChangePassword}
-        />
-        <button type='submit'>Войти</button>
+        <PasswordInput onChange={handleChangePassword} value={password || ''} name={'password'} />
+        <Button type='primary' size='medium'>
+          Войти
+        </Button>
       </form>
-      <Link to='/register'>Зарегистрироваться</Link>
-      <Link to='/forgot-password'>Восстановить пароль</Link>
+      <div className={`${loginStyles.text_box} mb-4`}>
+        <p className='text text_type_main-default text_color_inactive mr-2'>Вы — новый пользователь?</p>
+        <Link className={loginStyles.link} to='/register'>Зарегистрироваться</Link>
+      </div>
+      <div className={loginStyles.text_box}>
+        <p className='text text_type_main-default text_color_inactive mr-2'>Забыли пароль?</p>
+        <Link className={loginStyles.link} to='/forgot-password'>Восстановить пароль</Link>
+      </div>
     </section>
   );
 };
