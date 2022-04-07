@@ -8,7 +8,7 @@ const OrderDetails = ({ orderNumber, date, title, products, price }) => {
   const difference = productsLength - 6;
 
   return (
-    <div className={`${orderDetailsStyle.container} p-6`}>
+    <div className={`${orderDetailsStyle.container} p-6 mr-2`}>
       <div className={`${orderDetailsStyle.time_number_box} pb-6`}>
         <p className='text text_type_digits-default'>#{orderNumber}</p>
         <p className='text text_type_main-default text_color_inactive'>{date}</p>
