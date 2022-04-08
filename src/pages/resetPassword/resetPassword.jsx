@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import resetStyles from './resetPassword.module.css';
 import { resetUserPassword } from '../../services/slices/userInfoSlice';
@@ -24,28 +25,35 @@ const ResetPassword = () => {
   };
 
   return (
-    <section>
-      <h1>Восстановление пароля</h1>
-      <form onSubmit={submitHandler}>
-        <input
-          id='password'
-          name='password'
-          type='password'
-          required
-          value={password || ''}
+    <section className={resetStyles.reset}>
+      <h1 className='text text_type_main-medium mb-6'>Восстановление пароля</h1>
+      <form className={`${resetStyles.form} mb-20`} onSubmit={submitHandler}>
+        <PasswordInput
           onChange={changePasswordHandler}
+          placeholder={'Введите новый пароль'}
+          value={password || ''}
+          name={'password'}
         />
-        <input
-          id='key'
-          name='key'
-          type='text'
-          required
-          value={key || ''}
+        <Input
+          type={'text'}
+          placeholder={'Введите код из письма'}
           onChange={changeKeyHandler}
+          value={key || ''}
+          name={'key'}
+          error={false}
+          errorText={'Ошибка'}
+          size={'default'}
         />
-        <button type='submit'>Сохранить</button>
+        <Button type='primary' size='medium'>
+          Сохранить
+        </Button>
       </form>
-      <Link to='/login'>Войти</Link>
+      <div className={resetStyles.text_box}>
+        <p className='text text_type_main-default text_color_inactive mr-2'>Вспомнили пароль?</p>
+        <Link className={resetStyles.link} to='/login'>
+          Войти
+        </Link>
+      </div>
     </section>
   );
 };
