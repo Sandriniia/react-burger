@@ -1,5 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken, logout } from '../../utils/userAPI';
+import {
+  register,
+  login,
+  recoverPassword,
+  resetPassword,
+  getUserData,
+  changeUserData,
+  refreshToken,
+  logout,
+} from '../../utils/userAPI';
 
 const initialState = {
   email: '',
@@ -8,6 +17,8 @@ const initialState = {
   accessToken: '',
   refreshToken: '',
   isLogged: false,
+  error: '',
+  message: '',
 };
 
 export const registerUser = createAsyncThunk(
@@ -15,8 +26,7 @@ export const registerUser = createAsyncThunk(
   async ({ email, password, name }, { rejectWithValue }) => {
     try {
       const response = await register(email, password, name);
-      const data = await response.user;
-      return data;
+      return response;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -28,7 +38,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await login(email, password);
-      const data = {response, password}
+      const data = { response, password };
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -50,7 +60,7 @@ export const recoverUserPassword = createAsyncThunk(
 
 export const resetUserPassword = createAsyncThunk(
   'user/resetUserPassword',
-  async ({password, key}, { rejectWithValue }) => {
+  async ({ password, key }, { rejectWithValue }) => {
     try {
       const response = await resetPassword(password, key);
       return response;
@@ -58,7 +68,7 @@ export const resetUserPassword = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   },
-)
+);
 
 export const getUserInfo = createAsyncThunk(
   'user/getUserInfo',
@@ -70,7 +80,7 @@ export const getUserInfo = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   },
-)
+);
 
 export const changeUserInfo = createAsyncThunk(
   'user/changeUserInfo',
@@ -82,7 +92,7 @@ export const changeUserInfo = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   },
-)
+);
 
 export const refreshUserToken = createAsyncThunk(
   'user/refreshUserToken',
@@ -94,7 +104,7 @@ export const refreshUserToken = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   },
-)
+);
 
 export const logoutUser = createAsyncThunk(
   'user/logoutUser',
@@ -106,18 +116,44 @@ export const logoutUser = createAsyncThunk(
       return rejectWithValue(error.message);
     }
   },
-)
+);
 
 const userInfoSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: {
+    [registerUser.fulfilled]: (state) => {
+      state.error = '';
+      state.message = 'Регистрация прошла успешно! Пожалуйста, войдите.'
+    },
+    [registerUser.rejected]: (state) => {
+      state.message = '';
+      state.error = 'Во время регистрации произошла ошибка.';
+    },
     [loginUser.fulfilled]: (state, { payload }) => {
+      state.error = '';
       state.accessToken = payload.response.accessToken;
       state.refreshToken = payload.response.refreshToken;
       state.isLogged = payload.response.success;
       state.password = payload.password;
+    },
+    [loginUser.rejected]: (state) => {
+      state.error = 'Произошла ошибка! Пожалуйста, проверьте данные и попробуйте войти снова.';
+    },
+    [recoverUserPassword.fulfilled]: (state) => {
+      state.error = '';
+    },
+    [recoverUserPassword.rejected]: (state) => {
+      state.error = 'Произошла ошибка! Вы уверены что это зарегистрированный e-mail? Пожалуйста, попробуйте снова.';
+    },
+    [resetUserPassword.fulfilled]: (state) => {
+      state.error = '';
+      state.message = 'Восстановление пароля прошло успешно! Пожалуйста, войдите.';
+    },
+    [resetUserPassword.rejected]: (state) => {
+      state.message = '';
+      state.error = 'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
     },
     [getUserInfo.fulfilled]: (state, { payload }) => {
       state.name = payload.user.name;
@@ -137,3 +173,5 @@ const userInfoSlice = createSlice({
 
 export default userInfoSlice;
 export const userActions = userInfoSlice.actions;
+
+// testatonsa@riseup.net

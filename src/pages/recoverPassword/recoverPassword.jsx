@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import recoverStyles from './recoverPassword.module.css';
@@ -10,7 +10,10 @@ const RecoverPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const error = useSelector((state) => state.user.error);
+
   const [email, setEmail] = useState();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (event) => {
     setEmail(event.target.value);
@@ -18,6 +21,8 @@ const RecoverPassword = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setIsSubmitted(true);
+
     dispatch(recoverUserPassword(email)).then((res) => {
       res.payload.success && history.push('/reset-password');
     });
@@ -40,6 +45,9 @@ const RecoverPassword = () => {
         Восстановить
         </Button>
       </form>
+      {isSubmitted && error && (
+        <p className={`${recoverStyles.error} text text_type_main-default mb-3`}>{error}</p>
+      )}
       <div className={recoverStyles.text_box}>
         <p className='text text_type_main-default text_color_inactive mr-2'>Вспомнили пароль?</p>
         <Link className={recoverStyles.link} to='/login'>Войти</Link>

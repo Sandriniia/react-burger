@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import resetStyles from './resetPassword.module.css';
@@ -7,6 +7,10 @@ import { resetUserPassword } from '../../services/slices/userInfoSlice';
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const message = useSelector((state) => state.user.message);
+  const error = useSelector((state) => state.user.error);
 
   const [password, setPassword] = useState('');
   const [key, setKey] = useState('');
@@ -19,9 +23,17 @@ const ResetPassword = () => {
     setKey(event.target.value);
   };
 
+  const clearInputs = () => {
+    setPassword('');
+    setKey('');
+  }
+
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(resetUserPassword({ password, key }));
+    setIsSubmitted(true);
+    dispatch(resetUserPassword({ password, key })).then(
+      (res) => res.payload.success && clearInputs(),
+    );
   };
 
   return (
@@ -48,6 +60,12 @@ const ResetPassword = () => {
           Сохранить
         </Button>
       </form>
+      {isSubmitted && error && (
+        <p className={`${resetStyles.error} text text_type_main-default mb-3`}>{error}</p>
+      )}
+      {isSubmitted && message && (
+        <p className={`${resetStyles.message} text text_type_main-default mb-3`}>{message}</p>
+      )}
       <div className={resetStyles.text_box}>
         <p className='text text_type_main-default text_color_inactive mr-2'>Вспомнили пароль?</p>
         <Link className={resetStyles.link} to='/login'>

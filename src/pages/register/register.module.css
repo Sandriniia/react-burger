@@ -23,3 +23,11 @@
   text-decoration: none;
   color: #4c4cff;
 }
+
+.error {
+  color: #dc143c;
+}
+
+.message {
+  color: #00ff7f;
+}

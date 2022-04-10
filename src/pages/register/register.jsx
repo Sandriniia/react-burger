@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import registerStyles from './register.module.css';
@@ -8,9 +8,13 @@ import { registerUser } from '../../services/slices/userInfoSlice';
 const Register = () => {
   const dispatch = useDispatch();
 
+  const error = useSelector((state) => state.user.error);
+  const message = useSelector((state) => state.user.message);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -24,10 +28,19 @@ const Register = () => {
     setPassword(event.target.value);
   };
 
+  const clearInputs = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-    const info = { email, password, name };
-    dispatch(registerUser(info));
+    setIsSubmitted(true);
+
+    dispatch(registerUser({ email, password, name })).then(
+      (res) => res.payload.success && clearInputs(),
+    );
   };
 
   return (
@@ -59,6 +72,12 @@ const Register = () => {
           Зарегистрироваться
         </Button>
       </form>
+      {isSubmitted && error && (
+        <p className={`${registerStyles.error} text text_type_main-default mb-3`}>{error}</p>
+      )}
+      {isSubmitted && message && (
+        <p className={`${registerStyles.message} text text_type_main-default mb-3`}>{message}</p>
+      )}
       <div className={registerStyles.text_box}>
         <p className='text text_type_main-default text_color_inactive mr-2'>
           Уже зарегистрированы?
