@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import profileStyles from './profile.module.css';
@@ -35,10 +35,8 @@ const Profile = () => {
     ref.current.focus();
   };
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-
-    const refToken = localStorage.getItem('refreshToken');
+  const submitHandler = useCallback(() => {
+   const refToken = localStorage.getItem('refreshToken');
     if (!refToken || refToken === '') {
       return;
     }
@@ -54,7 +52,19 @@ const Profile = () => {
       dispatch(changeUserInfo({ token, name, email, password })).then((res) => {
         res.payload.success && dispatch(getUserInfo(token));
       });
-  };
+  }, [dispatch, email, name, password]);
+
+  useEffect(() => {
+    const onKeyDown = e => {
+        if(e.keyCode === 13) {
+          submitHandler();
+        }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+        document.removeEventListener('keydown', onKeyDown);
+    };
+}, [submitHandler]);
 
   return (
     <section className={profileStyles.profile}>
