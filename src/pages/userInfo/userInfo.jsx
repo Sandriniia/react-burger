@@ -7,7 +7,7 @@ import Orders from '../orders/orders';
 
 const UserInfo = () => {
   return (
-    <>
+    <section className={`${userInfoStyles.user_info} pl-5`}>
       <ProfileNavBar />
       <Route path='/profile' exact={true}>
         <Profile />
@@ -15,7 +15,7 @@ const UserInfo = () => {
       <Route path='/profile/orders'>
         <Orders />
       </Route>
-    </>
+    </section>
   );
 };
 
