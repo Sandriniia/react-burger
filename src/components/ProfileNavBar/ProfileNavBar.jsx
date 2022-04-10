@@ -13,17 +13,33 @@ const ProfileNavBar = () => {
       return;
     }
     dispatch(logoutUser(refToken));
-  }
+  };
 
   return (
-    <nav>
-      <NavLink activeClassName={profileNavBarStyles.active} to='/profile'>
+    <nav className={profileNavBarStyles.nav}>
+      <NavLink
+        className={`${profileNavBarStyles.nav_item} text text_type_main-medium text_color_inactive pt-2 pb-2`}
+        activeClassName={profileNavBarStyles.active}
+        exact
+        to='/profile'
+      >
         Профиль
       </NavLink>
-      <NavLink activeClassName={profileNavBarStyles.active} to='/profile/orders'>
+      <NavLink
+        className={`${profileNavBarStyles.nav_item} text text_type_main-medium text_color_inactive pt-2 pb-2`}
+        activeClassName={profileNavBarStyles.active}
+        exact
+        to='/profile/orders'
+      >
         История заказов
       </NavLink>
-      <NavLink onClick={logoutHandler} activeClassName={profileNavBarStyles.active} to='/'>
+      <NavLink
+        className={`${profileNavBarStyles.nav_item} text text_type_main-medium text_color_inactive pt-2 pb-2`}
+        onClick={logoutHandler}
+        activeClassName={profileNavBarStyles.active}
+        exact
+        to='/'
+      >
         Выход
       </NavLink>
     </nav>
