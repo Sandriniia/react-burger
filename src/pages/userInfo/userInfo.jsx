@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import userInfoStyles from './userInfo.module.css';
 import ProfileNavBar from '../../components/ProfileNavBar/ProfileNavBar';
 import Profile from '../profile/profile';
-import Orders from '../orders/orders';
+import OrdersHistory from '../ordersHistory/ordersHistory';
 
 const UserInfo = () => {
   return (
@@ -13,7 +13,7 @@ const UserInfo = () => {
         <Profile />
       </Route>
       <Route path='/profile/orders'>
-        <Orders />
+        <OrdersHistory />
       </Route>
     </section>
   );

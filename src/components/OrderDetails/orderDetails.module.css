@@ -1,5 +1,6 @@
 .container {
-  width: 584px;
+  box-sizing: border-box;
+  width: 100%;
   border-radius: 40px;
   background-color: #1c1c21;
   display: flex;

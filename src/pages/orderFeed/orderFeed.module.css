@@ -11,6 +11,7 @@
 }
 
 .orders_info {
+  width: 584px;
   display: flex;
   flex-direction: column;
   gap: 16px;
