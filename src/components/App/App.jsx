@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import React, { useEffect, useCallback, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,40 +22,68 @@ import UserInfo from '../../pages/userInfo/userInfo';
 import NotFound from '../../pages/notFound/notFound';
 import OrderFeed from '../../pages/orderFeed/orderFeed';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
+import { ProtectedNotAuthRoute, ProtectedAuthRoute } from '../ProtectedRoute';
 
 const App = () => {
   const dispatch = useDispatch();
+
+  const [isLog, setIsLog] = useState(false);
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
   const isPopupIngredientDetailsOpen = useSelector(
     (state) => state.popup.isPopupIngredientDetailsOpen,
   );
-  const token = useSelector((state) => state.user.accessToken);
-  const refreshToken = useSelector((state) => state.user.refreshToken);
+  const accessToken = useSelector((state) => state.user.accessToken);
   const isLogged = useSelector((state) => state.user.isLogged);
+  console.log(isLog);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
   useEffect(() => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshToken);
-  }, [token, refreshToken]);
+    isLogged && localStorage.setItem('isLogged', true);
+  }, [isLogged])
+  
+  useEffect(() => {
+    const log = localStorage.getItem('isLogged');
+    setIsLog(log);
+  },[isLogged])
+
+  // useEffect(() => {
+  //   localStorage.setItem('token', token);
+  //   localStorage.setItem('refreshToken', refreshToken);
+  // }, [token, refreshToken]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token || !token === '') {
+  //     setIsLogged(true);
+  //   }
+  // }, [token]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log('1');
 
     const refToken = localStorage.getItem('refreshToken');
     if (!refToken || refToken === '') {
       return;
     }
+    console.log('2');
 
     if (!token || token === '') {
       dispatch(refreshUserToken(refToken));
     }
-    dispatch(getUserInfo(token));
-  }, [dispatch, isLogged, token]);
+    console.log(refToken);
+    dispatch(getUserInfo(token)).then(
+      (res) => res.payload === 'Ошибка 403' && dispatch(refreshUserToken(refToken)),
+    );
+  }, [dispatch, isLogged, accessToken]);
+
+  
+//   const refToken = localStorage.getItem('refreshToken');
+//  setTimeout(dispatch(refreshUserToken(refToken)), 5000);
 
   const handleCloseIngredientDetailsPopup = useCallback(() => {
     dispatch(popupActions.closePopups());
@@ -94,24 +122,20 @@ const App = () => {
               </Modal>
             )}
           </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/register'>
-            <Register />
-          </Route>
-          <Route path='/forgot-password'>
-            <RecoverPassword />
-          </Route>
-          <Route path='/reset-password'>
-            <ResetPassword />
-          </Route>
-          <Route path='/profile'>
-            <UserInfo />
-          </Route>
-          <Route path='/feed'>
-            <OrderFeed />
-          </Route>
+          <ProtectedAuthRoute path='/login' component={Login} isLogged={isLog} />
+          <ProtectedAuthRoute path='/register' component={Register} isLogged={isLog} />
+          <ProtectedAuthRoute
+            path='/forgot-password'
+            component={RecoverPassword}
+            isLogged={isLog}
+          />
+          <ProtectedAuthRoute
+            path='/reset-password'
+            component={ResetPassword}
+            isLogged={isLog}
+          />
+          <ProtectedNotAuthRoute path='/profile' component={UserInfo} isLogged={isLog} />
+          <ProtectedNotAuthRoute path='/feed' component={OrderFeed} isLogged={isLog} />
           <Route>
             <NotFound />
           </Route>

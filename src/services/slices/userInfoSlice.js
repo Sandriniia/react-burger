@@ -13,7 +13,6 @@ import {
 const initialState = {
   email: '',
   name: '',
-  password: '',
   accessToken: '',
   refreshToken: '',
   isLogged: false,
@@ -136,7 +135,6 @@ const userInfoSlice = createSlice({
       state.accessToken = payload.response.accessToken;
       state.refreshToken = payload.response.refreshToken;
       state.isLogged = payload.response.success;
-      state.password = payload.password;
     },
     [loginUser.rejected]: (state) => {
       state.error = 'Произошла ошибка! Пожалуйста, проверьте данные и попробуйте войти снова.';
@@ -167,6 +165,8 @@ const userInfoSlice = createSlice({
       state.accessToken = '';
       state.refreshToken = '';
       state.isLogged = false;
+      state.name = '';
+      state.email = '';
     },
   },
 });

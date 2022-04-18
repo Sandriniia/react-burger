@@ -54,10 +54,10 @@ const resetPassword = (password, key) => {
     },
     body: JSON.stringify({
       password: password,
-      token: key
+      token: key,
     }),
   }).then(getResponseData);
-}
+};
 
 const getUserData = (token) => {
   return fetch(`${baseUrl}auth/user`, {
@@ -66,7 +66,7 @@ const getUserData = (token) => {
       Authorization: token,
     },
   }).then(getResponseData);
-}
+};
 
 const changeUserData = (token, name, email, password) => {
   return fetch(`${baseUrl}auth/user`, {
@@ -78,10 +78,10 @@ const changeUserData = (token, name, email, password) => {
     body: JSON.stringify({
       name,
       email,
-      password
+      password,
     }),
   }).then(getResponseData);
-}
+};
 
 const refreshToken = (refToken) => {
   return fetch(`${baseUrl}auth/token`, {
@@ -90,10 +90,10 @@ const refreshToken = (refToken) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "token": refToken
+      token: refToken,
     }),
   }).then(getResponseData);
-}
+};
 
 const logout = (refToken) => {
   return fetch(`${baseUrl}auth/logout`, {
@@ -102,9 +102,18 @@ const logout = (refToken) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "token": refToken
+      token: refToken,
     }),
   }).then(getResponseData);
-}
+};
 
-export { register, login, recoverPassword, resetPassword, getUserData, changeUserData, refreshToken, logout };
+export {
+  register,
+  login,
+  recoverPassword,
+  resetPassword,
+  getUserData,
+  changeUserData,
+  refreshToken,
+  logout,
+};

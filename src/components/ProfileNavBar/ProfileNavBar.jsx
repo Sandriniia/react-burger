@@ -13,6 +13,7 @@ const ProfileNavBar = () => {
       return;
     }
     dispatch(logoutUser(refToken));
+    localStorage.clear();
   };
 
   return (

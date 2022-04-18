@@ -14,11 +14,10 @@ const Profile = () => {
 
   const userName = useSelector((state) => state.user.name);
   const userEmail = useSelector((state) => state.user.email);
-  const userPassword = useSelector((state) => state.user.password);
 
   const [name, setName] = useState(userName);
   const [email, setEmail] = useState(userEmail);
-  const [password, setPassword] = useState(userPassword);
+  const [password, setPassword] = useState('');
 
   const changeNameHandler = (event) => {
     setName(event.target.value);

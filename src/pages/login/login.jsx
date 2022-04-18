@@ -29,7 +29,14 @@ const Login = () => {
     setIsSubmitted(true);
 
     dispatch(loginUser({ email, password })).then(
-      (res) => res.payload.response?.success && history.replace('/'),
+      (res) => {
+        console.log(res);
+        if (res.payload.response?.success) {
+          localStorage.setItem('token', res.payload.response.accessToken);
+          localStorage.setItem('refreshToken', res.payload.response.refreshToken);
+          history.replace('/')
+        }
+      },
     );
   };
 
