@@ -30,7 +30,6 @@ const Login = () => {
 
     dispatch(loginUser({ email, password })).then(
       (res) => {
-        console.log(res);
         if (res.payload.response?.success) {
           localStorage.setItem('token', res.payload.response.accessToken);
           localStorage.setItem('refreshToken', res.payload.response.refreshToken);

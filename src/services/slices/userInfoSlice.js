@@ -135,6 +135,7 @@ const userInfoSlice = createSlice({
       state.accessToken = payload.response.accessToken;
       state.refreshToken = payload.response.refreshToken;
       state.isLogged = payload.response.success;
+      localStorage.setItem('isLogged', true);
     },
     [loginUser.rejected]: (state) => {
       state.error = 'Произошла ошибка! Пожалуйста, проверьте данные и попробуйте войти снова.';
@@ -167,6 +168,7 @@ const userInfoSlice = createSlice({
       state.isLogged = false;
       state.name = '';
       state.email = '';
+      localStorage.clear();
     },
   },
 });
