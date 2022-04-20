@@ -15,7 +15,7 @@ const initialState = {
   name: '',
   accessToken: '',
   refreshToken: '',
-  isLogged: false,
+  isLogged: localStorage.getItem('isLogged'),
   error: '',
   message: '',
 };
@@ -124,7 +124,7 @@ const userInfoSlice = createSlice({
   extraReducers: {
     [registerUser.fulfilled]: (state) => {
       state.error = '';
-      state.message = 'Регистрация прошла успешно! Пожалуйста, войдите.'
+      state.message = 'Регистрация прошла успешно! Пожалуйста, войдите.';
     },
     [registerUser.rejected]: (state) => {
       state.message = '';
@@ -132,10 +132,10 @@ const userInfoSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       state.error = '';
-      state.accessToken = payload.response.accessToken;
-      state.refreshToken = payload.response.refreshToken;
-      state.isLogged = payload.response.success;
+      localStorage.setItem('token', payload.response.accessToken);
+      localStorage.setItem('refreshToken', payload.response.refreshToken);
       localStorage.setItem('isLogged', true);
+      state.isLogged = localStorage.getItem('isLogged');
     },
     [loginUser.rejected]: (state) => {
       state.error = 'Произошла ошибка! Пожалуйста, проверьте данные и попробуйте войти снова.';
@@ -144,7 +144,8 @@ const userInfoSlice = createSlice({
       state.error = '';
     },
     [recoverUserPassword.rejected]: (state) => {
-      state.error = 'Произошла ошибка! Вы уверены что это зарегистрированный e-mail? Пожалуйста, попробуйте снова.';
+      state.error =
+        'Произошла ошибка! Вы уверены что это зарегистрированный e-mail? Пожалуйста, попробуйте снова.';
     },
     [resetUserPassword.fulfilled]: (state) => {
       state.error = '';
@@ -152,7 +153,8 @@ const userInfoSlice = createSlice({
     },
     [resetUserPassword.rejected]: (state) => {
       state.message = '';
-      state.error = 'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
+      state.error =
+        'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
     },
     [getUserInfo.fulfilled]: (state, { payload }) => {
       state.name = payload.user.name;
@@ -163,12 +165,12 @@ const userInfoSlice = createSlice({
       state.refreshToken = payload.refreshToken;
     },
     [logoutUser.fulfilled]: (state) => {
+      localStorage.clear();
       state.accessToken = '';
       state.refreshToken = '';
-      state.isLogged = false;
       state.name = '';
       state.email = '';
-      localStorage.clear();
+      state.isLogged = localStorage.getItem('isLogged');
     },
   },
 });

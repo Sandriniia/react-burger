@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
-import { loginUser } from '../../services/slices/userInfoSlice';
+import { loginUser, getUserInfo } from '../../services/slices/userInfoSlice';
 
 const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const error = useSelector((state) => state.user.error);
+  const isLogged = useSelector((state) => state.user.isLogged);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,16 +31,18 @@ const Login = () => {
     event.preventDefault();
     setIsSubmitted(true);
 
-    dispatch(loginUser({ email, password })).then(
-      (res) => {
-        if (res.payload.response?.success) {
-          localStorage.setItem('token', res.payload.response.accessToken);
-          localStorage.setItem('refreshToken', res.payload.response.refreshToken);
-          history.replace('/')
-        }
-      },
-    );
+    dispatch(loginUser({ email, password }))
+      .then((res) => {
+        return (
+          res.payload.response.success && dispatch(getUserInfo(res.payload.response.accessToken))
+        );
+      })
+      .then((res) => res.payload.success && history.replace(location?.state?.from || '/'));
   };
+
+  if (isLogged) {
+    return <Redirect to={location?.state?.from || '/'} />;
+  }
 
   return (
     <section className={loginStyles.login}>

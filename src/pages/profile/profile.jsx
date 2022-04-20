@@ -19,6 +19,11 @@ const Profile = () => {
   const [email, setEmail] = useState(userEmail);
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    setName(userName);
+    setEmail(userEmail)
+  },[userName, userEmail])
+
   const changeNameHandler = (event) => {
     setName(event.target.value);
   };
