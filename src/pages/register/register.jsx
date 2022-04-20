@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, Redirect } from 'react-router-dom';
 import registerStyles from './register.module.css';
 import { registerUser } from '../../services/slices/userInfoSlice';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const error = useSelector((state) => state.user.error);
   const message = useSelector((state) => state.user.message);
+  const isLogged = useSelector((state) => state.user.isLogged);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,6 +44,10 @@ const Register = () => {
       (res) => res.payload.success && clearInputs(),
     );
   };
+
+  if (isLogged) {
+    return <Redirect to={location?.state?.from || '/'} />;
+  }
 
   return (
     <section className={registerStyles.register}>

@@ -18,6 +18,7 @@ const initialState = {
   isLogged: localStorage.getItem('isLogged'),
   error: '',
   message: '',
+  isForgotPassReqSuccess: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -142,6 +143,7 @@ const userInfoSlice = createSlice({
     },
     [recoverUserPassword.fulfilled]: (state) => {
       state.error = '';
+      state.isForgotPassReqSuccess = true;
     },
     [recoverUserPassword.rejected]: (state) => {
       state.error =
