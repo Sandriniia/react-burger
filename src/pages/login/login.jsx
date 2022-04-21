@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useLocation, useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { loginUser, getUserInfo } from '../../services/slices/userInfoSlice';
 

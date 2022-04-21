@@ -1,14 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
 
 const IngredientDetails = () => {
-
   const { id } = useParams();
 
   const products = useSelector((state) => state.products.products);
-  
   const currentProduct = products.find((product) => product._id === id);
 
   return (

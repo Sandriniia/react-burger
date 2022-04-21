@@ -4,6 +4,7 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import profileStyles from './profile.module.css';
 import { getUserInfo, changeUserInfo } from '../../services/slices/userInfoSlice';
 import { refreshUserToken } from '../../services/slices/userInfoSlice';
+import { getRefreshToken, getToken } from '../../utils/functions';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -40,18 +41,14 @@ const Profile = () => {
   };
 
   const submitHandler = useCallback(() => {
-   const refToken = localStorage.getItem('refreshToken');
-    if (!refToken || refToken === '') {
-      return;
-    }
+    const refToken = getRefreshToken();
+    const token = getToken();
 
-    const token = localStorage.getItem('token');
-    if (!token || token === '') {
-      dispatch(refreshUserToken(refToken)).then((res) => {
+    refToken && !token && dispatch(refreshUserToken(refToken)).then((res) => {
         const token = res.payload.accessToken;
         res.payload.success && dispatch(changeUserInfo({ token, name, email, password }));
       });
-    }
+
     token &&
       dispatch(changeUserInfo({ token, name, email, password })).then((res) => {
         res.payload.success && dispatch(getUserInfo(token));

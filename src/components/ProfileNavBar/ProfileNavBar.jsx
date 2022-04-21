@@ -3,16 +3,14 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import profileNavBarStyles from './profileNavBar.module.css';
 import { logoutUser } from '../../services/slices/userInfoSlice';
+import { getRefreshToken } from '../../utils/functions';
 
 const ProfileNavBar = () => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    const refToken = localStorage.getItem('refreshToken');
-    if (!refToken || refToken === '') {
-      return;
-    }
-    dispatch(logoutUser(refToken));
+    const refToken = getRefreshToken();
+    refToken && dispatch(logoutUser(refToken));
   };
 
   return (

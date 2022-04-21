@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';

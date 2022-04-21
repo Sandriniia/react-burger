@@ -5,6 +5,7 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 
 const OrderDetailsPopup = () => {
   const orderNumber = useSelector((state) => state.products.orderNumber);
+  
   return (
     <>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>
