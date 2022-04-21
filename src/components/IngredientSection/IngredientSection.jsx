@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
+import { filterProductsByType } from '../../utils/functions';
 
 const IngredientSection = forwardRef(({ type, title }, ref) => {
   const [bunIngredientSection, setBunIngredientSection] = useState([]);
@@ -12,22 +13,12 @@ const IngredientSection = forwardRef(({ type, title }, ref) => {
   const products = useSelector((state) => state.products.products);
 
   useEffect(() => {
-    const bunData = products.filter((item) => {
-      return item.type === 'bun';
-    });
-
-    const sauceData = products.filter((item) => {
-      return item.type === 'sauce';
-    });
-
-    const mainData = products.filter((item) => {
-      return item.type === 'main';
-    });
+    const bunData = filterProductsByType(products, 'bun');
+    const sauceData = filterProductsByType(products, 'sauce');
+    const mainData = filterProductsByType(products, 'main');
 
     setBunIngredientSection(bunData);
-
     setSauceIngredientSection(sauceData);
-
     setMainIngredientSection(mainData);
   }, [products]);
 

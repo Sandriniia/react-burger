@@ -16,4 +16,11 @@ const getToken = () => {
   return token;
 };
 
-export { getRefreshToken, getToken };
+const filterProductsByType = (products, type) => {
+  const ingredients = products.filter((item) => {
+    return item.type === type;
+  });
+  return ingredients;
+};
+
+export { getRefreshToken, getToken, filterProductsByType };
