@@ -6,24 +6,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
-import OrderDetailsPopup from '../OrderDetailsPopup/OrderDetailsPopup';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import Modal from '../Modal/Modal';
-import orderDetailsPopupStyles from '../OrderDetailsPopup/orderDetailsPopup.module.css';
-import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
-import { getProducts } from '../../services/slices/productsSlice';
-import { productsActions } from '../../services/slices/productsSlice';
-import { popupActions } from '../../services/slices/popupSlice';
 import Login from '../../pages/login/login';
 import Register from '../../pages/register/register';
 import RecoverPassword from '../../pages/recoverPassword/recoverPassword';
 import ResetPassword from '../../pages/resetPassword/resetPassword';
-import UserInfo from '../../pages/userInfo/userInfo';
-import NotFound from '../../pages/notFound/notFound';
-import OrderFeed from '../../pages/orderFeed/orderFeed';
 import Ingredient from '../../pages/ingredient/ingredient';
+import UserInfo from '../../pages/userInfo/userInfo';
+import OrderFeed from '../../pages/orderFeed/orderFeed';
+import NotFound from '../../pages/notFound/notFound';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import OrderDetailsPopup from '../OrderDetailsPopup/OrderDetailsPopup';
+import ProtectedRoute from '../ProtectedRoute';
+import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
+import orderDetailsPopupStyles from '../OrderDetailsPopup/orderDetailsPopup.module.css';
+import { getProducts, productsActions } from '../../services/slices/productsSlice';
+import { popupActions } from '../../services/slices/popupSlice';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
-import { ProtectedRoute } from '../ProtectedRoute';
+import { getRefreshToken, getToken } from '../../utils/functions';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,23 +38,16 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const refToken = getRefreshToken();
+    const token = getToken();
 
-    const refToken = localStorage.getItem('refreshToken');
+    !token && refToken && dispatch(refreshUserToken(refToken));
 
-    if (!refToken || refToken === '') {
-      return;
-    }
-
-    if (!token || token === '') {
-      dispatch(refreshUserToken(refToken));
-    }
-
-    dispatch(getUserInfo(token)).then((res) => {
-      res.payload === 'Ошибка 403' && dispatch(refreshUserToken(refToken));
-    });
+    token &&
+      dispatch(getUserInfo(token)).then((res) => {
+        res.payload === 'Ошибка 403' && refToken && dispatch(refreshUserToken(refToken));
+      });
   }, [dispatch]);
 
   const handleCloseOrderDetailsPopup = useCallback(() => {
@@ -70,18 +63,10 @@ const App = () => {
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
       <Switch>
-        <Route path='/' exact={true}>
+        <Route path='/' exact>
           <DndProvider backend={HTML5Backend}>
             <Main />
           </DndProvider>
-          {isPopupOrderDetailsOpen && (
-            <Modal
-              className={orderDetailsPopupStyles.order_popup}
-              onClose={handleCloseOrderDetailsPopup}
-            >
-              <OrderDetailsPopup />
-            </Modal>
-          )}
         </Route>
         <Route path='/login'>
           <Login />
@@ -118,6 +103,14 @@ const App = () => {
             <IngredientDetails />
           </Modal>
         </Route>
+      )}
+      {isPopupOrderDetailsOpen && (
+        <Modal
+          className={orderDetailsPopupStyles.order_popup}
+          onClose={handleCloseOrderDetailsPopup}
+        >
+          <OrderDetailsPopup />
+        </Modal>
       )}
     </div>
   );

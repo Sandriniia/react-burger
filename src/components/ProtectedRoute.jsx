@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export const ProtectedRoute = ({ children, ...rest }) => {
+const ProtectedRoute = ({ children, ...rest }) => {
   const isLogged = useSelector((state) => state.user.isLogged);
 
   return (
@@ -14,3 +14,5 @@ export const ProtectedRoute = ({ children, ...rest }) => {
     />
   );
 };
+
+export default ProtectedRoute;
