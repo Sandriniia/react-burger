@@ -11,7 +11,7 @@ const Navigation = ({ className }) => {
         <NavItem text='Конструктор' className={className} path="/">
           <BurgerIcon type='primary' />
         </NavItem>
-        <NavItem text='Лента заказов' path="/feed">
+        <NavItem className={navigationStyles.nav_item} text='Лента заказов' path="/feed">
           <ListIcon type='secondary' />
         </NavItem>
       </ul>

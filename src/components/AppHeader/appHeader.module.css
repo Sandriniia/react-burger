@@ -9,5 +9,11 @@
 
 .nav_item {
   color: #f2f2f3;
+  text-decoration: none;
+}
+
+.nav_item_profile {
+  text-decoration: none;
+  color: #8585ad;
 }
 

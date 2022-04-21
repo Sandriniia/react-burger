@@ -25,7 +25,7 @@ const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
   };
 
   return (
-    <Link to={{ pathname: `/ingredients/${id}`, state: {modal: location} }}>
+    <Link className={ingredientCardStyles.link} to={{ pathname: `/ingredients/${id}`, state: {modal: location} }}>
     <div
       className={ingredientCardStyles.card_container}
       onClick={showIngredientsPopup}

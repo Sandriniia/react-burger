@@ -9,7 +9,7 @@ const AppHeader = () => {
     <header className={`${appHeaderStyles.header} pb-4 pt-4 mb-10`}>
       <Navigation className={appHeaderStyles.nav_item} />
       <Logo />
-      <NavItem text='Личный кабинет' path="/profile">
+      <NavItem className={appHeaderStyles.nav_item_profile} text='Личный кабинет' path="/profile">
         <ProfileIcon type='secondary' />
       </NavItem>
     </header>
