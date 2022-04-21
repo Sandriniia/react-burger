@@ -163,6 +163,9 @@ const userInfoSlice = createSlice({
       state.email = payload.user.email;
     },
     [refreshUserToken.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      localStorage.setItem('token', payload.accessToken);
+      localStorage.setItem('refreshToken', payload.refreshToken);
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
     },
@@ -181,3 +184,5 @@ export default userInfoSlice;
 export const userActions = userInfoSlice.actions;
 
 // testatonsa@riseup.net
+//66fd8fa05cc2277845feadf9bb1c345d38be4507f4f20a6c9a7d6e0f10ace8777760b5ba9662903b
+// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNGZmNGU4MWEzYjJjMDAxYmNmZDdhMiIsImlhdCI6MTY1MDU0MDA4MSwiZXhwIjoxNjUwNTQxMjgxfQ.S19qIlwphlnrN7es7W8PrSzjFHXuviWdmmqIDsprENw

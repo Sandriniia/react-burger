@@ -38,6 +38,7 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
