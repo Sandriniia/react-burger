@@ -1,11 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom'
 import ingredientDetailsStyles from './ingredientDetails.module.css';
 
 const IngredientDetails = () => {
-  const currentProduct = useSelector((state) => state.products.currentProduct);
+
+  const { id } = useParams();
+
+  const products = useSelector((state) => state.products.products);
+  
+  const currentProduct = products.find((product) => product._id === id);
+
   return (
-    <>
+    <div className={ingredientDetailsStyles.container}>
       <img
         src={currentProduct.image}
         alt={currentProduct.name}
@@ -30,7 +37,7 @@ const IngredientDetails = () => {
           <p className='text text_type_digits-default'>{currentProduct.carbohydrates}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

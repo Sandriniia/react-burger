@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {isPopupOrderDetailsOpen: false, isPopupIngredientDetailsOpen: false};
+const initialState = { isPopupOrderDetailsOpen: false, isPopupIngredientDetailsOpen: false };
 
 const popupSlice = createSlice({
   name: 'popup',
@@ -15,7 +15,7 @@ const popupSlice = createSlice({
     closePopups(state) {
       state.isPopupOrderDetailsOpen = false;
       state.isPopupIngredientDetailsOpen = false;
-    }
+    },
   }
 });
 

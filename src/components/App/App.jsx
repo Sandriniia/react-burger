@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,16 +21,18 @@ import ResetPassword from '../../pages/resetPassword/resetPassword';
 import UserInfo from '../../pages/userInfo/userInfo';
 import NotFound from '../../pages/notFound/notFound';
 import OrderFeed from '../../pages/orderFeed/orderFeed';
+import Ingredient from '../../pages/ingredient/ingredient';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
 import { ProtectedRoute } from '../ProtectedRoute';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
+
+  const modal = !!location.state?.modal;
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
-  const isPopupIngredientDetailsOpen = useSelector(
-    (state) => state.popup.isPopupIngredientDetailsOpen,
-  );
 
   useEffect(() => {
     dispatch(getProducts());
@@ -54,15 +56,14 @@ const App = () => {
     });
   }, [dispatch]);
 
-  const handleCloseIngredientDetailsPopup = useCallback(() => {
-    dispatch(popupActions.closePopups());
-    dispatch(productsActions.getCurrentProduct());
-  }, [dispatch]);
-
   const handleCloseOrderDetailsPopup = useCallback(() => {
     dispatch(productsActions.cleanupIngredientsList());
     dispatch(popupActions.closePopups());
   }, [dispatch]);
+
+  const handleCloseIngredientModal = () => {
+    history.goBack();
+  };
 
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
@@ -80,15 +81,6 @@ const App = () => {
               <OrderDetailsPopup />
             </Modal>
           )}
-          {isPopupIngredientDetailsOpen && (
-            <Modal
-              title='Детали ингредиента'
-              className={ingredientDetailsStyle.details_popup}
-              onClose={handleCloseIngredientDetailsPopup}
-            >
-              <IngredientDetails />
-            </Modal>
-          )}
         </Route>
         <Route path='/login'>
           <Login />
@@ -102,6 +94,9 @@ const App = () => {
         <Route path='/reset-password'>
           <ResetPassword />
         </Route>
+        <Route path='/ingredients/:id'>
+          <Ingredient />
+        </Route>
         <ProtectedRoute path='/profile'>
           <UserInfo />
         </ProtectedRoute>
@@ -112,6 +107,17 @@ const App = () => {
           <NotFound />
         </Route>
       </Switch>
+      {modal && (
+        <Route path='/ingredients/:id'>
+          <Modal
+            title='Детали ингредиента'
+            className={ingredientDetailsStyle.details_popup}
+            onClose={handleCloseIngredientModal}
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
     </div>
   );
 };

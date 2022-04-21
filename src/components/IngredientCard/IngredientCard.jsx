@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,6 +12,7 @@ import { productsActions } from '../../services/slices/productsSlice';
 
 const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [, dragRef] = useDrag({
     type: 'ingredient',
@@ -22,6 +25,7 @@ const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
   };
 
   return (
+    <Link to={{ pathname: `/ingredients/${id}`, state: {modal: location} }}>
     <div
       className={ingredientCardStyles.card_container}
       onClick={showIngredientsPopup}
@@ -34,7 +38,8 @@ const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
         <CurrencyIcon type='primary' />
       </div>
       <p className='mb-6 text text_type_main-default'>{name}</p>
-    </div>
+      </div>
+      </Link>
   );
 };
 
