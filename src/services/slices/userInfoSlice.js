@@ -13,8 +13,6 @@ import {
 const initialState = {
   email: '',
   name: '',
-  accessToken: '',
-  refreshToken: '',
   isLogged: localStorage.getItem('isLogged'),
   error: '',
   message: '',
@@ -163,16 +161,11 @@ const userInfoSlice = createSlice({
       state.email = payload.user.email;
     },
     [refreshUserToken.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       localStorage.setItem('token', payload.accessToken);
       localStorage.setItem('refreshToken', payload.refreshToken);
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
     },
     [logoutUser.fulfilled]: (state) => {
       localStorage.clear();
-      state.accessToken = '';
-      state.refreshToken = '';
       state.name = '';
       state.email = '';
       state.isLogged = localStorage.getItem('isLogged');

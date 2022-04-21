@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = { isPopupOrderDetailsOpen: false };
 
@@ -12,7 +12,7 @@ const popupSlice = createSlice({
     closePopups(state) {
       state.isPopupOrderDetailsOpen = false;
     },
-  }
+  },
 });
 
 export const popupActions = popupSlice.actions;

@@ -1,7 +1,7 @@
 const getRefreshToken = () => {
   const refToken = localStorage.getItem('refreshToken');
 
-  if (!!refToken) {
+  if (!refToken) {
     return;
   }
   return refToken;
@@ -10,7 +10,7 @@ const getRefreshToken = () => {
 const getToken = () => {
   const token = localStorage.getItem('token');
 
-  if (!!token) {
+  if (!token) {
     return;
   }
   return token;
