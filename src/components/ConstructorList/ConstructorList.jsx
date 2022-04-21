@@ -30,47 +30,39 @@ const ConstructorList = () => {
     });
   }, [mainIngredients, bunIngredient, dispatch]);
 
+  const getBun = (position, type) => {
+    let bunType = type;
+    let bunPosition = position;
+    return bunIngredient.map((item) => {
+      return (
+        <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
+          <ConstructorElement
+            type={bunType}
+            isLocked={true}
+            text={`${item.name} (${bunPosition})`}
+            price={item.price}
+            thumbnail={item.image}
+          />
+        </div>
+      );
+    })
+  }
+
   return (
     <div className={constructorListStyle.main} ref={dropTarget}>
-      {bunIngredient.length === 0 && mainIngredients.length === 0 && (
-        <h1 className='text text_type_main-medium'>
+      {!!bunIngredient && !!mainIngredients && (
+        <h1 className='text text_type_main-medium mb-6'>
           Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа.
         </h1>
       )}
-      {products &&
-        bunIngredient.map((item) => {
-          return (
-            <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
-              <ConstructorElement
-                type='top'
-                isLocked={true}
-                text={`${item.name} (верх)`}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          );
-        })}
+      {products && getBun('верх', 'top')}
       <div className={constructorListStyle.middle_container}>
         {products &&
           mainIngredients.map((item, index) => {
             return <ConstructorCard item={item} index={index} key={item.uid} />;
           })}
       </div>
-      {products &&
-        bunIngredient.map((item) => {
-          return (
-            <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
-              <ConstructorElement
-                type='bottom'
-                isLocked={true}
-                text={`${item.name} (низ)`}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          );
-        })}
+      {products && getBun('низ', 'bottom')}
     </div>
   );
 };
