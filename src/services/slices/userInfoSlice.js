@@ -10,6 +10,8 @@ import {
   logout,
 } from '../../utils/userAPI';
 
+import { setCookie, deleteCookie } from '../../utils/cookies';
+
 const initialState = {
   email: '',
   name: '',
@@ -133,7 +135,7 @@ const userInfoSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       state.error = '';
-      localStorage.setItem('token', payload.response.accessToken);
+      setCookie("token", payload.response.accessToken);
       localStorage.setItem('refreshToken', payload.response.refreshToken);
       localStorage.setItem('isLogged', true);
       state.isLogged = localStorage.getItem('isLogged');
@@ -159,7 +161,6 @@ const userInfoSlice = createSlice({
         'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
     },
     [changeUserInfo.rejected]: (state, { payload }) => {
-      console.log(payload);
       if (payload === 'Ошибка 403') {
         state.tokenError = true;
       }
@@ -171,11 +172,12 @@ const userInfoSlice = createSlice({
     [refreshUserToken.fulfilled]: (state, { payload }) => {
       state.tokenError = false;
       state.token = payload.accessToken;
-      localStorage.setItem('token', payload.accessToken);
+      setCookie("token", payload.accessToken);
       localStorage.setItem('refreshToken', payload.refreshToken);
     },
     [logoutUser.fulfilled]: (state) => {
       localStorage.clear();
+      deleteCookie('token')
       state.name = '';
       state.email = '';
       state.isLogged = localStorage.getItem('isLogged');

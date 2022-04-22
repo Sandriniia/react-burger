@@ -23,7 +23,8 @@ import orderDetailsPopupStyles from '../OrderDetailsPopup/orderDetailsPopup.modu
 import { getProducts, productsActions } from '../../services/slices/productsSlice';
 import { popupActions } from '../../services/slices/popupSlice';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
-import { getRefreshToken, getToken } from '../../utils/functions';
+import { getRefreshToken } from '../../utils/functions';
+import { getCookie } from '../../utils/cookies';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,11 +39,9 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  /* Делаю запрос на получение данных пользователя при перезагрузке страницы.
-  Если в ответ приходит ошибка 403, то оправляю запрос на обновление токена с помощью refreshToken*/
   useEffect(() => {
     const refToken = getRefreshToken();
-    const token = getToken();
+    const token = getCookie('token')
 
     !token && refToken && dispatch(refreshUserToken());
 
@@ -50,7 +49,7 @@ const App = () => {
       dispatch(getUserInfo(token)).then((res) => {
         res.payload === 'Ошибка 403' && refToken && dispatch(refreshUserToken());
       });
-    console.log('res');
+    
   }, [dispatch]);
 
   const handleCloseOrderDetailsPopup = useCallback(() => {

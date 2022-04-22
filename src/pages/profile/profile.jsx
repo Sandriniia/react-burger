@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import profileStyles from './profile.module.css';
 import { getUserInfo, changeUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
-import { getRefreshToken, getToken } from '../../utils/functions';
+import { getCookie } from '../../utils/cookies';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ const Profile = () => {
   }, [tokenError, dispatch]);
 
   useEffect(() => {
-    const token = getToken();
+    const token = getCookie('token')
 
     dispatch(changeUserInfo({ token, name, email, password })).then(
       (res) => res.payload.success && dispatch(getUserInfo(token)),
@@ -58,7 +58,7 @@ const Profile = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    const token = getToken();
+    const token = getCookie('token')
 
     token &&
       dispatch(changeUserInfo({ token, name, email, password })).then(
