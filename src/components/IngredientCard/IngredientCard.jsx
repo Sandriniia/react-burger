@@ -18,16 +18,10 @@ const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
     item: { id, type: product.type },
   });
 
-  const showIngredientsPopup = () => {
-    dispatch(productsActions.getCurrentProduct(product));
-    dispatch(popupActions.openIngredientsDetailsPopup());
-  };
-
   return (
     <Link className={ingredientCardStyles.link} to={{ pathname: `/ingredients/${id}`, state: {modal: location} }}>
     <div
       className={ingredientCardStyles.card_container}
-      onClick={showIngredientsPopup}
       ref={dragRef}
     >
       <Counter count={count} size='default' />
