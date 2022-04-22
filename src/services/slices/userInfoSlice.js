@@ -17,6 +17,8 @@ const initialState = {
   error: '',
   message: '',
   isForgotPassReqSuccess: false,
+  tokenError: false,
+  token: '',
 };
 
 export const registerUser = createAsyncThunk(
@@ -68,6 +70,18 @@ export const resetUserPassword = createAsyncThunk(
   },
 );
 
+export const refreshUserToken = createAsyncThunk(
+  'user/refreshUserToken',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await refreshToken();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const getUserInfo = createAsyncThunk(
   'user/getUserInfo',
   async (token, { rejectWithValue }) => {
@@ -85,18 +99,6 @@ export const changeUserInfo = createAsyncThunk(
   async ({ token, name, email, password }, { rejectWithValue }) => {
     try {
       const response = await changeUserData(token, name, email, password);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-);
-
-export const refreshUserToken = createAsyncThunk(
-  'user/refreshUserToken',
-  async (refToken, { rejectWithValue }) => {
-    try {
-      const response = await refreshToken(refToken);
       return response;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -156,11 +158,19 @@ const userInfoSlice = createSlice({
       state.error =
         'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
     },
+    [changeUserInfo.rejected]: (state, { payload }) => {
+      console.log(payload);
+      if (payload === 'Ошибка 403') {
+        state.tokenError = true;
+      }
+    },
     [getUserInfo.fulfilled]: (state, { payload }) => {
       state.name = payload.user.name;
       state.email = payload.user.email;
     },
     [refreshUserToken.fulfilled]: (state, { payload }) => {
+      state.tokenError = false;
+      state.token = payload.accessToken;
       localStorage.setItem('token', payload.accessToken);
       localStorage.setItem('refreshToken', payload.refreshToken);
     },
@@ -176,4 +186,3 @@ const userInfoSlice = createSlice({
 export default userInfoSlice;
 export const userActions = userInfoSlice.actions;
 
-// testatonsa@riseup.net

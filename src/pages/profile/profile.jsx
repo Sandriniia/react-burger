@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import profileStyles from './profile.module.css';
-import { getUserInfo, changeUserInfo } from '../../services/slices/userInfoSlice';
-import { refreshUserToken } from '../../services/slices/userInfoSlice';
+import { getUserInfo, changeUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
 import { getRefreshToken, getToken } from '../../utils/functions';
 
 const Profile = () => {
@@ -15,6 +14,8 @@ const Profile = () => {
 
   const userName = useSelector((state) => state.user.name);
   const userEmail = useSelector((state) => state.user.email);
+  const tokenError = useSelector((state) => state.user.tokenError);
+  const accessToken = useSelector((state) => state.user.token);
 
   const [name, setName] = useState(userName);
   const [email, setEmail] = useState(userEmail);
@@ -41,29 +42,34 @@ const Profile = () => {
     ref.current.focus();
   };
 
-  const submitHandler = (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    tokenError &&
+      dispatch(refreshUserToken());
+  }, [tokenError, dispatch]);
 
-    const refToken = getRefreshToken();
+  useEffect(() => {
     const token = getToken();
 
-    refToken &&
-      !token &&
-      dispatch(refreshUserToken(refToken)).then((res) => {
-        const token = res.payload.accessToken;
-        res.payload.success && dispatch(changeUserInfo({ token, name, email, password }));
-      });
+    dispatch(changeUserInfo({ token, name, email, password })).then(
+      (res) => res.payload.success && dispatch(getUserInfo(token)),
+    );
+  },[accessToken, dispatch])
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    const token = getToken();
 
     token &&
-      dispatch(changeUserInfo({ token, name, email, password })).then((res) => {
-        res.payload.success && dispatch(getUserInfo(token));
-      });
+      dispatch(changeUserInfo({ token, name, email, password })).then(
+        (res) => res.payload.success && dispatch(getUserInfo(token)),
+      );
     setVisibleButtons(false);
   };
 
   const cancelEditHandler = (event) => {
     event.preventDefault();
-    
+
     setName(userName);
     setEmail(userEmail);
   };

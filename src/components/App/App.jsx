@@ -38,16 +38,19 @@ const App = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  /* Делаю запрос на получение данных пользователя при перезагрузке страницы.
+  Если в ответ приходит ошибка 403, то оправляю запрос на обновление токена с помощью refreshToken*/
   useEffect(() => {
     const refToken = getRefreshToken();
     const token = getToken();
 
-    !token && refToken && dispatch(refreshUserToken(refToken));
+    !token && refToken && dispatch(refreshUserToken());
 
     token &&
       dispatch(getUserInfo(token)).then((res) => {
-        res.payload === 'Ошибка 403' && refToken && dispatch(refreshUserToken(refToken));
+        res.payload === 'Ошибка 403' && refToken && dispatch(refreshUserToken());
       });
+    console.log('res');
   }, [dispatch]);
 
   const handleCloseOrderDetailsPopup = useCallback(() => {

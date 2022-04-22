@@ -1,3 +1,4 @@
+import { getRefreshToken } from "./functions";
 const baseUrl = ' https://norma.nomoreparties.space/api/';
 
 const getResponseData = (res) => {
@@ -83,14 +84,14 @@ const changeUserData = (token, name, email, password) => {
   }).then(getResponseData);
 };
 
-const refreshToken = (refToken) => {
+const refreshToken = () => {
   return fetch(`${baseUrl}auth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: refToken,
+      token: getRefreshToken(),
     }),
   }).then(getResponseData);
 };
