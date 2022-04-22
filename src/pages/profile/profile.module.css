@@ -8,3 +8,8 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.buttons_box {
+  display: flex;
+  justify-content: flex-start;
+}
