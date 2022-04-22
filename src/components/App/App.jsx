@@ -30,7 +30,7 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const modal = !!location.state?.modal;
+  const background = location.state && location.state.background;
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
 
@@ -62,7 +62,7 @@ const App = () => {
   return (
     <div className={`${appStyles.app} text text_type_main-default`}>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path='/' exact>
           <DndProvider backend={HTML5Backend}>
             <Main />
@@ -93,7 +93,7 @@ const App = () => {
           <NotFound />
         </Route>
       </Switch>
-      {modal && (
+      {background && (
         <Route path='/ingredients/:id'>
           <Modal
             title='Детали ингредиента'
