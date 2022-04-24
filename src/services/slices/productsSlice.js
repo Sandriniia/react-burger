@@ -9,6 +9,7 @@ const initialState = {
   currentProduct: {},
   orderNumber: null,
   totalPrice: 0,
+  loading: false,
 };
 
 export const getProducts = createAsyncThunk(
@@ -132,14 +133,26 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: {
+    [getProducts.pending]: (state) => {
+      state.loading = true;
+    },
     [getProducts.fulfilled]: (state, { payload }) => {
+      state.loading = false;
       state.products = payload;
     },
-    [getProducts.rejected]: () => {},
+    [getProducts.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getOrderNum.pending]: (state) => {
+      state.loading = true;
+    },
     [getOrderNum.fulfilled]: (state, { payload }) => {
+      state.loading = false;
       state.orderNumber = payload;
     },
-    [getOrderNum.rejected]: () => {},
+    [getOrderNum.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
 

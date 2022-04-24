@@ -21,6 +21,7 @@ const initialState = {
   isForgotPassReqSuccess: false,
   tokenError: false,
   token: '',
+  loading: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -125,66 +126,113 @@ const userInfoSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [registerUser.pending]: (state) => {
+      state.loading = true;
+    },
     [registerUser.fulfilled]: (state) => {
+      state.loading = false;
       state.error = '';
       state.message = 'Регистрация прошла успешно! Пожалуйста, войдите.';
     },
     [registerUser.rejected]: (state) => {
+      state.loading = false;
       state.message = '';
       state.error = 'Во время регистрации произошла ошибка.';
     },
+    [loginUser.pending]: (state) => {
+      state.loading = true;
+    },
     [loginUser.fulfilled]: (state, { payload }) => {
+      state.loading = false;
       state.error = '';
-      setCookie("token", payload.response.accessToken);
+      setCookie('token', payload.response.accessToken);
       localStorage.setItem('refreshToken', payload.response.refreshToken);
       localStorage.setItem('isLogged', true);
       state.isLogged = localStorage.getItem('isLogged');
     },
     [loginUser.rejected]: (state) => {
+      state.loading = false;
       state.error = 'Произошла ошибка! Пожалуйста, проверьте данные и попробуйте войти снова.';
     },
+    [recoverUserPassword.pending]: (state) => {
+      state.loading = true;
+    },
     [recoverUserPassword.fulfilled]: (state) => {
+      state.loading = false;
       state.error = '';
       state.isForgotPassReqSuccess = true;
     },
     [recoverUserPassword.rejected]: (state) => {
+      state.loading = false;
       state.error =
         'Произошла ошибка! Вы уверены что это зарегистрированный e-mail? Пожалуйста, попробуйте снова.';
     },
+    [resetUserPassword.pending]: (state) => {
+      state.loading = true;
+    },
     [resetUserPassword.fulfilled]: (state) => {
+      state.loading = false;
       state.error = '';
       state.message = 'Восстановление пароля прошло успешно! Пожалуйста, войдите.';
     },
     [resetUserPassword.rejected]: (state) => {
+      state.loading = false;
       state.message = '';
       state.error =
         'Произошла ошибка! Пожалуйста, попробуйте снова. Введите новый пароль и код из письма.';
     },
+    [changeUserInfo.pending]: (state) => {
+      state.loading = true;
+    },
+    [changeUserInfo.fulfilled]: (state) => {
+      state.loading = false;
+    },
     [changeUserInfo.rejected]: (state, { payload }) => {
+      state.loading = false;
       if (payload === 'Ошибка 403') {
         state.tokenError = true;
       }
     },
+    [getUserInfo.pending]: (state) => {
+      state.loading = true;
+    },
     [getUserInfo.fulfilled]: (state, { payload }) => {
+      state.loading = false;
       state.name = payload.user.name;
       state.email = payload.user.email;
     },
+    [getUserInfo.rejected]: (state) => {
+      state.loading = false;
+    },
+    [refreshUserToken.pending]: (state) => {
+      state.loading = true;
+    },
     [refreshUserToken.fulfilled]: (state, { payload }) => {
+      state.loading = false;
       state.tokenError = false;
       state.token = payload.accessToken;
-      setCookie("token", payload.accessToken);
+      setCookie('token', payload.accessToken);
       localStorage.setItem('refreshToken', payload.refreshToken);
     },
+    [refreshUserToken.rejected]: (state) => {
+      state.loading = false;
+    },
+    [logoutUser.pending]: (state) => {
+      state.loading = true;
+    },
     [logoutUser.fulfilled]: (state) => {
+      state.loading = false;
       localStorage.clear();
-      deleteCookie('token')
+      deleteCookie('token');
       state.name = '';
       state.email = '';
       state.isLogged = localStorage.getItem('isLogged');
+    },
+    [logoutUser.rejected]: (state) => {
+      state.loading = false;
     },
   },
 });
 
 export default userInfoSlice;
 export const userActions = userInfoSlice.actions;
-
