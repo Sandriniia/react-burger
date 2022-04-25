@@ -47,3 +47,8 @@
 .completed_order {
   color: #00cccc;
 }
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+}

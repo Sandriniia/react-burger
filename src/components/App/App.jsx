@@ -14,6 +14,7 @@ import ResetPassword from '../../pages/resetPassword/resetPassword';
 import Ingredient from '../../pages/ingredient/ingredient';
 import UserInfo from '../../pages/userInfo/userInfo';
 import OrderFeed from '../../pages/orderFeed/orderFeed';
+import OrderFeedDetails from '../../pages/orderFeedDetails/orderFeedDetails';
 import NotFound from '../../pages/notFound/notFound';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -96,6 +97,9 @@ const App = () => {
         </ProtectedRoute>
         <ProtectedRoute path='/feed'>
           <OrderFeed />
+        </ProtectedRoute>
+        <ProtectedRoute path='/feed/:id' exact>
+          <OrderFeedDetails />
         </ProtectedRoute>
         <Route>
           <NotFound />

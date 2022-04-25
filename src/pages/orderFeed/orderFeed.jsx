@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import { orders } from '../../utils/data';
 import feedStyles from './orderFeed.module.css';
 
 const OrderFeed = () => {
+  const location = useLocation();
+
   return (
     <section className={feedStyles.feed}>
       <h1 className='text text_type_main-large mb-5'>Лента заказов</h1>
@@ -11,14 +14,19 @@ const OrderFeed = () => {
         <section className={feedStyles.orders_info}>
           {orders.map((order) => {
             return (
-              <OrderDetails
+              <Link
+                to={{ pathname: `${location.pathname}/${order._id}` }}
+                className={feedStyles.link}
                 key={order._id}
-                orderNumber={order.number}
-                date={order.date}
-                title={order.title}
-                products={order.products}
-                price={order.price}
-              />
+              >
+                <OrderDetails
+                  orderNumber={order.number}
+                  date={order.date}
+                  title={order.title}
+                  products={order.products}
+                  price={order.price}
+                />
+              </Link>
             );
           })}
         </section>
