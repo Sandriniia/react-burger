@@ -15,7 +15,6 @@ import Ingredient from '../../pages/ingredient/ingredient';
 import UserInfo from '../../pages/userInfo/userInfo';
 import OrderFeed from '../../pages/orderFeed/orderFeed';
 import OrderFeedDetails from '../../pages/orderFeedDetails/orderFeedDetails';
-import Feed from '../../pages/feed/feed';
 import NotFound from '../../pages/notFound/notFound';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -94,11 +93,11 @@ const App = () => {
         <Route path='/ingredients/:id'>
           <Ingredient />
         </Route>
-        <ProtectedRoute path='/profile' exact>
+        <ProtectedRoute path='/profile'>
           <UserInfo />
         </ProtectedRoute>
         <Route path='/feed' exact>
-          <Feed />
+          <OrderFeed />
         </Route>
         <Route path='/feed/:id' exact>
           <OrderFeedDetails />
@@ -119,6 +118,11 @@ const App = () => {
             </Modal>
           </Route>
           <Route path='/feed/:id' exact>
+            <Modal onClose={handleCloseModal}>
+              <OrderFeedDetails />
+            </Modal>
+          </Route>
+          <Route path='/profile/orders/:id' exact>
             <Modal onClose={handleCloseModal}>
               <OrderFeedDetails />
             </Modal>
