@@ -95,7 +95,7 @@ const App = () => {
         <ProtectedRoute path='/profile'>
           <UserInfo />
         </ProtectedRoute>
-        <ProtectedRoute path='/feed'>
+        <ProtectedRoute path='/feed' exact>
           <OrderFeed />
         </ProtectedRoute>
         <ProtectedRoute path='/feed/:id' exact>
