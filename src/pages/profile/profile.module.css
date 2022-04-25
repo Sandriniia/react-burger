@@ -1,0 +1,15 @@
+.profile {
+  width: 480px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.buttons_box {
+  display: flex;
+  justify-content: flex-start;
+}

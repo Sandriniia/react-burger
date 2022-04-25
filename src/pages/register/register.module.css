@@ -1,0 +1,33 @@
+.register {
+  margin: 0 auto;
+  margin-top: 140px;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.text_box {
+  display: flex;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}
+
+.error {
+  color: #dc143c;
+}
+
+.message {
+  color: #00ff7f;
+}

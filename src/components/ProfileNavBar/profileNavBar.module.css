@@ -1,0 +1,14 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 320px;
+}
+
+.nav_item {
+  text-decoration: none;
+}
+
+.active {
+  color: #fff;
+}

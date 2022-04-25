@@ -1,11 +1,22 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import MoonLoader from 'react-spinners/ClipLoader';
 import ingredientDetailsStyles from './ingredientDetails.module.css';
+import { loaderStyles } from '../../utils/constants';
 
 const IngredientDetails = () => {
-  const currentProduct = useSelector((state) => state.products.currentProduct);
+  const { id } = useParams();
+
+  const products = useSelector((state) => state.products.products);
+  const currentProduct = products.find((product) => product._id === id);
+
+  if (products.length === 0) {
+    return <MoonLoader color={'#fff'} size={100} css={loaderStyles} />;
+  }
+
   return (
-    <>
+    <div className={ingredientDetailsStyles.container}>
       <img
         src={currentProduct.image}
         alt={currentProduct.name}
@@ -30,7 +41,7 @@ const IngredientDetails = () => {
           <p className='text text_type_digits-default'>{currentProduct.carbohydrates}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,49 @@
+.feed {
+  margin: 0 auto;
+  max-width: 1240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.orders {
+  display: flex;
+}
+
+.orders_info {
+  width: 584px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 860px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.numbers_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 580px;
+}
+
+.orders_num {
+  display: flex;
+}
+
+.order_num_box {
+  width: 272px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text_info_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.completed_order {
+  color: #00cccc;
+}

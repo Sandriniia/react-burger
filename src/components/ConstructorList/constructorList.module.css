@@ -1,6 +1,9 @@
 .main {
   height: 672px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .element_container {
