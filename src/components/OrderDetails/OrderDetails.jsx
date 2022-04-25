@@ -11,7 +11,10 @@ const OrderDetails = ({ orderNumber, date, title, products, price, completed, id
   const location = useLocation();
 
   return (
-    <Link to={{ pathname: `${location.pathname}/${id}` }} className={orderDetailsStyle.link}>
+    <Link
+      to={{ pathname: `${location.pathname}/${id}`, state: { background: location } }}
+      className={orderDetailsStyle.link}
+    >
       <div className={`${orderDetailsStyle.container} p-6 mr-2`}>
         <div className={`${orderDetailsStyle.time_number_box} pb-6`}>
           <p className='text text_type_digits-default'>#{orderNumber}</p>

@@ -15,6 +15,7 @@ import Ingredient from '../../pages/ingredient/ingredient';
 import UserInfo from '../../pages/userInfo/userInfo';
 import OrderFeed from '../../pages/orderFeed/orderFeed';
 import OrderFeedDetails from '../../pages/orderFeedDetails/orderFeedDetails';
+import Feed from '../../pages/feed/feed';
 import NotFound from '../../pages/notFound/notFound';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
@@ -35,6 +36,7 @@ const App = () => {
   const history = useHistory();
 
   const background = location.state && location.state.background;
+  const back = location.state && location.state.back;
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
   const loading = useSelector((state) => state.products.loading);
@@ -60,10 +62,10 @@ const App = () => {
     dispatch(popupActions.closePopups());
   }, [dispatch]);
 
-  const handleCloseIngredientModal = () => {
+  const handleCloseModal = () => {
     history.goBack();
   };
-  
+
   if (loading) {
     return <MoonLoader color={'#fff'} size={100} css={loaderStyles} />;
   }
@@ -92,29 +94,36 @@ const App = () => {
         <Route path='/ingredients/:id'>
           <Ingredient />
         </Route>
-        <ProtectedRoute path='/profile'>
+        <ProtectedRoute path='/profile' exact>
           <UserInfo />
         </ProtectedRoute>
-        <ProtectedRoute path='/feed' exact>
-          <OrderFeed />
-        </ProtectedRoute>
-        <ProtectedRoute path='/feed/:id' exact>
+        <Route path='/feed' exact>
+          <Feed />
+        </Route>
+        <Route path='/feed/:id' exact>
           <OrderFeedDetails />
-        </ProtectedRoute>
+        </Route>
         <Route>
           <NotFound />
         </Route>
       </Switch>
       {background && (
-        <Route path='/ingredients/:id'>
-          <Modal
-            title='Детали ингредиента'
-            className={ingredientDetailsStyle.details_popup}
-            onClose={handleCloseIngredientModal}
-          >
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <Switch>
+          <Route path='/ingredients/:id'>
+            <Modal
+              title='Детали ингредиента'
+              className={ingredientDetailsStyle.details_popup}
+              onClose={handleCloseModal}
+            >
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path='/feed/:id' exact>
+            <Modal onClose={handleCloseModal}>
+              <OrderFeedDetails />
+            </Modal>
+          </Route>
+        </Switch>
       )}
       {isPopupOrderDetailsOpen && (
         <Modal

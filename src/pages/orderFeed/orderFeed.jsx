@@ -2,8 +2,8 @@ import React from 'react';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import { orders } from '../../utils/data';
 import feedStyles from './orderFeed.module.css';
-
 const OrderFeed = () => {
+ 
   return (
     <section className={feedStyles.feed}>
       <h1 className='text text_type_main-large mb-5'>Лента заказов</h1>

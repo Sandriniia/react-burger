@@ -11,6 +11,7 @@ const OrdersHistory = () => {
             return (
               <OrderDetails
                 key={order._id}
+                id={order._id}
                 orderNumber={order.number}
                 date={order.date}
                 title={order.title}

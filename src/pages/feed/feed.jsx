@@ -1,15 +1,13 @@
 import React from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import userInfoStyles from './userInfo.module.css';
-import ProfileNavBar from '../../components/ProfileNavBar/ProfileNavBar';
-import Profile from '../profile/profile';
-import OrdersHistory from '../ordersHistory/ordersHistory';
+import OrderFeed from '../orderFeed/orderFeed';
 import OrderFeedDetails from '../orderFeedDetails/orderFeedDetails';
 import Modal from '../../components/Modal/Modal';
+import feedStyles from './feed.module.css';
 
-const UserInfo = () => {
-  const history = useHistory();
+const Feed = () => {
   const location = useLocation();
+  const history = useHistory();
 
   const back = location.state && location.state.back;
 
@@ -18,28 +16,24 @@ const UserInfo = () => {
   };
 
   return (
-    <section className={`${userInfoStyles.user_info} pl-5`}>
-      <ProfileNavBar />
+    <section>
       <Switch location={back || location}>
-        <Route path='/profile' exact>
-          <Profile />
+        <Route path='/feed' exact>
+          <OrderFeed />
         </Route>
-        <Route path='/profile/orders' exact>
-          <OrdersHistory />
-        </Route>
-        <Route path='/profile/orders/:id' exact>
+        <Route path='/feed/:id' exact>
           <OrderFeedDetails />
         </Route>
       </Switch>
       {back && (
-        <Route path='/profile/orders/:id' exact>
+        <Route path='/feed/:id' exact>
           <Modal onClose={handleCloseModal}>
             <OrderFeedDetails />
           </Modal>
         </Route>
       )}
     </section>
-  );
-};
+  )
+}
 
-export default UserInfo;
+export default Feed;
