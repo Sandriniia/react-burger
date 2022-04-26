@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,23 +6,24 @@ import { getDate } from '../../utils/functions';
 import orderDetailsStyle from './orderDetails.module.css';
 import { useSelector } from 'react-redux';
 
-const OrderDetails = ({ orderNumber, date, title, idsIngredients, price, status, id }) => {
+const OrderDetails = ({ orderNumber, date, title, idsIngredients, status, id }) => {
+  const location = useLocation();
+
   const allProducts = useSelector((state) => state.products.products);
-  // console.log(allProducts);
+
   let orderProducts = [];
 
   idsIngredients.forEach((id) => {
     const product = allProducts.find((product) => product._id === id);
     orderProducts.push(product);
   });
-  // console.log(orderProducts);
+
   const orderImages = orderProducts && orderProducts.map((product) => product.image);
-  console.log(orderImages);
+
+  const price = orderProducts.reduce((total, item) => total + item.price, 0);
 
   const productsLength = orderImages.length;
   const difference = productsLength - 6;
-
-  const location = useLocation();
 
   return (
     <Link

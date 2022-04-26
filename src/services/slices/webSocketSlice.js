@@ -1,11 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   connected: false,
-}
-
-export const getOrders = () => {
-
 }
 
 const webSocketSlice = createSlice({

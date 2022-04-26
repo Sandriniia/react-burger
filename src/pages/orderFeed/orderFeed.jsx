@@ -1,20 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
-import { start } from '../../services/slices/webSocketSlice';
+import { start, closed } from '../../services/slices/webSocketSlice';
 import { wsUrl } from '../../utils/constants';
 import feedStyles from './orderFeed.module.css';
 
 const OrderFeed = () => {
   const dispatch = useDispatch();
 
-  const orders = useSelector(state => state.orders.orders);
+  const orders = useSelector((state) => state.orders.orders);
+  const total = useSelector((state) => state.orders.totalNumberOfOrders);
+  const totalToday = useSelector((state) => state.orders.todayNumberOfOrders);
   console.log(orders);
 
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders/all` }));
-  }, [orders, dispatch])
- 
+    return () => dispatch(closed());
+  }, [dispatch]);
+
   return (
     <section className={feedStyles.feed}>
       <h1 className='text text_type_main-large mb-5'>Лента заказов</h1>
@@ -38,39 +41,43 @@ const OrderFeed = () => {
           <div className={`${feedStyles.orders_num} pb-15`}>
             <div className={`${feedStyles.order_num_box} mr-9`}>
               <h3 className='text text_type_main-medium mb-6'>Готовы:</h3>
-              {orders.map((order) => {
-                return (
-                  order.status === 'done' && (
-                    <p
-                      className={`${feedStyles.completed_order} text text_type_digits-default mb-2`}
-                      key={order._id}
-                    >
-                      {order.number}
-                    </p>
-                  )
-                );
-              })}
+              <div className={feedStyles.list}>
+                {orders.map((order) => {
+                  return (
+                    order.status === 'done' && (
+                      <p
+                        className={`${feedStyles.completed_order} text text_type_digits-default mb-2`}
+                        key={order._id}
+                      >
+                        {order.number}
+                      </p>
+                    )
+                  );
+                })}
+              </div>
             </div>
             <div className={feedStyles.order_num_box}>
               <h3 className='text text_type_main-medium mb-6'>В работе:</h3>
-              {orders.map((order) => {
-                return (
-                  order.status === 'pending' && (
-                    <p className='text text_type_digits-default mb-2' key={order._id}>
-                      {order.number}
-                    </p>
-                  )
-                );
-              })}
+              <div className={feedStyles.list}>
+                {orders.map((order) => {
+                  return (
+                    order.status === 'pending' && (
+                      <p className='text text_type_digits-default mb-2' key={order._id}>
+                        {order.number}
+                      </p>
+                    )
+                  );
+                })}
+              </div>
             </div>
           </div>
           <div className={`${feedStyles.text_info_box} pb-15`}>
             <h3 className='text text_type_main-medium'>Выполнено за все время:</h3>
-            <p className='text text_type_digits-large'>28 752</p>
+            <p className='text text_type_digits-large'>{total}</p>
           </div>
           <div className={feedStyles.text_info_box}>
             <h3 className='text text_type_main-medium'>Выполнено за сегодня:</h3>
-            <p className='text text_type_digits-large'>138</p>
+            <p className='text text_type_digits-large'>{totalToday}</p>
           </div>
         </section>
       </div>
