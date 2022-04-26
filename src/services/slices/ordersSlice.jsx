@@ -1,15 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
-  allOrders: [],
-  userOrders: [],
-}
+  orders: [],
+  totalNumberOfOrders: null,
+  todayNumberOfOrders: null,
+};
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {}
-})
+  reducers: {
+    saveData(state, { payload }) {
+      state.orders = payload.orders;
+      state.totalNumberOfOrders = payload.total;
+      state.todayNumberOfOrders = payload.totalToday;
+    },
+  },
+});
 
 export const ordersActions = ordersSlice.actions;
 export default ordersSlice;

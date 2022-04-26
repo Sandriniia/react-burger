@@ -1,3 +1,6 @@
+import { formatRelative } from 'date-fns';
+import { ru } from 'date-fns/locale';
+
 const getRefreshToken = () => {
   const refToken = localStorage.getItem('refreshToken');
 
@@ -23,4 +26,9 @@ const filterProductsByType = (products, type) => {
   return ingredients;
 };
 
-export { getRefreshToken, getToken, filterProductsByType };
+const getDate = (date) => {
+  const formattedDate = formatRelative(new Date(date), new Date(), { local: ru });
+  if (date) return formattedDate.split('в').join(', ') + 'i-GMT+3';
+};
+
+export { getRefreshToken, getToken, filterProductsByType, getDate };

@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
-import { orders } from '../../utils/data';
+import { start } from '../../services/slices/webSocketSlice';
+import { wsUrl } from '../../utils/constants';
 import feedStyles from './orderFeed.module.css';
+
 const OrderFeed = () => {
+  const dispatch = useDispatch();
+
+  const orders = useSelector(state => state.orders.orders);
+  console.log(orders);
+
+  useEffect(() => {
+    dispatch(start({ url: `${wsUrl}/orders/all` }));
+  }, [orders, dispatch])
  
   return (
     <section className={feedStyles.feed}>
@@ -15,10 +26,10 @@ const OrderFeed = () => {
                 key={order._id}
                 id={order._id}
                 orderNumber={order.number}
-                date={order.date}
-                title={order.title}
-                products={order.products}
-                price={order.price}
+                date={order.createdAt}
+                title={order.name}
+                idsIngredients={order.ingredients}
+                status={order.status}
               />
             );
           })}
@@ -29,7 +40,7 @@ const OrderFeed = () => {
               <h3 className='text text_type_main-medium mb-6'>Готовы:</h3>
               {orders.map((order) => {
                 return (
-                  order.completed && (
+                  order.status === 'done' && (
                     <p
                       className={`${feedStyles.completed_order} text text_type_digits-default mb-2`}
                       key={order._id}
@@ -44,7 +55,7 @@ const OrderFeed = () => {
               <h3 className='text text_type_main-medium mb-6'>В работе:</h3>
               {orders.map((order) => {
                 return (
-                  !order.completed && (
+                  order.status === 'pending' && (
                     <p className='text text_type_digits-default mb-2' key={order._id}>
                       {order.number}
                     </p>
