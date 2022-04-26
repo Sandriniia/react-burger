@@ -11,7 +11,6 @@ const OrderFeed = () => {
   const orders = useSelector((state) => state.orders.orders);
   const total = useSelector((state) => state.orders.totalNumberOfOrders);
   const totalToday = useSelector((state) => state.orders.todayNumberOfOrders);
-  console.log(orders);
 
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders/all` }));
