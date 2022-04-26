@@ -35,7 +35,6 @@ const App = () => {
   const history = useHistory();
 
   const background = location.state && location.state.background;
-  const back = location.state && location.state.back;
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
   const loading = useSelector((state) => state.products.loading);
