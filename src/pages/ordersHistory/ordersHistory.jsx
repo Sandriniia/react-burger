@@ -1,21 +1,8 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import ordersHistoryStyles from './ordersHistory.module.css';
-import { start, closed } from '../../services/slices/webSocketSlice';
-import { wsUrl } from '../../utils/constants';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
-import { getCookie } from '../../utils/cookies';
 
-const OrdersHistory = () => {
-  const dispatch = useDispatch();
-
-  const orders = useSelector((state) => state.orders.orders);
-
-  useEffect(() => {
-    dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
-    return () => dispatch(closed());
-  }, [dispatch]);
-
+const OrdersHistory = ({ orders }) => {
   return (
     <section className={ordersHistoryStyles.orders}>
       {orders.map((order) => {

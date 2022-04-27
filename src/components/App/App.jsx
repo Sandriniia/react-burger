@@ -22,6 +22,7 @@ import OrderDetailsPopup from '../OrderDetailsPopup/OrderDetailsPopup';
 import ProtectedRoute from '../ProtectedRoute';
 import ingredientDetailsStyle from '../IngredientDetails/ingredientDetails.module.css';
 import orderDetailsPopupStyles from '../OrderDetailsPopup/orderDetailsPopup.module.css';
+import orderFeedDetailsModalStyles from '../../pages/orderFeedDetails/orderFeedDetails.module.css';
 import { getProducts, productsActions } from '../../services/slices/productsSlice';
 import { popupActions } from '../../services/slices/popupSlice';
 import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
@@ -38,6 +39,7 @@ const App = () => {
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
   const loading = useSelector((state) => state.products.loading);
+  const orders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -117,13 +119,13 @@ const App = () => {
             </Modal>
           </Route>
           <Route path='/feed/:id' exact>
-            <Modal onClose={handleCloseModal}>
-              <OrderFeedDetails />
+            <Modal onClose={handleCloseModal} className={orderFeedDetailsModalStyles.modal}>
+              <OrderFeedDetails orders={orders} />
             </Modal>
           </Route>
           <Route path='/profile/orders/:id' exact>
-            <Modal onClose={handleCloseModal}>
-              <OrderFeedDetails />
+            <Modal onClose={handleCloseModal} className={orderFeedDetailsModalStyles.modal}>
+              <OrderFeedDetails orders={orders} />
             </Modal>
           </Route>
         </Switch>
