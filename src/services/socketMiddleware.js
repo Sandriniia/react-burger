@@ -1,12 +1,10 @@
-import { socketActions } from './slices/webSocketSlice';
-import { ordersActions } from './slices/ordersSlice';
-
-const socketMiddleware = (wsUrl) => {
+const socketMiddleware = (socketActions) => {
   return (store) => {
     let socket = null;
 
     return (next) => (action) => {
-      const { start, success, error, closed } = socketActions;
+      const { start, success, error, closed, saveData} = socketActions;
+      
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -30,7 +28,7 @@ const socketMiddleware = (wsUrl) => {
           const { data } = event;
           const { success, ...info } = JSON.parse(data);
           if (success) {
-            dispatch(ordersActions.saveData(info));
+            dispatch(saveData(info));
           }
         };
         socket.onclose = () => dispatch(closed());

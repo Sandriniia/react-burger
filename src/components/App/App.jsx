@@ -39,7 +39,6 @@ const App = () => {
 
   const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
   const loading = useSelector((state) => state.products.loading);
-  const orders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -101,7 +100,7 @@ const App = () => {
           <OrderFeed />
         </Route>
         <Route path='/feed/:id' exact>
-          <OrderFeedDetails orders={orders} />
+          <OrderFeedDetails />
         </Route>
         <Route>
           <NotFound />
@@ -120,12 +119,12 @@ const App = () => {
           </Route>
           <Route path='/feed/:id' exact>
             <Modal onClose={handleCloseModal} className={orderFeedDetailsModalStyles.modal}>
-              <OrderFeedDetails orders={orders} />
+              <OrderFeedDetails />
             </Modal>
           </Route>
           <Route path='/profile/orders/:id' exact>
             <Modal onClose={handleCloseModal} className={orderFeedDetailsModalStyles.modal}>
-              <OrderFeedDetails orders={orders} />
+              <OrderFeedDetails />
             </Modal>
           </Route>
         </Switch>

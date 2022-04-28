@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import userInfoStyles from './userInfo.module.css';
@@ -16,7 +16,7 @@ const UserInfo = () => {
 
   const background = location.state && location.state.background;
 
-  const orders = useSelector((state) => state.orders.orders);
+  const data = useSelector((state) => state.socket.data);
 
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
@@ -31,10 +31,10 @@ const UserInfo = () => {
           <Profile />
         </Route>
         <Route path='/profile/orders' exact>
-          <OrdersHistory orders={orders} />
+          <OrdersHistory orders={data.orders} />
         </Route>
         <Route path='/profile/orders/:id' exact>
-          <OrderFeedDetails orders={orders} />
+          <OrderFeedDetails orders={data.orders} />
         </Route>
       </Switch>
     </section>

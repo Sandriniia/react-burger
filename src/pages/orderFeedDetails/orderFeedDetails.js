@@ -16,19 +16,19 @@ const OrderFeedDetails = () => {
   const { id } = useParams();
 
   const products = useSelector((state) => state.products.products);
-  const orders = useSelector((state) => state.orders.orders);
+  const data = useSelector((state) => state.socket.data);
 
   useEffect(() => {
-    if (orders.length === 0) {
+    if (data.orders.length === 0) {
       location.pathname.includes('feed')
         ? dispatch(start({ url: `${wsUrl}/orders/all` }))
         : dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
     }
-  }, [orders, dispatch]);
+  }, [data, dispatch]);
 
   let ingredients = [];
 
-  const currentOrder = orders.find((order) => order._id === id);
+  const currentOrder = data.orders.find((order) => order._id === id);
  
   currentOrder && currentOrder.ingredients.forEach((id) => {
     const product = products.find((product) => product._id === id);
