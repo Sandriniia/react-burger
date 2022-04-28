@@ -1,11 +1,5 @@
-const baseUrl = 'https://norma.nomoreparties.space/api';
-
-const getResponseData = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(new Error(`Ошибка ${res.status}`));
-};
+import { baseUrl } from './constants';
+import { getResponseData } from './functions';
 
 const getIngredientsData = () => {
   return fetch(`${baseUrl}/ingredients`).then(getResponseData);

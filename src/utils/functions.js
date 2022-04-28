@@ -31,4 +31,11 @@ const getDate = (date) => {
   if (date) return formattedDate.split('в').join(', ') + 'i-GMT+3';
 };
 
-export { getRefreshToken, getToken, filterProductsByType, getDate };
+const getResponseData = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(new Error(`Ошибка ${res.status}`));
+};
+
+export { getRefreshToken, getToken, filterProductsByType, getDate, getResponseData };

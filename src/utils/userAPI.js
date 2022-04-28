@@ -1,12 +1,5 @@
-import { getRefreshToken } from "./functions";
-const baseUrl = ' https://norma.nomoreparties.space/api/';
-
-const getResponseData = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(new Error(`Ошибка ${res.status}`));
-};
+import { getRefreshToken, getResponseData } from './functions';
+import { baseUrl } from './constants';
 
 const register = (email, password, name) => {
   return fetch(`${baseUrl}auth/register`, {
