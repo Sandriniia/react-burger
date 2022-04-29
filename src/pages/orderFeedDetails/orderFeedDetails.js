@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, useLocation } from 'react-router-dom';
@@ -14,6 +14,7 @@ const OrderFeedDetails = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
+  const [orderIngredients, setOrderIngredients] = useState([]);
 
   const products = useSelector((state) => state.products.products);
   const data = useSelector((state) => state.socket.data);
@@ -26,25 +27,34 @@ const OrderFeedDetails = () => {
     }
   }, [data, dispatch]);
 
-  let ingredients = [];
-
   const currentOrder = data.orders.find((order) => order._id === id);
- 
-  currentOrder && currentOrder.ingredients.forEach((id) => {
-    const product = products.find((product) => product._id === id);
 
-    ingredients.length === 0
-      ? ingredients.push({ ...product, count: 1 })
-      : ingredients.forEach((item) => {
-          item._id === product._id ? item.count++ : ingredients.push({ ...product, count: 1 });
-        });
-  });
+  useEffect(() => {
+    let ingredients = [];
+    let uniqueIngredients = [];
 
-  const price = ingredients.reduce((total, item) => item.price * item.count + total, 0);
+    currentOrder.ingredients.forEach((id) => {
+      const product = products.find((product) => product._id === id);
+      ingredients.push({ ...product, count: 1 });
+    });
+    ingredients.forEach((prod) => {
+      const d = uniqueIngredients.find((el) => el._id === prod._id);
+      if (d) {
+        d.count +=1;
+      } else {
+        uniqueIngredients.push(prod);
+      }
+    });
+    setOrderIngredients(uniqueIngredients);
+  }, [data]);
+
+  const price =
+    orderIngredients &&
+    orderIngredients.reduce((total, item) => item.price * item.count + total, 0);
 
   return (
     <>
-      {ingredients.length !== 0 && (
+      {orderIngredients !== null && (
         <section className={`${orderFeedDetailsStyles.feed} pl-4`}>
           <p
             className={`${orderFeedDetailsStyles.number} text text_type_digits-default mt-4 mb-10`}
@@ -64,7 +74,7 @@ const OrderFeedDetails = () => {
           )}
           <p className='text text_type_main-medium mb-6'>Состав:</p>
           <div className={orderFeedDetailsStyles.ingredients}>
-            {ingredients.map((item) => {
+            {orderIngredients.map((item) => {
               return (
                 <div className={orderFeedDetailsStyles.ingredient} key={nanoid()}>
                   <img className={orderFeedDetailsStyles.image} src={item.image} alt={item.name} />
