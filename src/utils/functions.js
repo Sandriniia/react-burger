@@ -27,8 +27,11 @@ const filterProductsByType = (products, type) => {
 };
 
 const getDate = (date) => {
-  const formattedDate = formatRelative(new Date(date), new Date(), { local: ru });
-  if (date) return formattedDate.split('в').join(', ') + 'i-GMT+3';
+  if (date)
+    return (
+      formatRelative(new Date(date), new Date(), { locale: ru }).split(' в ').join(', ') +
+      ' i-GMT+3'
+    );
 };
 
 const getResponseData = (res) => {
