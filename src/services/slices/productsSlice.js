@@ -66,8 +66,7 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     getIds(state, { payload }) {
-      const isIdIncluded = state.ids.includes(payload);
-      !isIdIncluded && state.ids.push(payload);
+      state.ids = payload;
     },
     getCurrentProduct(state, { payload }) {
       state.currentProduct = payload;
