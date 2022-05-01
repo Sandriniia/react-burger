@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import MoonLoader from 'react-spinners/ClipLoader';
 import { nanoid } from '@reduxjs/toolkit';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, useLocation } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { getDate } from '../../utils/functions';
 import { start } from '../../services/slices/webSocketSlice';
 import { wsUrl } from '../../utils/constants';
 import { getCookie } from '../../utils/cookies';
+import { loaderStyles } from '../../utils/constants';
 
 const OrderFeedDetails = () => {
   const location = useLocation();
@@ -15,46 +17,54 @@ const OrderFeedDetails = () => {
 
   const { id } = useParams();
   const [orderIngredients, setOrderIngredients] = useState([]);
+  const [currentOrder, setCurrentOrder] = useState(null);
 
   const products = useSelector((state) => state.products.products);
   const data = useSelector((state) => state.socket.data);
+  const loading = useSelector((state) => state.socket.loading);
 
   useEffect(() => {
-    if (data.orders.length === 0) {
-      location.pathname.includes('feed')
-        ? dispatch(start({ url: `${wsUrl}/orders/all` }))
-        : dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
+    location.pathname.includes('feed')
+      ? dispatch(start({ url: `${wsUrl}/orders/all` }))
+      : dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    if (data) {
+      const curOrder = data.orders.find((order) => order._id === id);
+      setCurrentOrder(curOrder);
+
+      let ingredients = [];
+      let uniqueIngredients = [];
+
+      currentOrder &&
+        currentOrder.ingredients.forEach((id) => {
+          const product = products.find((product) => product._id === id);
+          ingredients.push({ ...product, count: 1 });
+        });
+      ingredients.forEach((prod) => {
+        const d = uniqueIngredients.find((el) => el._id === prod._id);
+        if (d) {
+          d.count += 1;
+        } else {
+          uniqueIngredients.push(prod);
+        }
+      });
+      setOrderIngredients(uniqueIngredients);
     }
-  }, [data, dispatch]);
-
-  const currentOrder = data.orders.find((order) => order._id === id);
-
-  useEffect(() => {
-    let ingredients = [];
-    let uniqueIngredients = [];
-
-    currentOrder.ingredients.forEach((id) => {
-      const product = products.find((product) => product._id === id);
-      ingredients.push({ ...product, count: 1 });
-    });
-    ingredients.forEach((prod) => {
-      const d = uniqueIngredients.find((el) => el._id === prod._id);
-      if (d) {
-        d.count +=1;
-      } else {
-        uniqueIngredients.push(prod);
-      }
-    });
-    setOrderIngredients(uniqueIngredients);
   }, [data]);
 
   const price =
     orderIngredients &&
     orderIngredients.reduce((total, item) => item.price * item.count + total, 0);
 
+  if (loading) {
+    return <MoonLoader color={'#fff'} size={100} css={loaderStyles} />;
+  }
+
   return (
     <>
-      {orderIngredients !== null && (
+      {data && currentOrder && orderIngredients && (
         <section className={`${orderFeedDetailsStyles.feed} pl-4`}>
           <p
             className={`${orderFeedDetailsStyles.number} text text_type_digits-default mt-4 mb-10`}

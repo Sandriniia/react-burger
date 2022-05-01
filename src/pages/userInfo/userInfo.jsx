@@ -16,8 +16,6 @@ const UserInfo = () => {
 
   const background = location.state && location.state.background;
 
-  const data = useSelector((state) => state.socket.data);
-
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
     return () => dispatch(closed());
@@ -31,10 +29,10 @@ const UserInfo = () => {
           <Profile />
         </Route>
         <Route path='/profile/orders' exact>
-          <OrdersHistory orders={data.orders} />
+          <OrdersHistory />
         </Route>
         <Route path='/profile/orders/:id' exact>
-          <OrderFeedDetails orders={data.orders} />
+          <OrderFeedDetails />
         </Route>
       </Switch>
     </section>

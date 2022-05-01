@@ -11,19 +11,20 @@ const OrderFeed = () => {
   const dispatch = useDispatch();
 
   const data = useSelector((state) => state.socket.data);
+  const loading = useSelector((state) => state.socket.loading);
 
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders/all` }));
     return () => dispatch(closed());
   }, [dispatch]);
 
-  if (data.orders === undefined) {
+  if (loading) {
     <MoonLoader color={'#fff'} size={100} css={loaderStyles} />;
   }
 
   return (
     <>
-      {data.orders !== undefined && (
+      {data && (
         <section className={feedStyles.feed}>
           <h1 className='text text_type_main-large mb-5'>Лента заказов</h1>
           <div className={feedStyles.orders}>
