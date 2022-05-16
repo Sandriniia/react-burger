@@ -1,15 +1,8 @@
-import { getRefreshToken } from "./functions";
-const baseUrl = ' https://norma.nomoreparties.space/api/';
-
-const getResponseData = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(new Error(`Ошибка ${res.status}`));
-};
+import { getRefreshToken, getResponseData } from './functions';
+import { baseUrl } from './constants';
 
 const register = (email, password, name) => {
-  return fetch(`${baseUrl}auth/register`, {
+  return fetch(`${baseUrl}/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -23,7 +16,7 @@ const register = (email, password, name) => {
 };
 
 const login = (email, password) => {
-  return fetch(`${baseUrl}auth/login`, {
+  return fetch(`${baseUrl}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +29,7 @@ const login = (email, password) => {
 };
 
 const recoverPassword = (email) => {
-  return fetch(`${baseUrl}password-reset`, {
+  return fetch(`${baseUrl}/password-reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +41,7 @@ const recoverPassword = (email) => {
 };
 
 const resetPassword = (password, key) => {
-  return fetch(`${baseUrl}password-reset/reset`, {
+  return fetch(`${baseUrl}/password-reset/reset`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -61,7 +54,7 @@ const resetPassword = (password, key) => {
 };
 
 const getUserData = (token) => {
-  return fetch(`${baseUrl}auth/user`, {
+  return fetch(`${baseUrl}/auth/user`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
@@ -70,7 +63,7 @@ const getUserData = (token) => {
 };
 
 const changeUserData = (token, name, email, password) => {
-  return fetch(`${baseUrl}auth/user`, {
+  return fetch(`${baseUrl}/auth/user`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +78,7 @@ const changeUserData = (token, name, email, password) => {
 };
 
 const refreshToken = () => {
-  return fetch(`${baseUrl}auth/token`, {
+  return fetch(`${baseUrl}/auth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -97,7 +90,7 @@ const refreshToken = () => {
 };
 
 const logout = (refToken) => {
-  return fetch(`${baseUrl}auth/logout`, {
+  return fetch(`${baseUrl}/auth/logout`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

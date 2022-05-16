@@ -1,0 +1,68 @@
+.modal {
+  width: 660px;
+  z-index: 1000000;
+}
+
+.feed {
+  margin: 0 auto;
+  width: 660px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.number {
+  align-self: center;
+}
+
+.status {
+  color: #00cccc;
+}
+
+.ingredients {
+  box-sizing: border-box;
+  padding-right: 24px;
+  gap: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 48px;
+}
+
+.ingredient {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 24px;
+}
+
+.image {
+  background-color: #000;
+  width: 64px;
+  height: 64px;
+  border: 2px solid #4c4cff;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.price_count_box {
+  display: flex;
+}
+
+.time_price_box {
+  box-sizing: border-box;
+  padding-right: 30px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total_price_box {
+  display: flex;
+}

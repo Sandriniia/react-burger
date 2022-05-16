@@ -1,3 +1,6 @@
+import { formatRelative } from 'date-fns';
+import { ru } from 'date-fns/locale';
+
 const getRefreshToken = () => {
   const refToken = localStorage.getItem('refreshToken');
 
@@ -23,4 +26,19 @@ const filterProductsByType = (products, type) => {
   return ingredients;
 };
 
-export { getRefreshToken, getToken, filterProductsByType };
+const getDate = (date) => {
+  if (date)
+    return (
+      formatRelative(new Date(date), new Date(), { locale: ru }).split(' в ').join(', ') +
+      ' i-GMT+3'
+    );
+};
+
+const getResponseData = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(new Error(`Ошибка ${res.status}`));
+};
+
+export { getRefreshToken, getToken, filterProductsByType, getDate, getResponseData };

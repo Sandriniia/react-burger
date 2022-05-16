@@ -47,3 +47,11 @@
 .completed_order {
   color: #00cccc;
 }
+
+.list {
+  max-height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}

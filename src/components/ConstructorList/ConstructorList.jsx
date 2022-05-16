@@ -21,14 +21,10 @@ const ConstructorList = () => {
   const bunIngredient = useSelector((state) => state.products.currentBun);
 
   useEffect(() => {
-    mainIngredients.forEach((item) => {
-      dispatch(productsActions.getIds(item._id));
-    });
-
-    bunIngredient.forEach((item) => {
-      dispatch(productsActions.getIds(item._id));
-    });
-  }, [mainIngredients, bunIngredient, dispatch]);
+    const Mds = mainIngredients.map(product => product._id);
+    const bId = bunIngredient.map(product => product._id);
+    dispatch(productsActions.getIds([...Mds, ...bId, ...bId]))
+  }, [mainIngredients,bunIngredient, dispatch]);
 
   const getBun = (position, type) => {
     let bunType = type;
