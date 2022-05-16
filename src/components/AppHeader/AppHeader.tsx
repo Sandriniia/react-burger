@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import appHeaderStyles from './appHeader.module.css';
 import { ProfileIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import Navigation from '../Navigation/Navigation';
 import NavItem from '../NavItem/NavItem';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   return (
     <header className={`${appHeaderStyles.header} pb-4 pt-4 mb-10`}>
       <Navigation className={appHeaderStyles.nav_item} />

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import mainStyles from './main.module.css';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-const Main = () => {
+const Main: FC = () => {
   return (
     <main className={mainStyles.main}>
-      <BurgerIngredients/>
-      <BurgerConstructor/>
+      <BurgerIngredients />
+      <BurgerConstructor />
     </main>
   );
 };

@@ -1,5 +1,6 @@
 import { formatRelative } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import { TIngredient } from '../services/types/types';
 
 const getRefreshToken = () => {
   const refToken = localStorage.getItem('refreshToken');
@@ -19,7 +20,7 @@ const getToken = () => {
   return token;
 };
 
-const filterProductsByType = (products, type) => {
+const filterProductsByType = (products: Array<TIngredient>, type: string): Array<TIngredient> => {
   const ingredients = products.filter((item) => {
     return item.type === type;
   });

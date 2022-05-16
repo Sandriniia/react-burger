@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import constructorCardStyles from './constructorCard.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { productsActions } from '../../services/slices/productsSlice';
 
-const ConstructorCard = ({ item, index }) => {
+const ConstructorCard: FC = ({ item, index }) => {
   const ref = useRef(null);
 
   const dispatch = useDispatch();

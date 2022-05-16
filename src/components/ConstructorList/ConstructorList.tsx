@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
@@ -6,7 +6,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import ConstructorCard from '../ConstructorCard/ConstructorCard';
 import { productsActions } from '../../services/slices/productsSlice';
 
-const ConstructorList = () => {
+const ConstructorList: FC = () => {
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({

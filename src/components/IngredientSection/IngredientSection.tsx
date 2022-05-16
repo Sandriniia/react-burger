@@ -1,21 +1,27 @@
-import React, { useEffect, useState, forwardRef } from 'react';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState, FC } from 'react';
 import ingredientSectionStyles from './ingredientSection.module.css';
 import IngredientCard from '../IngredientCard/IngredientCard';
 import { filterProductsByType } from '../../utils/functions';
+import { TIngredient } from '../../services/types/types';
+import { useAppSelector } from '../../services/types/hooks';
 
-const IngredientSection = forwardRef(({ type, title }, ref) => {
-  const [bunIngredientSection, setBunIngredientSection] = useState([]);
-  const [sauceIngredientSection, setSauceIngredientSection] = useState([]);
-  const [mainIngredientSection, setMainIngredientSection] = useState([]);
+type TSectionProps = {
+  readonly type: string;
+  readonly title: string;
+  readonly ref: React.RefObject<HTMLElement>;
+};
 
-  const products = useSelector((state) => state.products.products);
+const IngredientSection: FC<TSectionProps> = ({ type, title, ref }) => {
+  const [bunIngredientSection, setBunIngredientSection] = useState<TIngredient[]>([]);
+  const [sauceIngredientSection, setSauceIngredientSection] = useState<TIngredient[]>([]);
+  const [mainIngredientSection, setMainIngredientSection] = useState<TIngredient[]>([]);
+
+  const products: Array<TIngredient> = useAppSelector((state) => state.products.products);
 
   useEffect(() => {
-    const bunData = filterProductsByType(products, 'bun');
-    const sauceData = filterProductsByType(products, 'sauce');
-    const mainData = filterProductsByType(products, 'main');
+    const bunData: Array<TIngredient> = filterProductsByType(products, 'bun');
+    const sauceData: Array<TIngredient> = filterProductsByType(products, 'sauce');
+    const mainData: Array<TIngredient> = filterProductsByType(products, 'main');
 
     setBunIngredientSection(bunData);
     setSauceIngredientSection(sauceData);
@@ -27,7 +33,7 @@ const IngredientSection = forwardRef(({ type, title }, ref) => {
       <section className={`${ingredientSectionStyles.section_container} pt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
-          {bunIngredientSection.map((item) => {
+          {bunIngredientSection.map((item: TIngredient) => {
             return (
               <IngredientCard
                 key={item._id}
@@ -51,7 +57,7 @@ const IngredientSection = forwardRef(({ type, title }, ref) => {
       <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
-          {sauceIngredientSection.map((item) => {
+          {sauceIngredientSection.map((item: TIngredient) => {
             return (
               <IngredientCard
                 key={item._id}
@@ -75,7 +81,7 @@ const IngredientSection = forwardRef(({ type, title }, ref) => {
       <section className={`${ingredientSectionStyles.section_container} mt-10 mr-6`} ref={ref}>
         <h2 className='text text_type_main-medium'>{title}</h2>
         <div className={ingredientSectionStyles.ingredients_container}>
-          {mainIngredientSection.map((item) => {
+          {mainIngredientSection.map((item: TIngredient) => {
             return (
               <IngredientCard
                 key={item._id}
@@ -92,12 +98,15 @@ const IngredientSection = forwardRef(({ type, title }, ref) => {
         </div>
       </section>
     );
+  } else {
+    return (
+      <section>
+        <p>
+          Произошла ошибка. Отсутсвуют ингредиенты. Пожалуйста, попробуйте перезагрузить страницу.
+        </p>
+      </section>
+    );
   }
-});
-
-IngredientSection.propTypes = {
-  type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default IngredientSection;

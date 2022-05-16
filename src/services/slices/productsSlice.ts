@@ -1,7 +1,19 @@
 import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
+import { TIngredient } from '../types/types';
 
-const initialState = {
+type TInitialState = {
+  products: Array<TIngredient>,
+  ids: Array<string>,
+  currentMainProducts: Array<TIngredient>,
+  currentBun: Array<TIngredient>,
+  currentProduct: TIngredient | {},
+  orderNumber: number | null,
+  totalPrice: number,
+  loading: boolean,
+}
+
+const initialState: TInitialState = {
   products: [],
   ids: [],
   currentMainProducts: [],

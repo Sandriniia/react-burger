@@ -1,41 +1,48 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 import IngredientSection from '../IngredientSection/IngredientSection';
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState('buns');
 
-  const bunsRef = useRef(null);
-  const saucesRef = useRef(null);
-  const mainRef = useRef(null);
+  const bunsRef = useRef<HTMLElement | null>(null);
+  const saucesRef = useRef<HTMLElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
 
-  const getTotalSectionHeight = (ref) => {
+  type typeOfProduct = typeof bunsRef | typeof saucesRef | typeof mainRef;
+
+  const getTotalSectionHeight = (ref: typeOfProduct): number | undefined => {
     const section = ref.current;
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    const totalHeight = sectionTop + sectionHeight;
-    return totalHeight;
+    if (ref && section) {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      const totalHeight = sectionTop + sectionHeight;
+      return totalHeight;
+    }
   };
 
-  const handleScroll = (event) => {
-    const scrollY = event.target.scrollTop;
+  const handleScroll = (event: React.UIEvent<HTMLElement, UIEvent>): void => {
+    const target = event.target as HTMLElement;
+    const scrollY = target.scrollTop;
     const bunsTotalHeight = getTotalSectionHeight(bunsRef);
     const saucesTotalHeight = getTotalSectionHeight(saucesRef);
     const mainTotalHeight = getTotalSectionHeight(mainRef);
 
-    if (scrollY <= bunsTotalHeight) {
-      setCurrent('buns');
-    } else if (scrollY > bunsTotalHeight && scrollY <= saucesTotalHeight) {
-      setCurrent('sauces');
-    } else if (scrollY > saucesTotalHeight && scrollY <= mainTotalHeight) {
-      setCurrent('main');
+    if (bunsTotalHeight && saucesTotalHeight && mainTotalHeight) {
+      if (scrollY <= bunsTotalHeight) {
+        setCurrent('buns');
+      } else if (scrollY > bunsTotalHeight && scrollY <= saucesTotalHeight) {
+        setCurrent('sauces');
+      } else if (scrollY > saucesTotalHeight && scrollY <= mainTotalHeight) {
+        setCurrent('main');
+      }
     }
   };
 
-  const handleTabClick = (value, ref) => {
+  const handleTabClick = (value: string, ref: typeOfProduct): void => {
     setCurrent(value);
-    ref.current.scrollIntoView({ behavior: 'smooth' });
+    ref && ref.current && ref.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (

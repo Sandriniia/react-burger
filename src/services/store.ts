@@ -17,4 +17,7 @@ const store = configureStore({
     getDefaultMiddleware().concat(socketMiddleware(socketActions)),
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 export default store;
