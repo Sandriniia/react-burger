@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import { useLocation, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '../../utils/types';
+import { TIngredientCard } from '../../services/types/types';
 
-const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
+const IngredientCard: FC<TIngredientCard> = ({ image, alt, price, name, product, id, count }) => {
   const location = useLocation();
 
   const [, dragRef] = useDrag({
@@ -30,14 +29,6 @@ const IngredientCard = ({ image, alt, price, name, product, id, count }) => {
       </div>
     </Link>
   );
-};
-
-IngredientCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  product: ingredientPropType.isRequired,
 };
 
 export default IngredientCard;
