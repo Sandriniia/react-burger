@@ -9,7 +9,8 @@ export type TIngredient = {
   readonly type: string;
   readonly _id: string;
   count: number;
-  readonly id?: string;
+  index?: number,
+  readonly uid?: string;
 };
 
 export type TIngredientCard = {

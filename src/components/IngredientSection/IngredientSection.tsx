@@ -16,7 +16,7 @@ const IngredientSection: FC<TSectionProps> = ({ type, title, ref }) => {
   const [sauceIngredientSection, setSauceIngredientSection] = useState<TIngredient[]>([]);
   const [mainIngredientSection, setMainIngredientSection] = useState<TIngredient[]>([]);
 
-  const products: Array<TIngredient> = useAppSelector((state) => state.products.products);
+  const products = useAppSelector((state) => state.products.products);
 
   useEffect(() => {
     const bunData: Array<TIngredient> = filterProductsByType(products, 'bun');

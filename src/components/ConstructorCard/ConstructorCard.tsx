@@ -1,33 +1,40 @@
 import React, { useRef, FC } from 'react';
 import constructorCardStyles from './constructorCard.module.css';
-import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import type { Identifier } from 'dnd-core';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { productsActions } from '../../services/slices/productsSlice';
+import { TIngredient } from '../../services/types/types';
+import { useAppDispatch } from '../../services/types/hooks';
 
-const ConstructorCard: FC = ({ item, index }) => {
-  const ref = useRef(null);
+type TConstructorCard = {
+  item: TIngredient;
+  index: number;
+};
 
-  const dispatch = useDispatch();
+const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const dispatch = useAppDispatch();
 
   const [{ isDrag }, drag] = useDrag({
     type: 'constructor',
     item: { id: item._id, index },
-    collect(monitor) {
+    collect(monitor: any) {
       return {
         isDrag: monitor.isDragging(),
       };
     },
   });
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<TIngredient, void, { handlerId: Identifier | null }>({
     accept: 'constructor',
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: TIngredient, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -38,16 +45,16 @@ const ConstructorCard: FC = ({ item, index }) => {
         return;
       }
 
-      const hoveredRect = ref.current?.getBoundingClientRect();
+      const hoveredRect = ref.current && ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2;
       const mousePosition = monitor.getClientOffset();
-      const hoverClientY = mousePosition.y - hoveredRect.top;
+      const hoverClientY = mousePosition && mousePosition.y - hoveredRect.top;
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (hoverClientY && dragIndex && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
 
-      if (dragIndex > hoverIndex && hoverClientY < hoverMiddleY) {
+      if (hoverClientY && dragIndex && dragIndex > hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
       dispatch(

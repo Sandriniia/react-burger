@@ -1,24 +1,25 @@
 import React, { useEffect, FC } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import constructorListStyle from './constructorList.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorCard from '../ConstructorCard/ConstructorCard';
 import { productsActions } from '../../services/slices/productsSlice';
+import { useAppSelector, useAppDispatch } from '../../services/types/hooks';
+import { TIngredient } from '../../services/types/types';
 
 const ConstructorList: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: TIngredient) {
       dispatch(productsActions.addProduct(item));
     },
   });
 
-  const products = useSelector((state) => state.products.products);
-  const mainIngredients = useSelector((state) => state.products.currentMainProducts);
-  const bunIngredient = useSelector((state) => state.products.currentBun);
+  const products = useAppSelector((state) => state.products.products);
+  const mainIngredients = useAppSelector((state) => state.products.currentMainProducts);
+  const bunIngredient = useAppSelector((state) => state.products.currentBun);
 
   useEffect(() => {
     const Mds = mainIngredients.map(product => product._id);
@@ -26,10 +27,10 @@ const ConstructorList: FC = () => {
     dispatch(productsActions.getIds([...Mds, ...bId, ...bId]))
   }, [mainIngredients,bunIngredient, dispatch]);
 
-  const getBun = (position, type) => {
+  const getBun = (position: 'верх' | 'низ', type: 'top' | 'bottom'): JSX.Element[] => {
     let bunType = type;
     let bunPosition = position;
-    return bunIngredient.map((item) => {
+    return bunIngredient.map((item: TIngredient) => {
       return (
         <div className={`${constructorListStyle.element_container} mb-4`} key={item._id}>
           <ConstructorElement
