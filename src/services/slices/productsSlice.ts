@@ -1,17 +1,19 @@
-import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { getIngredientsData, getOrderNumber } from '../../utils/IngredientsAPI';
 import { TIngredient } from '../types/types';
+import { baseUrl } from '../../utils/constants';
+import { getCookie } from '../../utils/cookies';
 
 type TInitialState = {
-  products: Array<TIngredient>,
-  ids: Array<string>,
-  currentMainProducts: Array<TIngredient>,
-  currentBun: Array<TIngredient>,
-  currentProduct: TIngredient | {},
-  orderNumber: number | null,
-  totalPrice: number,
-  loading: boolean,
-}
+  products: Array<TIngredient>;
+  ids: Array<string>;
+  currentMainProducts: Array<TIngredient>;
+  currentBun: Array<TIngredient>;
+  currentProduct: TIngredient | {};
+  orderNumber: number | null;
+  totalPrice: number;
+  loading: boolean;
+};
 
 const initialState: TInitialState = {
   products: [],
@@ -24,36 +26,38 @@ const initialState: TInitialState = {
   loading: false,
 };
 
-export const getProducts = createAsyncThunk(
+export const getProducts = createAsyncThunk<Array<TIngredient>, unknown, { rejectValue: string }>(
   'products/getProducts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getIngredientsData();
-      const data = await response.data;
-      const modifiedData = await data.map((i) => {
-        return { ...i, count: 0 };
-      });
-      return modifiedData;
-    } catch (error) {
-      return rejectWithValue(error.message);
+      return getIngredientsData(`${baseUrl}/ingredients`);
+    } catch (err) {
+      return rejectWithValue('Произошла ошибка');
     }
   },
 );
 
-export const getOrderNum = createAsyncThunk(
+const token = getCookie('token');
+
+export const getOrderNum = createAsyncThunk<number, Array<string>, { rejectValue: string }>(
   'products/getOrderNum',
   async (productsIds, { rejectWithValue }) => {
     try {
-      const response = await getOrderNumber(productsIds);
-      const orderNumber = await response.order.number;
-      return orderNumber;
-    } catch (error) {
-      return rejectWithValue(error.message);
+      return getOrderNumber(
+        `${baseUrl}/orders`,
+        'POST',
+        { 'Content-Type': 'application/json', Authorization: token },
+        JSON.stringify({
+          ingredients: productsIds,
+        }),
+      );
+    } catch (err) {
+      return rejectWithValue('Произошла ошибка');
     }
   },
 );
 
-const subtractCount = (products, productId, countNum) => {
+const subtractCount = (products: Array<TIngredient>, productId: string, countNum: number): void => {
   products.map((i) => {
     if (i._id === productId) {
       i.count -= countNum;
@@ -62,7 +66,7 @@ const subtractCount = (products, productId, countNum) => {
   });
 };
 
-const addCount = (products, productId, countNum) => {
+const addCount = (products: Array<TIngredient>, productId: string, countNum: number): void => {
   const id = nanoid();
   products.map((i) => {
     if (i._id === productId) {
@@ -83,18 +87,18 @@ const productsSlice = createSlice({
     getCurrentProduct(state, { payload }) {
       state.currentProduct = payload;
     },
-    addProduct(state, { payload }) {
+    addProduct(state, { payload }: PayloadAction<TIngredient>) {
       const product = state.products.find((item) => item._id === payload.id);
 
-      if (payload.type === 'bun') {
+      if (product && payload.type === 'bun') {
         if (state.currentBun.length === 0) {
           state.currentBun.push(product);
           state.totalPrice = state.totalPrice + product.price * 2;
           addCount(state.products, product._id, 2);
         } else {
           const bun = state.currentBun.find((item) => item);
-          const isSame = bun._id === product._id;
-          if (!isSame) {
+          const isSame = bun && bun._id === product._id;
+          if (bun && !isSame) {
             state.totalPrice = state.totalPrice - bun.price * 2 + product.price * 2;
             state.currentBun.splice(0, 1, product);
             subtractCount(state.products, bun._id, 2);
@@ -102,7 +106,7 @@ const productsSlice = createSlice({
           }
         }
       }
-      if (payload.type !== 'bun') {
+      if (product && payload.type !== 'bun') {
         state.totalPrice = state.totalPrice + product.price;
         state.currentMainProducts.push(product);
         addCount(state.products, product._id, 1);
@@ -143,27 +147,28 @@ const productsSlice = createSlice({
       });
     },
   },
-  extraReducers: {
-    [getProducts.pending]: (state) => {
-      state.loading = true;
-    },
-    [getProducts.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.products = payload;
-    },
-    [getProducts.rejected]: (state) => {
-      state.loading = false;
-    },
-    [getOrderNum.pending]: (state) => {
-      state.loading = true;
-    },
-    [getOrderNum.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.orderNumber = payload;
-    },
-    [getOrderNum.rejected]: (state) => {
-      state.loading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProducts.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.products = payload;
+      })
+      .addCase(getProducts.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getOrderNum.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getOrderNum.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.orderNumber = payload;
+      })
+      .addCase(getOrderNum.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 

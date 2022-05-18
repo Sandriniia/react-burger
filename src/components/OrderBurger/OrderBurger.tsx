@@ -1,24 +1,24 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { FC } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import orderBurgerStyles from './orderBurger.module.css';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getOrderNum } from '../../services/slices/productsSlice';
 import { popupActions } from '../../services/slices/popupSlice';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
 
-const OrderBurger = () => {
-  const dispatch = useDispatch();
+const OrderBurger: FC = () => {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const history = useHistory();
 
-  const totalPrice = useSelector((state) => state.products.totalPrice);
-  const productsId = useSelector((state) => state.products.ids);
-  const bunIngredient = useSelector((state) => state.products.currentBun);
-  const isLogged = useSelector((state) => state.user.isLogged);
+  const totalPrice = useAppSelector((state) => state.products.totalPrice);
+  const productsId = useAppSelector((state) => state.products.ids);
+  const bunIngredient = useAppSelector((state) => state.products.currentBun);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const handleOpenOrderDetailsPopupAndGetOrderNumber = () => {
     if (!isLogged) {
-      history.replace({ pathname: '/login', state: { from: location } })
+      history.replace({ pathname: '/login', state: { from: location } });
     } else {
       dispatch(getOrderNum(productsId));
       dispatch(popupActions.openOrderDetailsPopup());
