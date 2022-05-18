@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { Redirect, useLocation, useHistory, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import loginStyles from './login.module.css';
 import { loginUser, getUserInfo } from '../../services/slices/userInfoSlice';
+import { useAppSelector, useAppDispatch } from '../../services/types/hooks';
 
-const Login = () => {
+const Login: FC = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const location:any = useLocation();
 
-  const error = useSelector((state) => state.user.error);
-  const isLogged = useSelector((state) => state.user.isLogged);
+  const error = useAppSelector((state) => state.user.error);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChangeEmail = (event) => {
+  const handleChangeEmail = (event:React.ChangeEvent<HTMLInputElement>):void => {
     setEmail(event.target.value);
   };
 
-  const handleChangePassword = (event) => {
+  const handleChangePassword = (event:React.ChangeEvent<HTMLInputElement>):void => {
     setPassword(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
 
