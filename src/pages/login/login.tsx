@@ -4,11 +4,12 @@ import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burg
 import loginStyles from './login.module.css';
 import { loginUser, getUserInfo } from '../../services/slices/userInfoSlice';
 import { useAppSelector, useAppDispatch } from '../../services/types/hooks';
+import { TLocation } from '../../services/types/types';
 
 const Login: FC = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const location:any = useLocation();
+  const location = useLocation<TLocation>();
 
   const error = useAppSelector((state) => state.user.error);
   const isLogged = useAppSelector((state) => state.user.isLogged);

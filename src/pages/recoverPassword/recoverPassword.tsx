@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { useHistory, useLocation, Redirect, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import recoverStyles from './recoverPassword.module.css';
 import { recoverUserPassword } from '../../services/slices/userInfoSlice';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
+import { TLocation } from '../../services/types/types';
 
-const RecoverPassword = () => {
-  const dispatch = useDispatch();
+const RecoverPassword:FC = () => {
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<TLocation>();
 
-  const error = useSelector((state) => state.user.error);
-  const isLogged = useSelector((state) => state.user.isLogged);
+  const error = useAppSelector((state) => state.user.error);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
 

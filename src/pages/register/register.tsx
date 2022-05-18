@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, FC } from 'react';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, Redirect } from 'react-router-dom';
 import registerStyles from './register.module.css';
 import { registerUser } from '../../services/slices/userInfoSlice';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
+import { TLocation } from '../../services/types/types';
 
-const Register = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+const Register: FC = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation<TLocation>();
 
-  const error = useSelector((state) => state.user.error);
-  const message = useSelector((state) => state.user.message);
-  const isLogged = useSelector((state) => state.user.isLogged);
+  const error = useAppSelector((state) => state.user.error);
+  const message = useAppSelector((state) => state.user.message);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChangeName = (event) => {
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
-  const handleEmailChange = (event) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
@@ -36,7 +37,7 @@ const Register = () => {
     setPassword('');
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
 

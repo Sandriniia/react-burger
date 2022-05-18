@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, Redirect } from 'react-router-dom';
 import resetStyles from './resetPassword.module.css';
 import { resetUserPassword } from '../../services/slices/userInfoSlice';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
+import { TLocation } from '../../services/types/types';
 
 const ResetPassword = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const location = useLocation<TLocation>();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const message = useSelector((state) => state.user.message);
-  const error = useSelector((state) => state.user.error);
-  const isForgotPassReqSuccess = useSelector(state => state.user.isForgotPassReqSuccess);
-  const isLogged = useSelector(state => state.user.isLogged);
+  const message = useAppSelector((state) => state.user.message);
+  const error = useAppSelector((state) => state.user.error);
+  const isForgotPassReqSuccess = useAppSelector(state => state.user.isForgotPassReqSuccess);
+  const isLogged = useAppSelector(state => state.user.isLogged);
 
   const [password, setPassword] = useState('');
   const [key, setKey] = useState('');
 
-  const changePasswordHandler = (event) => {
+  const changePasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const changeKeyHandler = (event) => {
+  const changeKeyHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKey(event.target.value);
   };
 
@@ -32,7 +33,7 @@ const ResetPassword = () => {
     setKey('');
   }
 
-  const submitHandler = (event) => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
     dispatch(resetUserPassword({ password, key })).then(
@@ -56,7 +57,6 @@ const ResetPassword = () => {
       <form className={`${resetStyles.form} mb-20`} onSubmit={submitHandler}>
         <PasswordInput
           onChange={changePasswordHandler}
-          placeholder={'Введите новый пароль'}
           value={password || ''}
           name={'password'}
         />

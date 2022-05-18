@@ -1,3 +1,5 @@
+import { Location } from 'history'
+
 export type TIngredient = {
   readonly calories: number;
   readonly carbohydrates: number;
@@ -22,4 +24,9 @@ export type TIngredientCard = {
   product: TIngredient;
   id: string;
   count: number;
+};
+
+export type TLocation = {
+  background?: Location<TLocation>;
+  from?: {pathname: string};
 };

@@ -83,7 +83,7 @@ export const loginUser = createAsyncThunk<
 
 export const recoverUserPassword = createAsyncThunk<
   any,
-  { email: string },
+  string,
   { rejectValue: string }
 >('user/recoverUserPassword', async (email, { rejectWithValue }) => {
   try {
@@ -212,8 +212,8 @@ const userInfoSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.error = '';
-        setCookie('token', payload.response.accessToken);
-        localStorage.setItem('refreshToken', payload.response.refreshToken);
+        setCookie('token', payload.res.accessToken);
+        localStorage.setItem('refreshToken', payload.res.refreshToken);
         localStorage.setItem('isLogged', 'true');
         state.isLogged = localStorage.getItem('isLogged');
       })

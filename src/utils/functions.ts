@@ -27,7 +27,7 @@ const filterProductsByType = (products: Array<TIngredient>, type: string): Array
   return ingredients;
 };
 
-const getDate = (date) => {
+const getDate = (date:string) => {
   if (date)
     return (
       formatRelative(new Date(date), new Date(), { locale: ru }).split(' в ').join(', ') +
