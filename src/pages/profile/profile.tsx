@@ -53,10 +53,7 @@ const Profile: FC = () => {
 
   useEffect(() => {
     const token = getCookie('token');
-
-    dispatch(changeUserInfo({ token, name, email, password })).then(
-      (res) => token && res.payload.success && dispatch(getUserInfo(token)),
-    );
+    token && dispatch(getUserInfo(token))
   }, [accessToken, dispatch]);
 
   const submitHandler = async (event: React.SyntheticEvent<Element, Event>) => {
@@ -66,7 +63,7 @@ const Profile: FC = () => {
 
     token &&
       dispatch(changeUserInfo({ token, name, email, password })).then(
-        (res) => res.payload.success && dispatch(getUserInfo(token)),
+        (res) =>  dispatch(getUserInfo(token)),
       );
     setVisibleButtons(false);
   };

@@ -33,10 +33,10 @@ const Login: FC = () => {
     dispatch(loginUser({ email, password }))
       .then((res) => {
         return (
-          res.payload.response.success && dispatch(getUserInfo(res.payload.response.accessToken))
+          res?.payload?.response?.success && dispatch(getUserInfo(res.payload.response.accessToken))
         );
       })
-      .then((res) => res.payload.success && history.replace(location?.state?.from || '/'));
+      .then((res) => res?.payload?.success && history.replace(location?.state?.from || '/'));
   };
 
   if (isLogged) {

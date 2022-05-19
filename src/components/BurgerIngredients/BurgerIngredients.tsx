@@ -72,9 +72,9 @@ const BurgerIngredients: FC = () => {
         </Tab>
       </nav>
       <section className={burgerIngredientsStyles.menu} onScroll={handleScroll}>
-        <IngredientSection type='bun' title='Булки' ref={bunsRef} />
-        <IngredientSection type='sauce' title='Соусы' ref={saucesRef} />
-        <IngredientSection type='main' title='Начинки' ref={mainRef} />
+        <IngredientSection type='bun' title='Булки' tabRef={bunsRef} />
+        <IngredientSection type='sauce' title='Соусы' tabRef={saucesRef} />
+        <IngredientSection type='main' title='Начинки' tabRef={mainRef} />
       </section>
     </section>
   );

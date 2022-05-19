@@ -157,7 +157,7 @@ export const changeUserInfo = createAsyncThunk<
 >('user/changeUserInfo', async ({ token, name, email, password }, { rejectWithValue }) => {
   try {
      return token && changeUserData(
-      `${baseUrl}/password-reset`,
+      `${baseUrl}/auth/user`,
       'PATCH',
       { 'Content-Type': 'application/json', Authorization: token },
       JSON.stringify({
