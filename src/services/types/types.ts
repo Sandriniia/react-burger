@@ -30,3 +30,13 @@ export type TLocation = {
   background?: Location<TLocation>;
   from?: {pathname: string};
 };
+
+export type TOrder = {
+  "ingredients": Array<string>,
+  "_id": string,
+  "status": string,
+  "number": number,
+  "createdAt": string,
+  "updatedAt": string,
+  "name": string,
+}

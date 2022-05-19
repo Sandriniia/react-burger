@@ -1,6 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TOrder } from '../types/types';
 
-const initialState = {
+type TOrdersData = {
+  "success": boolean,
+  "orders": Array<TOrder>,
+  "total": number,
+  "totalToday": number,
+}
+
+type TInitialState = {
+  connected: boolean,
+  loading: boolean,
+  error: boolean,
+  data?: TOrdersData | null
+}
+
+const initialState: TInitialState = {
   connected: false,
   loading: false,
   error: false,
@@ -11,7 +26,7 @@ const webSocketSlice = createSlice({
   name: 'socket',
   initialState,
   reducers: {
-    start(state) {
+    start(state, { payload }) {
       state.connected = false;
       state.error = false;
       state.loading = true;

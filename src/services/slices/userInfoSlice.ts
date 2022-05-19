@@ -120,7 +120,7 @@ export const resetUserPassword = createAsyncThunk<
   }
 });
 
-export const refreshUserToken = createAsyncThunk<any, unknown, { rejectValue: string }>(
+export const refreshUserToken = createAsyncThunk<any, undefined, { rejectValue: string }>(
   'user/refreshUserToken',
   async (_, { rejectWithValue }) => {
     try {
@@ -152,11 +152,11 @@ export const getUserInfo = createAsyncThunk<any, string, { rejectValue: string }
 
 export const changeUserInfo = createAsyncThunk<
   any,
-  { token: string; name?: string; email?: string; password?: string },
+  { token?: string; name?: string; email?: string; password?: string },
   { rejectValue: string }
 >('user/changeUserInfo', async ({ token, name, email, password }, { rejectWithValue }) => {
   try {
-    return changeUserData(
+     return token && changeUserData(
       `${baseUrl}/password-reset`,
       'PATCH',
       { 'Content-Type': 'application/json', Authorization: token },

@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import MoonLoader from 'react-spinners/ClipLoader';
 import { nanoid } from '@reduxjs/toolkit';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useParams, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import orderFeedDetailsStyles from './orderFeedDetails.module.css';
 import { getDate } from '../../utils/functions';
 import { start } from '../../services/slices/webSocketSlice';
 import { wsUrl } from '../../utils/constants';
 import { getCookie } from '../../utils/cookies';
 import { loaderStyles } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
+import { TOrder, TIngredient } from '../../services/types/types';
 
-const OrderFeedDetails = () => {
+const OrderFeedDetails: FC = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { id } = useParams();
-  const [orderIngredients, setOrderIngredients] = useState([]);
-  const [currentOrder, setCurrentOrder] = useState(null);
+  const { id } = useParams<{ id: string }>();
+  const [orderIngredients, setOrderIngredients] = useState<Array<TIngredient>>([]);
+  const [currentOrder, setCurrentOrder] = useState<TOrder>();
 
-  const products = useSelector((state) => state.products.products);
-  const data = useSelector((state) => state.socket.data);
-  const loading = useSelector((state) => state.socket.loading);
+  const products = useAppSelector((state) => state.products.products);
+  const data = useAppSelector((state) => state.socket.data);
+  const loading = useAppSelector((state) => state.socket.loading);
 
   useEffect(() => {
+    const tok = getCookie('token');
     location.pathname.includes('feed')
       ? dispatch(start({ url: `${wsUrl}/orders/all` }))
-      : dispatch(start({ url: `${wsUrl}/orders`, token: getCookie('token').slice(7) }));
+      : tok && dispatch(start({ url: `${wsUrl}/orders`, token: tok.slice(7) }));
   }, [dispatch, location]);
 
   useEffect(() => {
@@ -34,13 +36,13 @@ const OrderFeedDetails = () => {
       const curOrder = data.orders.find((order) => order._id === id);
       setCurrentOrder(curOrder);
 
-      let ingredients = [];
-      let uniqueIngredients = [];
+      let ingredients: Array<TIngredient> = [];
+      let uniqueIngredients: Array<TIngredient> = [];
 
       currentOrder &&
         currentOrder.ingredients.forEach((id) => {
           const product = products.find((product) => product._id === id);
-          ingredients.push({ ...product, count: 1 });
+          product && ingredients.push({ ...product, count: 1 });
         });
       ingredients.forEach((prod) => {
         const d = uniqueIngredients.find((el) => el._id === prod._id);

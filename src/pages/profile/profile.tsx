@@ -1,24 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useRef, useEffect, FC } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import MoonLoader from 'react-spinners/ClipLoader';
 import profileStyles from './profile.module.css';
 import { getUserInfo, changeUserInfo, refreshUserToken } from '../../services/slices/userInfoSlice';
 import { getCookie } from '../../utils/cookies';
 import { loaderStyles } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
 
-const Profile = () => {
-  const dispatch = useDispatch();
+const Profile: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const nameInputRef = useRef();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const passwordInputRef = useRef<HTMLInputElement | null>(null);
 
-  const userName = useSelector((state) => state.user.name);
-  const userEmail = useSelector((state) => state.user.email);
-  const tokenError = useSelector((state) => state.user.tokenError);
-  const accessToken = useSelector((state) => state.user.token);
-  const loading = useSelector((state) => state.user.loading);
+  type TRef = typeof nameInputRef | typeof emailInputRef | typeof passwordInputRef;
+
+  const userName = useAppSelector((state) => state.user.name);
+  const userEmail = useAppSelector((state) => state.user.email);
+  const tokenError = useAppSelector((state) => state.user.tokenError);
+  const accessToken = useAppSelector((state) => state.user.token);
+  const loading = useAppSelector((state) => state.user.loading);
 
   const [name, setName] = useState(userName);
   const [email, setEmail] = useState(userEmail);
@@ -30,19 +32,19 @@ const Profile = () => {
     setEmail(userEmail);
   }, [userName, userEmail]);
 
-  const changeNameHandler = (event) => {
+  const changeNameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
-  const changeEmailHandler = (event) => {
+  const changeEmailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const changePasswordHandler = (event) => {
+  const changePasswordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const onIconClick = (ref) => {
-    ref.current.focus();
+  const onIconClick = (ref: TRef) => {
+    ref?.current?.focus();
   };
 
   useEffect(() => {
@@ -53,11 +55,11 @@ const Profile = () => {
     const token = getCookie('token');
 
     dispatch(changeUserInfo({ token, name, email, password })).then(
-      (res) => res.payload.success && dispatch(getUserInfo(token)),
+      (res) => token && res.payload.success && dispatch(getUserInfo(token)),
     );
   }, [accessToken, dispatch]);
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event: React.SyntheticEvent<Element, Event>) => {
     event.preventDefault();
 
     const token = getCookie('token');
@@ -69,7 +71,7 @@ const Profile = () => {
     setVisibleButtons(false);
   };
 
-  const cancelEditHandler = (event) => {
+  const cancelEditHandler = (event: React.SyntheticEvent<Element, Event>) => {
     event.preventDefault();
 
     setName(userName);

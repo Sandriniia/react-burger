@@ -1,12 +1,12 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import profileNavBarStyles from './profileNavBar.module.css';
 import { logoutUser } from '../../services/slices/userInfoSlice';
 import { getRefreshToken } from '../../utils/functions';
+import { useAppDispatch } from '../../services/types/hooks';
 
-const ProfileNavBar = () => {
-  const dispatch = useDispatch();
+const ProfileNavBar: FC = () => {
+  const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
     const refToken = getRefreshToken();

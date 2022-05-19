@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { nanoid } from '@reduxjs/toolkit';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getDate } from '../../utils/functions';
 import orderDetailsStyle from './orderDetails.module.css';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../services/types/hooks';
+import { TIngredient } from '../../services/types/types';
 
-const OrderDetails = ({ orderNumber, date, title, idsIngredients, status, id }) => {
+type TOrderDetails = {
+  orderNumber: number;
+  date: string;
+  title: string;
+  idsIngredients: Array<string>;
+  status: string;
+  id: string;
+};
+
+const OrderDetails: FC<TOrderDetails> = ({
+  orderNumber,
+  date,
+  title,
+  idsIngredients,
+  status,
+  id,
+}) => {
   const location = useLocation();
 
-  const allProducts = useSelector((state) => state.products.products);
+  const allProducts = useAppSelector((state) => state.products.products);
 
-  let orderProducts = [];
+  let orderProducts: Array<TIngredient> = [];
 
   idsIngredients.forEach((id) => {
     const product = allProducts.find((product) => product._id === id);
-    orderProducts.push(product);
+    product && orderProducts.push(product);
   });
 
   const orderImages = orderProducts && orderProducts.map((product) => product.image);

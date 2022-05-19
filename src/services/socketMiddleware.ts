@@ -1,8 +1,11 @@
-const socketMiddleware = (socketActions) => {
-  return (store) => {
-    let socket = null;
+import { AnyAction } from 'redux';
+import { socketActions } from './slices/webSocketSlice';
 
-    return (next) => (action) => {
+const socketMiddleware = (WsActions: typeof socketActions) => {
+  return (store: any) => {
+    let socket: WebSocket | null = null;
+
+    return (next: (action: AnyAction) => void) => (action: AnyAction) => {
       const { start, success, error, closed, saveData} = socketActions;
       
       const { dispatch } = store;
@@ -20,7 +23,7 @@ const socketMiddleware = (socketActions) => {
 
         socket.onerror = (event) => {
           console.log('error connection');
-          dispatch(error(event));
+          dispatch(error());
         };
 
         socket.onmessage = (event) => {
