@@ -26,7 +26,7 @@ const initialState: TInitialState = {
   loading: false,
 };
 
-export const getProducts = createAsyncThunk<Array<TIngredient>, unknown, { rejectValue: string }>(
+export const getProducts = createAsyncThunk<Array<TIngredient>, undefined, { rejectValue: string }>(
   'products/getProducts',
   async (_, { rejectWithValue }) => {
     try {

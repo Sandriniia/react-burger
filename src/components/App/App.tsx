@@ -1,8 +1,7 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, FC } from 'react';
 import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector, useDispatch } from 'react-redux';
 import MoonLoader from 'react-spinners/ClipLoader';
 import appStyles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
@@ -29,16 +28,18 @@ import { getUserInfo, refreshUserToken } from '../../services/slices/userInfoSli
 import { getRefreshToken } from '../../utils/functions';
 import { getCookie } from '../../utils/cookies';
 import { loaderStyles } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
+import { TLocation } from '../../services/types/types';
 
-const App = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation<TLocation>();
   const history = useHistory();
 
   const background = location.state && location.state.background;
 
-  const isPopupOrderDetailsOpen = useSelector((state) => state.popup.isPopupOrderDetailsOpen);
-  const loading = useSelector((state) => state.products.loading);
+  const isPopupOrderDetailsOpen = useAppSelector((state) => state.popup.isPopupOrderDetailsOpen);
+  const loading = useAppSelector((state) => state.products.loading);
 
   useEffect(() => {
     dispatch(getProducts());

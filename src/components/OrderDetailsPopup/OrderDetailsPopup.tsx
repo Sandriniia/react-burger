@@ -1,11 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC } from 'react';
 import orderDetailsStyles from './orderDetailsPopup.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppSelector } from '../../services/types/hooks';
 
-const OrderDetailsPopup = () => {
-  const orderNumber = useSelector((state) => state.products.orderNumber);
-  
+const OrderDetailsPopup: FC = () => {
+  const orderNumber = useAppSelector((state) => state.products.orderNumber);
+
   return (
     <>
       <h2 className={`${orderDetailsStyles.identifier} text text_type_digits-large`}>

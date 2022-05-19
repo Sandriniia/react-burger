@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import notFoundStyles from './notFound.module.css';
 
-const NotFound = () => {
+const NotFound: FC = () => {
   return (
     <section>
       <h1>No such page</h1>

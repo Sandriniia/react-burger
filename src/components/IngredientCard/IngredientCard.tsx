@@ -3,7 +3,17 @@ import { useDrag } from 'react-dnd';
 import { useLocation, Link } from 'react-router-dom';
 import ingredientCardStyles from './ingredientCard.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredientCard } from '../../services/types/types';
+import { TIngredient } from '../../services/types/types';
+
+type TIngredientCard = {
+  image: string,
+  alt: string,
+  price: number,
+  name: string,
+  product: TIngredient,
+  id: string,
+  count: number,
+}
 
 const IngredientCard: FC<TIngredientCard> = ({ image, alt, price, name, product, id, count }) => {
   const location = useLocation();

@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import MoonLoader from 'react-spinners/ClipLoader';
-import { useSelector, useDispatch } from 'react-redux';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import { start, closed } from '../../services/slices/webSocketSlice';
 import { wsUrl } from '../../utils/constants';
 import feedStyles from './orderFeed.module.css';
 import { loaderStyles } from '../../utils/constants';
+import { useAppDispatch, useAppSelector } from '../../services/types/hooks';
 
-const OrderFeed = () => {
-  const dispatch = useDispatch();
+const OrderFeed: FC = () => {
+  const dispatch = useAppDispatch();
 
-  const data = useSelector((state) => state.socket.data);
-  const loading = useSelector((state) => state.socket.loading);
+  const data = useAppSelector((state) => state.socket.data);
+  const loading = useAppSelector((state) => state.socket.loading);
 
   useEffect(() => {
     dispatch(start({ url: `${wsUrl}/orders/all` }));
-    return () => dispatch(closed());
+    return () => { dispatch(closed()) };
   }, [dispatch]);
 
   if (loading) {

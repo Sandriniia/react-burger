@@ -16,7 +16,7 @@ export type TIngredient = {
   uid?: string;
 };
 
-export type TIngredientCard = {
+export type Order = {
   image: string;
   alt: string;
   price: number;
