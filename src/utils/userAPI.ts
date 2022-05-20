@@ -1,3 +1,4 @@
+import { checkResponse } from '../utils/functions';
 
 const register = async (
   url: string,
@@ -10,123 +11,104 @@ const register = async (
     headers,
     body,
   });
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  }
-  return Promise.reject(new Error(`Ошибка ${response.status}`));
+  return checkResponse(response);
 };
 
-const login = async (url: string,
+const login = async (
+  url: string,
   method: 'POST',
   headers: { [name: string]: string },
-  body: BodyInit,) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
-const recoverPassword = async (url: string,
+const recoverPassword = async (
+  url: string,
   method: 'POST',
   headers: { [name: string]: string },
-  body: BodyInit) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
-const resetPassword = async (url: string,
+const resetPassword = async (
+  url: string,
   method: 'POST',
   headers: { [name: string]: string },
-  body: BodyInit) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
-const getUserData = async (url: string,
+const getUserData = async (
+  url: string,
   method: 'GET',
   headers: { [name: string]: string } | undefined,
-  ) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+  });
+  return checkResponse(response);
+};
 
-const changeUserData = async (url: string,
+const changeUserData = async (
+  url: string,
   method: 'PATCH',
   headers: { [name: string]: string } | undefined,
-  body: BodyInit) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
-const refreshToken = async (url: string,
+const refreshToken = async (
+  url: string,
   method: 'POST',
   headers: { [name: string]: string },
-  body: BodyInit) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
-const logout = async (url: string,
+const logout = async (
+  url: string,
   method: 'POST',
   headers: { [name: string]: string },
-  body: BodyInit) => {
-    const response = await fetch(url, {
-      method,
-      headers,
-      body,
-    });
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-    return Promise.reject(new Error(`Ошибка ${response.status}`));
-}
+  body: BodyInit,
+) => {
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return checkResponse(response);
+};
 
 export {
   register,

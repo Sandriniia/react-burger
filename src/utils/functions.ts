@@ -35,5 +35,12 @@ const getDate = (date:string) => {
     );
 };
 
+const checkResponse = (response: Response) => {
+  if (response.ok) {
+    return response.json();
+  }
+  return Promise.reject(new Error(`Ошибка ${response.status}`));
+}
 
-export { getRefreshToken, getToken, filterProductsByType, getDate };
+
+export { getRefreshToken, getToken, filterProductsByType, getDate, checkResponse };
