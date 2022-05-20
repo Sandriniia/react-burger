@@ -1,13 +1,14 @@
-import { AnyAction } from 'redux';
+import { AnyAction, Middleware, MiddlewareAPI } from 'redux';
 import { socketActions } from './slices/webSocketSlice';
+import type { RootState, AppDispatch } from '../services/store';
 
-const socketMiddleware = (WsActions: typeof socketActions) => {
-  return (store: any) => {
+const socketMiddleware = (WsActions: typeof socketActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
     return (next: (action: AnyAction) => void) => (action: AnyAction) => {
-      const { start, success, error, closed, saveData} = socketActions;
-      
+      const { start, success, error, closed, saveData } = WsActions;
+
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -31,6 +32,8 @@ const socketMiddleware = (WsActions: typeof socketActions) => {
           const { data } = event;
           const { success, ...info } = JSON.parse(data);
           if (success) {
+            console.log(info);
+            
             dispatch(saveData(info));
           }
         };
